@@ -15,11 +15,6 @@ public class Cluedo {
 
 	}
 
-	private boolean checkMove() {
-		return false;
-
-	}
-
 	public static void main(String[] args) {
 		new Cluedo();
 	}

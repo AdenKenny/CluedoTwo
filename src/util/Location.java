@@ -30,7 +30,7 @@ public abstract class Location {
 		return this.tokens;
 	}
 
-	public boolean checkMove(Location l) {
+	public boolean checkMove(Location location) {
 		// TODO Auto-generated method stub
 		return false;
 	}
