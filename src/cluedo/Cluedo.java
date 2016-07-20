@@ -2,13 +2,14 @@ package cluedo;
 
 import java.util.Set;
 
-import util.Room;
+import util.Board;
 import util.Triplet;
 
 public class Cluedo {
 
 	private Triplet murderInfo; //Triplet of the actual murder details.
-	private Set<Room> rooms; //Set of the rooms in the game.
+	private Board board; //The game board.
+	private Set<Player> players;
 
 	public Cluedo() {
 

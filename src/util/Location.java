@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Location {
+public abstract class Location {
 
 	protected Map<String, Location> adjacent;
 	protected Set<Token> tokens;
