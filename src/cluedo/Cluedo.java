@@ -1,6 +1,7 @@
 package cluedo;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -21,15 +22,24 @@ public class Cluedo {
 	private Board board; // The game board.
 	private Set<Player> players; //Set containing the players in the game.
 	private Set<String> charNames; //Set containing the names of the characters in the game.
+	
+	private Set<Card> setOfRooms; //Used for creating the triplet.
+	private Set<Card> setOfWeapons;
+	private Set<Card> setOfCharacters;
 
 	public Cluedo() {
 		this.players = new HashSet<>();
-		this.charNames = createCharacters(); //Populate set with characters.
-
+		this.charNames = createCharStrings(); //Populate set with characters.
+		
+		this.setOfRooms = createRooms();
+		this.setOfWeapons = createWeapons();
+		this.setOfCharacters = createCharacters();
+	
+		this.murderInfo = doMurder(); //Create triplet of murder info.
+		this.board = new Board();
+		
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
-
-		
 
 		while(numbPlayers == 0) { //Make sure we do eventually get a valid number of players.
 			
@@ -46,8 +56,9 @@ public class Cluedo {
 			}
 		}
 
+		in.close();
+		
 		for (int i = 0; i < numbPlayers; i++) { // Loop through number of players setting them up.
-
 			this.players.add(setupPlayer(i)); //Add the new player to the set of players.
 		}
 
@@ -60,8 +71,7 @@ public class Cluedo {
 	 * Sets up a human player and adds it to the set of players to be passed to the board when the
 	 * game is setup.
 	 * 
-	 * @param playerNumb
-	 *            - The number of the player to be setup.
+	 * @param playerNumb - The number of the player to be setup.
 	 * @return newPlayer - A setup player that will be added to the set of players in the game.
 	 */
 
@@ -89,6 +99,8 @@ public class Cluedo {
 			setupPlayer(playerNumb); //Recall setup function, could just ask for character again.
 		}
 
+		in.close();
+		
 		this.charNames.remove(charName); // Remove this character as a pickable character.
 
 		Token token = new Token(charName, null); // TODO Change location to a real location.
@@ -108,11 +120,12 @@ public class Cluedo {
 	
 	/**
 	 * Puts the list of playable characters in a set and returns them.
+	 * For purposes of selecting characters.
 	 * 
 	 * @return A set containing the playable characters.
 	 */
 	
-	private Set<String> createCharacters() {
+	private Set<String> createCharStrings() {
 		HashSet<String> temp = new HashSet<>(); // This could be another type of set to keep
 												// the ordering of characters.
 		temp.add("Miss Scarlett");
@@ -123,6 +136,93 @@ public class Cluedo {
 		temp.add("Mrs White");
 
 		return temp;
+	} 
+	
+	/**
+	 * Creates cards based on the characters and adds them to a set.
+	 * 
+	 * @return A set containing cards of the playable characters.
+	 */
+	
+	private Set<Card> createCharacters() {
+		Set<Card> temp = new LinkedHashSet<>();
+
+		temp.add(new Card("Miss Scarlett"));
+		temp.add(new Card("Colonel Mustard"));
+		temp.add(new Card("Mrs White"));
+		temp.add(new Card("The Reverend Green"));
+		temp.add(new Card("Mrs Peacock"));
+		temp.add(new Card("Professor Plum"));
+		
+		return temp;
+	}
+	
+	/**
+	 * Creates cards based on the weapons and adds them to a set.
+	 * 
+	 * @return A set containing cards of the murder weapons.
+	 */
+	
+	private Set<Card> createWeapons() {
+		HashSet<Card> temp = new HashSet<>();
+		
+		temp.add(new Card("Candlestick"));
+		temp.add(new Card("Dagger"));
+		temp.add(new Card("Lead Pipe"));
+		temp.add(new Card("Revolver"));
+		temp.add(new Card("Rope"));
+		temp.add(new Card("Spanner"));
+
+		return temp;
+	}
+
+	/**
+	 * Creates cards based on the rooms and adds them to a set.
+	 * 
+	 * @return A set containing cards of the rooms on the board.
+	 */
+	
+	private Set<Card> createRooms() {
+		HashSet<Card> temp = new HashSet<>();
+		
+		temp.add(new Card("Kitchen"));
+		temp.add(new Card("Ballroom"));
+		temp.add(new Card("Conservatory"));
+		temp.add(new Card("Billiard Room"));
+		temp.add(new Card("Library"));
+		temp.add(new Card("Study"));
+		temp.add(new Card("Hall"));
+		temp.add(new Card("Lounge"));
+		temp.add(new Card("Dining Room"));
+		
+		return temp;
+	}
+	
+	/**
+	 * Picks a random weapon, person, and room into a triplet.
+	 * These are the murder details that have to be guessed.
+	 * 
+	 * @return A triplet the murder details.
+	 */
+	
+	private Triplet doMurder() {
+	
+		int randChar = (int) Math.round(Math.random() * this.setOfCharacters.size());
+		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; //Create new array.
+		this.setOfCharacters.toArray(arrOfCards); //Put contents of set in new array.
+		Card charCard = arrOfCards[randChar]; //Get card at random position.
+		
+		int randWeapon = (int) Math.round(Math.random() * this.setOfWeapons.size());
+		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
+		this.setOfCharacters.toArray(arrOfWeapons);
+		Card weaponCard = arrOfWeapons[randWeapon];
+		
+		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size());
+		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
+		this.setOfRooms.toArray(arrOfRooms);
+		Card roomCard = arrOfRooms[randRoom];
+		
+		return (new Triplet(charCard, weaponCard, roomCard)); //Return the new random triplet.
 	}
 
 	public static void main(String[] args) {
