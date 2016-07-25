@@ -47,6 +47,12 @@ public class Triplet {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "Triplet [person=" + this.person.getName() + ", weapon=" +
+		this.weapon.getName() + ", room=" + this.room.getName() + "]";
+	}
+
 	/**
 	 * Checks to see if the contents of one triplet equals another.
 	 *
@@ -81,9 +87,9 @@ public class Triplet {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((person == null) ? 0 : person.hashCode());
-		result = prime * result + ((room == null) ? 0 : room.hashCode());
-		result = prime * result + ((weapon == null) ? 0 : weapon.hashCode());
+		result = prime * result + ((this.person == null) ? 0 : this.person.hashCode());
+		result = prime * result + ((this.room == null) ? 0 : this.room.hashCode());
+		result = prime * result + ((this.weapon == null) ? 0 : this.weapon.hashCode());
 		return result;
 	}
 
@@ -96,20 +102,20 @@ public class Triplet {
 		if (getClass() != obj.getClass())
 			return false;
 		Triplet other = (Triplet) obj;
-		if (person == null) {
+		if (this.person == null) {
 			if (other.person != null)
 				return false;
-		} else if (!person.equals(other.person))
+		} else if (!this.person.equals(other.person))
 			return false;
-		if (room == null) {
+		if (this.room == null) {
 			if (other.room != null)
 				return false;
-		} else if (!room.equals(other.room))
+		} else if (!this.room.equals(other.room))
 			return false;
-		if (weapon == null) {
+		if (this.weapon == null) {
 			if (other.weapon != null)
 				return false;
-		} else if (!weapon.equals(other.weapon))
+		} else if (!this.weapon.equals(other.weapon))
 			return false;
 		return true;
 	}
