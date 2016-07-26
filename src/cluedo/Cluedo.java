@@ -19,98 +19,113 @@ public class Cluedo {
 
 	private Triplet murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
-	private Set<Player> players; //Set containing the players in the game.
-	private Set<String> charNames; //Set containing the names of the characters in the game.
+	private Set<Player> players; // Set containing the players in the game.
+	private Set<String> charNames; // Set containing the names of the characters
+									// in the game.
 
-	private Set<Card> setOfRooms; //Used for creating the triplet.
+	private Set<Card> setOfRooms; // Used for creating the triplet.
 	private Set<Card> setOfWeapons;
 	private Set<Card> setOfCharacters;
 
 	public Cluedo() {
 		this.players = new HashSet<>();
-		this.charNames = createCharStrings(); //Populate set with characters.
+		this.charNames = createCharStrings(); // Populate set with characters.
 
 		this.setOfRooms = createRooms();
 		this.setOfWeapons = createWeapons();
 		this.setOfCharacters = createCharacters();
 
-		this.murderInfo = doMurder(); //Create triplet of murder info.
+		this.murderInfo = doMurder(); // Create triplet of murder info.
 		this.board = new Board();
 
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
 
-		while(numbPlayers == 0) { //Make sure we do eventually get a valid number of players.
+		while (numbPlayers == 0) { // Make sure we do eventually get a valid
+									// number of players.
 
 			System.out.println("Enter the number of human players: ");
 
 			String tmp = in.next();
 
 			try {
-				numbPlayers = Integer.parseInt(tmp); //Try to parse to int.
+				numbPlayers = Integer.parseInt(tmp); // Try to parse to int.
 			}
 
-			catch (NumberFormatException e) { // If input is not convertable to an int. Invalid input.
+			catch (NumberFormatException e) { // If input is not convertable to
+												// an int. Invalid input.
 				System.out.println("This is not a valid number of players");
 			}
 		}
 
-		for (int i = 0; i < numbPlayers; i++) { // Loop through number of players setting them up.
-			this.players.add(setupPlayer(i)); //Add the new player to the set of players.
+		for (int i = 0; i < numbPlayers; i++) { // Loop through number of
+												// players setting them up.
+			this.players.add(setupPlayer(i)); // Add the new player to the set
+												// of players.
 		}
 
 		for (Player p : this.players) { // Testing purposes.
 			System.out.println(p.getToken().getName());
 		}
 
-		System.out.println(murderInfo.toString());
+		System.out.println(this.murderInfo.toString());
 	}
 
+
 	/**
-	 * Sets up a human player and adds it to the set of players to be passed to the board when the
-	 * game is setup.
+	 * Sets up a human player and adds it to the set of players to be passed to
+	 * the board when the game is setup.
 	 *
-	 * @param playerNumb - The number of the player to be setup.
-	 * @return newPlayer - A setup player that will be added to the set of players in the game.
+	 * @param playerNumb
+	 *            - The number of the player to be setup.
+	 * @return newPlayer - A setup player that will be added to the set of
+	 *         players in the game.
 	 */
 
-	//TODO Base starting location off of unique position for each token.
-	public Player setupPlayer(int playerNumb) { // Does this need to take an arg?
+	// TODO Base starting location off of unique position for each token.
+	public Player setupPlayer(int playerNumb) { // Does this need to take an
+												// arg?
 
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter your username:");
 
 		String username = in.next();
 
-		for(Player p : this.players) { //Make sure the chosen username is unique.
-			if(p.getUsername().equals(username)) {
+		for (Player p : this.players) { // Make sure the chosen username is
+										// unique.
+			if (p.getUsername().equals(username)) {
 				System.out.println("This username has already been taken");
-				setupPlayer(playerNumb); //Try again.
+				setupPlayer(playerNumb); // Try again.
 			}
 		}
 
-		System.out.println("Which character would you like to be?, "
-		+ "enter first part of name first, faster speed in lookup");
+		System.out.println(
+				"Which character would you like to be?, " + "enter first part of name first, faster speed in lookup");
 		String charName1 = in.next();
 		String charName2 = in.next();
 
 		String charName = charName1 + " " + charName2;
 
-		if (!this.charNames.contains(charName)) { //Invalid character, either doesn't exist
-												  //or already taken.
+		if (!this.charNames.contains(charName)) { // Invalid character, either
+													// doesn't exist
+													// or already taken.
 			System.out.println("This is not a valid character");
-			setupPlayer(playerNumb); //Recall setup function, could just ask for character again.
+			setupPlayer(playerNumb); // Recall setup function, could just ask
+										// for character again.
 		}
 
-		this.charNames.remove(charName); // Remove this character as a pickable character.
+		this.charNames.remove(charName); // Remove this character as a pickable
+											// character.
 
-		Token token = new Token(charName, null); // TODO Change location to a real location.
-		return (new Player(username, token)); //Return the new character.
+		Token token = new Token(charName, null); // TODO Change location to a
+													// real location.
+		return (new Player(username, token)); // Return the new character.
 
 	}
 
 	/**
-	 * Gets a random number between 1 and 6 representing a dice roll for moving around the board.
+	 * Gets a random number between 1 and 6 representing a dice roll for moving
+	 * around the board.
 	 *
 	 * @return An int between 1 and 6.
 	 */
@@ -120,15 +135,16 @@ public class Cluedo {
 	}
 
 	/**
-	 * Puts the list of playable characters in a set and returns them.
-	 * For purposes of selecting characters.
+	 * Puts the list of playable characters in a set and returns them. For
+	 * purposes of selecting characters.
 	 *
 	 * @return A set containing the playable characters.
 	 */
 
 	private Set<String> createCharStrings() {
-		Set<String> temp = new HashSet<>(); // This could be another type of set to keep
-												// the ordering of characters.
+		Set<String> temp = new HashSet<>(); // This could be another type of set
+											// to keep
+											// the ordering of characters.
 		temp.add("Miss Scarlett");
 		temp.add("Professor Plum");
 		temp.add("Mrs Peacock");
@@ -200,8 +216,8 @@ public class Cluedo {
 	}
 
 	/**
-	 * Picks a random weapon, person, and room into a triplet.
-	 * These are the murder details that have to be guessed.
+	 * Picks a random weapon, person, and room into a triplet. These are the
+	 * murder details that have to be guessed.
 	 *
 	 * @return A triplet with the murder details.
 	 */
@@ -209,25 +225,90 @@ public class Cluedo {
 	private Triplet doMurder() {
 
 		int randChar = (int) Math.round(Math.random() * this.setOfCharacters.size()) - 1;
-		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; //Create new array.
-		this.setOfCharacters.toArray(arrOfCards); //Put contents of set in new array.
-		Card charCard = arrOfCards[randChar]; //Get card at random position.
+		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
+																	// array.
+		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
+													// array.
+		Card charCard = arrOfCards[randChar]; // Get card at random position.
 
 		int randWeapon = (int) Math.round(Math.random() * this.setOfWeapons.size()) - 1;
 		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
 		this.setOfWeapons.toArray(arrOfWeapons);
 		Card weaponCard = arrOfWeapons[randWeapon];
 
-		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size())- 1;
+		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size()) - 1;
 		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
 		this.setOfRooms.toArray(arrOfRooms);
 		Card roomCard = arrOfRooms[randRoom];
 
-		this.setOfCharacters.remove(roomCard); //Remove selected
+		this.setOfCharacters.remove(roomCard); // Remove selected
 		this.setOfWeapons.remove(weaponCard);
 		this.setOfRooms.remove(roomCard);
 
-		return (new Triplet(charCard, weaponCard, roomCard)); //Return the new random triplet.
+		return (new Triplet(charCard, weaponCard, roomCard)); // Return the new
+																// random
+																// triplet.
+	}
+
+	/**
+	 * Checks to see if a suggestion made by a player matches the murder
+	 * triplet in the middle.
+	 *
+	 * @param person The suggested person.
+	 * @param weapon The suggested weapon.
+	 * @param room The suggested room.
+	 * @return true or false based on the equality of the suggestion vs the murder info.
+	 */
+
+	public boolean checkSuggestion(String person, String weapon, String room, Player player) {
+
+		Card personCard = null;
+		Card weaponCard = null;
+		Card roomCard = null;
+
+		for (Card c : this.setOfCharacters) { //Make sure person is a valid char.
+			if (c.getName().equals(person)) {
+				personCard = new Card(person); //Create new person card for triplet.
+			}
+		}
+
+		if(personCard == null) { //Was not a valid character.
+			System.out.println("The character guess was not a valid character.");
+		}
+
+		for (Card c : this.setOfWeapons) { //Make sure weapon is a valid weapon.
+			if (c.getName().equals(weapon)) {
+				weaponCard = new Card(weapon);
+			}
+		}
+
+		if(weaponCard == null) {
+			System.out.println("The weapon guess was not a valid weapon");
+		}
+
+		for (Card c : this.setOfRooms) {
+			if (c.getName().equals(room)) {
+				roomCard = new Card(room);
+			}
+		}
+
+		if(roomCard == null){
+			System.out.println("The room guess was not a valid room.");
+		}
+
+		Triplet suggestion = new Triplet(personCard, weaponCard, roomCard);
+
+		//TODO Change this method name?
+		if(suggestion.containsPlayer(player)) { //Check to see if the player holds a card in
+											   	//the suggestion.
+			System.out.println("You cannot suggest a card that is in your hand...");
+		}
+
+		if(suggestion.equalsTriplet(this.murderInfo)) { //Compare suggestion vs murder info.
+			return true; //Suggestion matches murder info.
+		}
+
+		return false; //Suggestion does not match murder info.
 	}
 
 	public static void main(String[] args) {

@@ -70,6 +70,31 @@ public class Triplet {
 				&& this.room.equals(other.getRoom());
 	}
 
+	/**
+	 * Checks to see if a player's hand contains any of the cards in this
+	 * triplet. Used to check if a player suggests a card that is in his hand.
+	 *
+	 * @param player The player who's hand will be checked.
+	 * @return Boolean based on if the player holds a card in this triplet.
+	 */
+
+	public boolean containsPlayer(Player player) {
+
+		if(player.checkHand(this.person)) {
+			return true;
+		}
+
+		else if(player.checkHand(this.room)) {
+			return true;
+		}
+
+		else if(player.checkHand(this.weapon)) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	public Card getPerson() {
 		return this.person;
