@@ -31,20 +31,23 @@ public class Triplet {
 	 * @return A string representing the outcome of the refutation.
 	 */
 
-	public String checkCards(Set<Player> players) {
+	public Pair<Boolean, String> checkCards(Set<Player> players) {
 		for (Player player : players) {
 			if (player.checkHand(this.person)) {
-				return player.getUsername() + " refuted " + this.person.getName() + ".";
+				String tmp = player.getUsername() + " refuted " + this.person.getName() + ".";
+				return new Pair<>(true, tmp);
 			}
 			if (player.checkHand(this.weapon)) {
-				return player.getUsername() + " refuted " + this.weapon.getName() + ".";
+				String tmp = player.getUsername() + " refuted " + this.weapon.getName() + ".";
+				return new Pair<>(true, tmp);
 			}
 			if (player.checkHand(this.room)) {
-				return player.getUsername() + " refuted " + this.room.getName() + ".";
+				String tmp = player.getUsername() + " refuted " + this.room.getName() + ".";
+				return new Pair<>(true, tmp);
 			}
 		}
 
-		return null;
+		return new Pair<>(false, "No one could refute this.");
 	}
 
 	@Override
@@ -58,10 +61,6 @@ public class Triplet {
 	 *
 	 * @param other The triplet to compare this to.
 	 * @return True or false based on the contents of the two triplets.
-	 */
-
-	/*
-	 * This could, and probably should just be a hashCode() and equals().
 	 */
 
 	public boolean equalsTriplet(Triplet other) {

@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import util.Board;
+import util.Pair;
 import util.Token;
 import util.Triplet;
 
@@ -251,64 +252,28 @@ public class Cluedo {
 	}
 
 	/**
-	 * Checks to see if a suggestion made by a player matches the murder
-	 * triplet in the middle.
+	 * Checks to see if a suggestion is correct when compared to the murder info.
+	 * Checks to see if the player's hand contains a card in the suggestion.
+	 * Then checks to see if any player can refute the suggestion.
 	 *
-	 * @param person The suggested person.
-	 * @param weapon The suggested weapon.
-	 * @param room The suggested room.
-	 * @return true or false based on the equality of the suggestion vs the murder info.
+	 * @param suggestion The suggestion to check.
+	 * @param player The player who made the suggestion.
+	 * @return A boolean based on if the suggestion was correct or not.
 	 */
 
-	public boolean checkSuggestion(String person, String weapon, String room, Player player) {
+	public Pair<Boolean, String> checkSuggestion(Triplet suggestion, Player player) {
 
-		Card personCard = null;
-		Card weaponCard = null;
-		Card roomCard = null;
-
-		for (Card c : this.setOfCharacters) { //Make sure person is a valid char.
-			if (c.getName().equals(person)) {
-				personCard = new Card(person); //Create new person card for triplet.
-			}
+		if(suggestion.equalsTriplet(this.murderInfo)) { //This was the correct guess.
+			return new Pair<>(true, "This was the correct suggestion.");
 		}
 
-		if(personCard == null) { //Was not a valid character.
-			System.out.println("The character guess was not a valid character.");
+		if(suggestion.containsPlayer(player)) { //Check to see if player hand contains a
+												//card in the triplet.
+			return new Pair<>(false, "You cannot guess a card that's in your hand.");
 		}
 
-		for (Card c : this.setOfWeapons) { //Make sure weapon is a valid weapon.
-			if (c.getName().equals(weapon)) {
-				weaponCard = new Card(weapon);
-			}
-		}
+		return suggestion.checkCards(this.players);
 
-		if(weaponCard == null) {
-			System.out.println("The weapon guess was not a valid weapon");
-		}
-
-		for (Card c : this.setOfRooms) {
-			if (c.getName().equals(room)) {
-				roomCard = new Card(room);
-			}
-		}
-
-		if(roomCard == null){
-			System.out.println("The room guess was not a valid room.");
-		}
-
-		Triplet suggestion = new Triplet(personCard, weaponCard, roomCard);
-
-		//TODO Change this method name?
-		if(suggestion.containsPlayer(player)) { //Check to see if the player holds a card in
-											   	//the suggestion.
-			System.out.println("You cannot suggest a card that is in your hand...");
-		}
-
-		if(suggestion.equalsTriplet(this.murderInfo)) { //Compare suggestion vs murder info.
-			return true; //Suggestion matches murder info.
-		}
-
-		return false; //Suggestion does not match murder info.
 	}
 
 	public static void main(String[] args) {
