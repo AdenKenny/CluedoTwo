@@ -65,6 +65,13 @@ public class Board {
 
 	}
 
+	private char boardChar(int x, int y) {
+		if (x < 0 || x == BOARD_WIDTH || y < 0 || y == BOARD_HEIGHT) {
+			return '0';
+		}
+		return boardStrings[y].charAt(x);
+	}
+
 	public void draw() {
 		for (int i = 0; i < BOARD_WIDTH; i++) {
 			if (boardStrings[0].charAt(i) == '0') {
@@ -76,17 +83,18 @@ public class Board {
 		}
 		System.out.print("\n");
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
-			char last = '0';
 			for (int x = 0; x < BOARD_WIDTH; x++) {
-				char square = boardStrings[y].charAt(x);
+				char square = boardChar(x, y);
+				char left = boardChar(x - 1, y);
+				char down = boardChar(x, y + 1);
 				if (square == '0') {
-					if (square == last) {
+					if (left == '0') {
 						System.out.print(" ");
 					}
 					else {
 						System.out.print("|");
 					}
-					if (y < BOARD_HEIGHT - 1) {
+					if (down != '0') {
 						System.out.print("_");
 					}
 					else {
@@ -94,33 +102,49 @@ public class Board {
 					}
 				}
 				else if (square == '1') {
-					System.out.print("|_");
-				}
-				else if (square == '2') {
-					if (boardStrings[y + 1].charAt(x) == '3') {
-						System.out.print("| ");
-					}
-					else if (boardStrings[y].charAt(x - 1) == '3') {
-						System.out.print(" _");
+					if (left == '1' || left == '2') {
+						System.out.print("\u030D ");
 					}
 					else {
-						System.out.print("|_");
+						System.out.print("|");
+					}
+					if (down == '0' || down == '3') {
+						System.out.print("_");
+					}
+					else {
+						System.out.print("\u0320 ");
+					}
+				}
+				else if (square == '2') {
+					if (left == '3') {
+						System.out.print(" ");
+					}
+					else {
+						System.out.print("\u030D ");
+					}
+					if (down == '3') {
+						System.out.print(" ");
+					}
+					else {
+						System.out.print("\u0320 ");
 					}
 				}
 				else if (square == '3') {
-					if (square == last || last == 2) {
+					if (left == '3') {
 						System.out.print(" ");
 					}
 					else {
 						System.out.print("|");
 					}
-					if (y == BOARD_HEIGHT - 1 || boardStrings[y + 1].charAt(x) == '0' || boardStrings[y + 1].charAt(x) == '1')
+					if (down == '0' || down == '1')
 						System.out.print("_");
+					else if (down == '2') {
+						System.out.print(" ");
+					}
 					else {
-						System.out.print("x");
+						System.out.print(" ");
 					}
 				}
-				last = square;
 
 			}
 			if (boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
