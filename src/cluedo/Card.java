@@ -47,5 +47,10 @@ public class Card {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 
 }

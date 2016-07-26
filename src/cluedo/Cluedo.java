@@ -1,7 +1,6 @@
 package cluedo;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -38,10 +37,6 @@ public class Cluedo {
 		this.murderInfo = doMurder(); //Create triplet of murder info.
 		this.board = new Board();
 
-
-
-		run();
-
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
 
@@ -60,8 +55,6 @@ public class Cluedo {
 			}
 		}
 
-		in.close();
-
 		for (int i = 0; i < numbPlayers; i++) { // Loop through number of players setting them up.
 			this.players.add(setupPlayer(i)); //Add the new player to the set of players.
 		}
@@ -69,6 +62,8 @@ public class Cluedo {
 		for (Player p : this.players) { // Testing purposes.
 			System.out.println(p.getToken().getName());
 		}
+
+		System.out.println(murderInfo.toString());
 	}
 
 	/**
@@ -83,9 +78,9 @@ public class Cluedo {
 	public Player setupPlayer(int playerNumb) { // Does this need to take an arg?
 
 		Scanner in = new Scanner(System.in);
-
 		System.out.println("Enter your username:");
-		String username = in.nextLine();
+
+		String username = in.next();
 
 		for(Player p : this.players) { //Make sure the chosen username is unique.
 			if(p.getUsername().equals(username)) {
@@ -94,16 +89,18 @@ public class Cluedo {
 			}
 		}
 
-		System.out.println("Which character would you like to be?");
-		String charName = in.nextLine();
+		System.out.println("Which character would you like to be?, "
+		+ "enter first part of name first, faster speed in lookup");
+		String charName1 = in.next();
+		String charName2 = in.next();
+
+		String charName = charName1 + " " + charName2;
 
 		if (!this.charNames.contains(charName)) { //Invalid character, either doesn't exist
 												  //or already taken.
 			System.out.println("This is not a valid character");
 			setupPlayer(playerNumb); //Recall setup function, could just ask for character again.
 		}
-
-		in.close();
 
 		this.charNames.remove(charName); // Remove this character as a pickable character.
 
@@ -130,7 +127,7 @@ public class Cluedo {
 	 */
 
 	private Set<String> createCharStrings() {
-		HashSet<String> temp = new HashSet<>(); // This could be another type of set to keep
+		Set<String> temp = new HashSet<>(); // This could be another type of set to keep
 												// the ordering of characters.
 		temp.add("Miss Scarlett");
 		temp.add("Professor Plum");
@@ -149,7 +146,7 @@ public class Cluedo {
 	 */
 
 	private Set<Card> createCharacters() {
-		Set<Card> temp = new LinkedHashSet<>();
+		Set<Card> temp = new HashSet<>();
 
 		temp.add(new Card("Miss Scarlett"));
 		temp.add(new Card("Colonel Mustard"));
@@ -168,7 +165,7 @@ public class Cluedo {
 	 */
 
 	private Set<Card> createWeapons() {
-		HashSet<Card> temp = new HashSet<>();
+		Set<Card> temp = new HashSet<>();
 
 		temp.add(new Card("Candlestick"));
 		temp.add(new Card("Dagger"));
@@ -187,7 +184,7 @@ public class Cluedo {
 	 */
 
 	private Set<Card> createRooms() {
-		HashSet<Card> temp = new HashSet<>();
+		Set<Card> temp = new HashSet<>();
 
 		temp.add(new Card("Kitchen"));
 		temp.add(new Card("Ballroom"));
@@ -206,31 +203,31 @@ public class Cluedo {
 	 * Picks a random weapon, person, and room into a triplet.
 	 * These are the murder details that have to be guessed.
 	 *
-	 * @return A triplet the murder details.
+	 * @return A triplet with the murder details.
 	 */
 
 	private Triplet doMurder() {
 
-		int randChar = (int) Math.round(Math.random() * this.setOfCharacters.size());
+		int randChar = (int) Math.round(Math.random() * this.setOfCharacters.size()) - 1;
 		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; //Create new array.
 		this.setOfCharacters.toArray(arrOfCards); //Put contents of set in new array.
 		Card charCard = arrOfCards[randChar]; //Get card at random position.
 
-		int randWeapon = (int) Math.round(Math.random() * this.setOfWeapons.size());
+		int randWeapon = (int) Math.round(Math.random() * this.setOfWeapons.size()) - 1;
 		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
-		this.setOfCharacters.toArray(arrOfWeapons);
+		this.setOfWeapons.toArray(arrOfWeapons);
 		Card weaponCard = arrOfWeapons[randWeapon];
 
-		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size());
+		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size())- 1;
 		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
 		this.setOfRooms.toArray(arrOfRooms);
 		Card roomCard = arrOfRooms[randRoom];
 
-		return (new Triplet(charCard, weaponCard, roomCard)); //Return the new random triplet.
-	}
+		this.setOfCharacters.remove(roomCard); //Remove selected
+		this.setOfWeapons.remove(weaponCard);
+		this.setOfRooms.remove(roomCard);
 
-	private void run() {
-		this.board.draw();
+		return (new Triplet(charCard, weaponCard, roomCard)); //Return the new random triplet.
 	}
 
 	public static void main(String[] args) {
