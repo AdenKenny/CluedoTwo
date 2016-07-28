@@ -39,6 +39,8 @@ public class Cluedo {
 		this.murderInfo = doMurder(); // Create triplet of murder info.
 		this.board = new Board();
 
+		this.board.draw();
+
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
 

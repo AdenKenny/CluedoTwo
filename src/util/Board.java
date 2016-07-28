@@ -19,30 +19,49 @@ public class Board {
 	private Set<Room> rooms; //Set of the rooms on the board.
 	private Set<Token> tokens; //Set of person and weapon tokens.
 
+	/**
+	0 = empty space
+	1 = square
+	2 = square next to door
+	3 = room
+	4 = room next to door
+	k = kitchen name
+	b = ball room name
+	c = conser- name
+	v = vatory name
+	d = dining name
+	r = room name
+	B = billiard name
+	l = library name
+	L = lounge name
+	h = hall name
+	s = study name
+	**/
+
 	String[] boardStrings = {
 			"000000000100001000000000",
 			"333333011133331110333333",
-			"333333113333333311333333",
-			"333333113333333311333333",
-			"333333113333333311433333",
-			"333333123333333321233330",
+			"3333331133333333113c3333",
+			"3k33331133333333113v3333",
+			"3333331133b3333311433333",
+			"333333124333333321233330",
 			"033343113333333311111111",
 			"111121113433334311111110",
 			"011111111211112111333333",
-			"333331111111111112433333",
+			"3333311111111111124B3333",
+			"33333333113333311133r333",
 			"333333331133333111333333",
-			"333333331133333111333333",
-			"333333342133333111333343",
-			"333333331133333111112120",
+			"33d333342133333111333343",
+			"333r33331133333111112120",
 			"333333331133333111334330",
 			"333333431133333113333333",
-			"011111211133333124333333",
+			"0111112111333331243l3333",
 			"111111111112211113333333",
 			"011111211334433111333330",
 			"333333411333333111111111",
 			"333333311333334212111110",
-			"333333311333333114333333",
-			"333333311333333113333333",
+			"33L33331133h333114333333",
+			"3333333113333331133s3333",
 			"333333311333333113333333",
 			"333333010033330010333333",
 	};
@@ -78,7 +97,7 @@ public class Board {
 				System.out.print("  ");
 			}
 			else {
-				System.out.print(" _");
+				System.out.print(" \u2581");
 			}
 		}
 		System.out.print("\n");
@@ -92,10 +111,10 @@ public class Board {
 						System.out.print(" ");
 					}
 					else {
-						System.out.print("|");
+						System.out.print("\u2503");
 					}
 					if (down != '0') {
-						System.out.print("_");
+						System.out.print("\u2581");
 					}
 					else {
 						System.out.print(" ");
@@ -106,10 +125,10 @@ public class Board {
 						System.out.print("\u030D ");
 					}
 					else {
-						System.out.print("|");
+						System.out.print("\u2503");
 					}
 					if (down == '0' || down == '3') {
-						System.out.print("_");
+						System.out.print("\u2581");
 					}
 					else {
 						System.out.print("\u0320 ");
@@ -126,7 +145,7 @@ public class Board {
 						System.out.print(" ");
 					}
 					else if (down == '0' || down == '3') {
-						System.out.print("_");
+						System.out.print("\u2581");
 					}
 					else {
 						System.out.print("\u0320 ");
@@ -137,32 +156,75 @@ public class Board {
 						System.out.print(" ");
 					}
 					else {
-						System.out.print("|");
+						System.out.print("\u2503");
 					}
-					if (down == '3' || down == '4')
-						System.out.print(" ");
+					if (down == '0' || down == '1' || down == '2')
+						System.out.print("\u2581");
 					else {
-						System.out.print("_");
+						System.out.print(" ");
 					}
 				}
 				else if (square == '4') {
 					if (left == '0' || left == '1') {
-						System.out.print("|");
+						System.out.print("\u2503");
 					}
 					else {
 						System.out.print(" ");
 					}
 					if (down == '0' || down == '1') {
-						System.out.print("_");
+						System.out.print("\u2581");
 					}
 					else {
 						System.out.print(" ");
 					}
 				}
-
+				else if (square == 'k') {
+					System.out.print(" KITCHEN");
+					x += 3;
+				}
+				else if (square == 'b') {
+					System.out.print("BALL ROOM ");
+					x += 4;
+				}
+				else if (square == 'c') {
+					System.out.print(" CONSER-");
+					x += 3;
+				}
+				else if (square == 'v') {
+					System.out.print(" VATORY ");
+					x += 3;
+				}
+				else if (square == 'd') {
+					System.out.print(" DINING ");
+					x += 3;
+				}
+				else if (square == 'r') {
+					System.out.print("ROOM");
+					x += 1;
+				}
+				else if (square == 'B') {
+					System.out.print("BILLIARD");
+					x += 3;
+				}
+				else if (square == 'l') {
+					System.out.print("LIBRARY ");
+					x += 3;
+				}
+				else if (square == 'L') {
+					System.out.print("LOUNGE");
+					x += 2;
+				}
+				else if (square == 'h') {
+					System.out.print("HALL");
+					x += 1;
+				}
+				else if (square == 's') {
+					System.out.print(" STUDY");
+					x += 2;
+				}
 			}
 			if (boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
-				System.out.print("|");
+				System.out.print("\u2503");
 			}
 			System.out.print("\n");
 		}
