@@ -39,6 +39,8 @@ public class Cluedo {
 		this.murderInfo = doMurder(); // Create triplet of murder info.
 		this.board = new Board();
 
+		//this.board.draw();
+
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
 
@@ -99,9 +101,9 @@ public class Cluedo {
 				setupPlayer(playerNumb); // Try again.
 			}
 		}
+		
+		System.out.println("Select a character: ");
 
-		System.out.println(
-				"Which character would you like to be?, " + "enter first part of name first, faster speed in lookup");
 		String charName1 = in.next();
 		String charName2 = in.next();
 
@@ -132,7 +134,7 @@ public class Cluedo {
 	 */
 
 	public int rollDice() {
-		return (int) (Math.random() * 6 + 1);
+		return (int) (Math.random() * 12 + 1);
 	}
 
 	/**
@@ -225,30 +227,34 @@ public class Cluedo {
 
 	private Triplet doMurder() {
 
-		int randChar = (int) Math.round(Math.random() * this.setOfCharacters.size()) - 1;
-		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
-																	// array.
-		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
-													// array.
-		Card charCard = arrOfCards[randChar]; // Get card at random position.
 
-		int randWeapon = (int) Math.round(Math.random() * this.setOfWeapons.size()) - 1;
-		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
-		this.setOfWeapons.toArray(arrOfWeapons);
-		Card weaponCard = arrOfWeapons[randWeapon];
+			int randChar = (int) (Math.random() * this.setOfCharacters.size());
+			Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
+																		// array.
+			this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
+														// array.
+			Card charCard = arrOfCards[randChar]; // Get card at random position.
 
-		int randRoom = (int) Math.round(Math.random() * this.setOfRooms.size()) - 1;
-		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
-		this.setOfRooms.toArray(arrOfRooms);
-		Card roomCard = arrOfRooms[randRoom];
+			int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
+			Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
+			this.setOfWeapons.toArray(arrOfWeapons);
+			Card weaponCard = arrOfWeapons[randWeapon];
 
-		this.setOfCharacters.remove(roomCard); // Remove selected
-		this.setOfWeapons.remove(weaponCard);
-		this.setOfRooms.remove(roomCard);
+			int randRoom = (int) (Math.random() * this.setOfRooms.size());
+			Card[] arrOfRooms = new Card[this.setOfRooms.size()];
+			this.setOfRooms.toArray(arrOfRooms);
+			Card roomCard = arrOfRooms[randRoom];
 
-		return (new Triplet(charCard, weaponCard, roomCard)); // Return the new
-																// random
-																// triplet.
+			this.setOfCharacters.remove(roomCard); // Remove selected
+			this.setOfWeapons.remove(weaponCard);
+			this.setOfRooms.remove(roomCard);
+
+			return (new Triplet(charCard, weaponCard, roomCard)); // Return the new
+																	// random
+																	// triplet.
+
+		
+		
 	}
 
 	/**
