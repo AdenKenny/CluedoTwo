@@ -72,6 +72,7 @@ public class Cluedo {
 		}
 
 		System.out.println(this.murderInfo.toString());
+		in.close();
 	}
 
 
@@ -253,8 +254,7 @@ public class Cluedo {
 																	// random
 																	// triplet.
 
-		
-		
+	
 	}
 
 	/**
