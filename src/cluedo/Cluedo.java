@@ -123,6 +123,8 @@ public class Cluedo {
 
 		Token token = new Token(charName, null); // TODO Change location to a
 													// real location.
+		in.close();
+		
 		return (new Player(username, token)); // Return the new character.
 
 	}
