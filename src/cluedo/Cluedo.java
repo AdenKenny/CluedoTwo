@@ -108,7 +108,7 @@ public class Cluedo {
 		String charName1 = in.next();
 		String charName2 = in.next();
 
-		String charName = charName1 + " " + charName2;
+		String charName = charName1 + " " + charName2; //Concat strings.
 
 		if (!this.charNames.contains(charName)) { // Invalid character, either
 													// doesn't exist
@@ -128,14 +128,25 @@ public class Cluedo {
 	}
 
 	/**
+	 * Gets a random number between 1 and 12 representing a dice roll for moving
+	 * around the board.
+	 *
+	 * @return An int between 1 and 12.
+	 */
+
+	public int rollDice() {
+		return (int) (Math.random() * 12 + 1);
+	}
+	
+	/**
 	 * Gets a random number between 1 and 6 representing a dice roll for moving
 	 * around the board.
 	 *
 	 * @return An int between 1 and 6.
 	 */
-
-	public int rollDice() {
-		return (int) (Math.random() * 12 + 1);
+	
+	public int rollDice6() {
+		return (int) (Math.random() * 6 + 1);
 	}
 
 	/**
