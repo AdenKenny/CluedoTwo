@@ -77,6 +77,14 @@ public class Player {
 	public void addCard(Card card) {
 		this.hand.add(card);
 	}
+	
+	public Set<Card> getHand() {
+		return this.hand;
+	}
+	
+	public int getHandSize() {
+		return this.hand.size();
+	}
 
 	/**
 	 * Checks to see if the player's hand contains a card.
