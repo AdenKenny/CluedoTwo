@@ -1,7 +1,6 @@
 package util;
 
 import java.util.List;
-import java.util.Set;
 
 import cluedo.Card;
 import cluedo.Player;

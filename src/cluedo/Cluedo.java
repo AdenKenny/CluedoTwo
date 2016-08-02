@@ -13,6 +13,7 @@ import util.Pair;
 import util.Token;
 import util.Triplet;
 
+
 /**
  * A class containing the main game logic including setting up the game and then
  * playing the game.
@@ -282,15 +283,9 @@ public class Cluedo {
 			this.charNames.remove(charName); // Remove this character as a pickable
 												// character.
 
-<<<<<<< HEAD
-		Token token = new Token(charName, null, true, displayChars.get(charName)); // TODO Change location to a
-													// real location.
-		//in.close();
-=======
-			Token token = new Token(charName, null, true); // TODO Change location to a
-														// real location.
-			//in.close();
->>>>>>> master
+
+			Token token = new Token(charName, null, true, displayChars.get(charName)); // TODO Change location to a
+
 
 			return (new Player(username, token)); // Return the new character.
 		}
