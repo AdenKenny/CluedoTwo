@@ -378,4 +378,31 @@ public class Board {
 		}
 		System.out.print('\n');
 	}
+	
+	public void addToken(Token t, int x, int y) {
+		boardSquares[x][y].addToken(t);
+	}
+	
+	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
+		Location location = t.getLocation();
+		if (location instanceof Room) {
+			return false;
+		}
+		for (int x = 0; x < BOARD_WIDTH; x++) {
+			for (int y = 0; y < BOARD_HEIGHT; y++) {
+				if (boardSquares[x][y] == location) {
+					if (checkDir(x, y, xDir, yDir, dist)) {
+						location.addToken(t);
+						return true;
+					}
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
+		return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
+	}
 }

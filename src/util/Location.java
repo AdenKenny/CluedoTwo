@@ -29,6 +29,10 @@ public abstract class Location {
 	public void addAdjacent(String dir, Location adj) {
 		this.adjacent.put(dir, adj);
 	}
+	
+	public Map<String, Location> getAdjacent() {
+		return this.adjacent;
+	}
 
 	/**
 	 * Adds a token to the set of tokens at this location and sets the tokens
