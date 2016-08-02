@@ -101,7 +101,7 @@ public class Cluedo {
 			}
 		}
 
-		this.allCards = putCards();
+		putCards();
 	}
 
 	/**
@@ -117,11 +117,23 @@ public class Cluedo {
 
 	}
 
-	public Set<Card> putCards() {
+	public void putCards() {
 
+		for(Card c : this.setOfCharacters) {
+			this.allCards.add(c);
+		}
 
+		for(Card c : this.setOfWeapons) {
+			this.allCards.add(c);
+		}
 
-		return allCards;
+		for(Card c : this.setOfRooms) {
+			this.allCards.add(c);
+		}
+	}
+
+	public void dealHands() {
+
 	}
 
 	/**
@@ -354,16 +366,20 @@ public class Cluedo {
 			this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
 														// array.
 			Card charCard = arrOfCards[randChar]; // Get card at random position.
+			this.setOfCharacters.remove(charCard);
 
 			int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
 			Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
 			this.setOfWeapons.toArray(arrOfWeapons);
 			Card weaponCard = arrOfWeapons[randWeapon];
+			this.setOfWeapons.remove(weaponCard);
 
 			int randRoom = (int) (Math.random() * this.setOfRooms.size());
 			Card[] arrOfRooms = new Card[this.setOfRooms.size()];
 			this.setOfRooms.toArray(arrOfRooms);
 			Card roomCard = arrOfRooms[randRoom];
+			this.setOfRooms.remove(roomCard);
+
 
 			this.setOfCharacters.remove(roomCard); // Remove selected
 			this.setOfWeapons.remove(weaponCard);
