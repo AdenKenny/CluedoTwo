@@ -13,8 +13,9 @@ public class Room extends Location{
 
 	private String name;
 
-	public Room(Map<String, Location> adjacent) {
+	public Room(String name, Map<String, Location> adjacent) {
 		super(adjacent);
+		this.name = name;
 	}
 
 	public String getName() {

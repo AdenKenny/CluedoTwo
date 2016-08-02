@@ -181,8 +181,19 @@ public class Cluedo {
 		return list;
 	}
 
+	/**
+	 * Creates a map of character names to the letter displayed on the board.
+	 * 
+	 * @return Map<String, String>
+	 */
 	public Map<String, String> createDisplayMap() {
 		Map<String, String> map = new HashMap<>();
+		map.put("Miss Scarlett", "MS");
+		map.put("Professor Plum", "PP");
+		map.put("Mrs Peacock", "MP");
+		map.put("Reverend Green", "RG");
+		map.put("Colonel Mustard", "CM");
+		map.put("Mrs White", "MW");
 		return map;
 	}
 
@@ -231,16 +242,12 @@ public class Cluedo {
 		this.charNames.remove(charName); // Remove this character as a pickable
 											// character.
 
-		Token token = new Token(charName, null, true, getDisplay(charName)); // TODO Change location to a
+		Token token = new Token(charName, null, true, displayChars.get(charName)); // TODO Change location to a
 													// real location.
 		//in.close();
 
 		return (new Player(username, token)); // Return the new character.
 
-	}
-
-	private String getDisplay(String charName) {
-		return null;
 	}
 
 	/**

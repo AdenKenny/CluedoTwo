@@ -56,6 +56,10 @@ public class Token {
 	public String getDisplay() {
 		return display;
 	}
+	
+	public boolean isCharacter() {
+		return isCharacter;
+	}
 
 
 	/**
