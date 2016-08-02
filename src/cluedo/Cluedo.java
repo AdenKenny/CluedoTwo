@@ -101,7 +101,7 @@ public class Cluedo {
 			}
 		}
 
-
+		this.allCards = putCards();
 	}
 
 	/**
@@ -115,6 +115,13 @@ public class Cluedo {
 
 		rollDice();
 
+	}
+
+	public Set<Card> putCards() {
+
+
+
+		return allCards;
 	}
 
 	/**
