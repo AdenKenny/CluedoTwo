@@ -39,6 +39,7 @@ public class Cluedo {
 
 	public Cluedo() {
 		this.players = new ArrayList<>();
+		this.allCards = new HashSet<>();
 		this.charNames = createCharStrings(); // Populate set with characters.
 
 		this.displayChars = createDisplayMap();
@@ -123,8 +124,9 @@ public class Cluedo {
 			}
 		}
 
-		putCards();
+		putCards();		
 		dealHands();
+	
 	}
 
 	/**
@@ -140,8 +142,13 @@ public class Cluedo {
 
 	}
 
+	/**
+	 * After the murder details have been done this puts all the cards into one
+	 * set ready to be dealt amongst the players.
+	 */
+	
 	public void putCards() {
-
+		
 		for(Card c : this.setOfCharacters) {
 			this.allCards.add(c);
 		}
@@ -153,11 +160,29 @@ public class Cluedo {
 		for(Card c : this.setOfRooms) {
 			this.allCards.add(c);
 		}
-		
-		
 	}
 
+	/**
+	 * Deals the remaining cards to the hands of the players in the game.
+	 * Each player will receive (18 / n) cards where n is the number of players.
+	 */
+	
 	public void dealHands() {
+
+		int numbPlayers = this.players.size();
+		int playerNumb = 0;
+		
+		for(Card c : this.allCards) {
+			++playerNumb;
+			
+			if(playerNumb == numbPlayers) {
+				playerNumb = 0;
+			}
+			
+			Player p = this.players.get(playerNumb);
+			p.addCard(c);
+			
+		}
 		
 	}
 
@@ -284,7 +309,7 @@ public class Cluedo {
 												// character.
 
 
-			Token token = new Token(charName, null, true, displayChars.get(charName)); // TODO Change location to a
+			Token token = new Token(charName, null, true, this.displayChars.get(charName)); // TODO Change location to a
 
 
 			return (new Player(username, token)); // Return the new character.
@@ -295,10 +320,7 @@ public class Cluedo {
 			return null;
 		}
 		
-		finally {
-			assert(in != null);
-			in.close();
-		}
+	
 		
 		
 
