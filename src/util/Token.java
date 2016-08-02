@@ -11,6 +11,7 @@ public class Token {
 
 	protected String name;
 	protected Location location;
+	protected boolean isCharacter;
 
 	/**
 	 * The constructor takes the name of the token and the starting Location.
@@ -19,9 +20,10 @@ public class Token {
 	 * @param location The starting Location of the Token.
 	 */
 
-	public Token(String name, Location location) {
+	public Token(String name, Location location, boolean isCharacter) {
 		this.name = name;
 		this.location = location;
+		this.isCharacter = isCharacter;
 	}
 
 	//Getters and Setters.
@@ -41,6 +43,15 @@ public class Token {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+
+	public boolean getIsCharacter() {
+		return this.isCharacter;
+	}
+
+	public void setIsCharacter(boolean isCharacter) {
+		this.isCharacter = isCharacter;
+	}
+
 
 	/**
 	 * Moves the token to a new location, a Location is passed.

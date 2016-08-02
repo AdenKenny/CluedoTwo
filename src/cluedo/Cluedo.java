@@ -1,6 +1,8 @@
 package cluedo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public class Cluedo {
 
 	private Triplet murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
-	private Set<Player> players; // Set containing the players in the game.
+	private List<Player> players; // List containing the players in the game.
 	private Set<String> charNames; // Set containing the names of the characters
 									// in the game.
 
@@ -29,7 +31,7 @@ public class Cluedo {
 	private Set<Card> setOfCharacters;
 
 	public Cluedo() {
-		this.players = new HashSet<>();
+		this.players = new ArrayList<>();
 		this.charNames = createCharStrings(); // Populate set with characters.
 
 		this.setOfRooms = createRooms();
@@ -44,7 +46,7 @@ public class Cluedo {
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
 
-		while (numbPlayers == 0) { // Make sure we do eventually get a valid
+		while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do eventually get a valid
 									// number of players.
 
 			System.out.println("Enter the number of human players: ");
@@ -59,6 +61,12 @@ public class Cluedo {
 												// an int. Invalid input.
 				System.out.println("This is not a valid number of players");
 			}
+
+			if (numbPlayers > 6 || numbPlayers < 0) {
+				System.out.println("This is not a valid number of players, needs to be between 3-6");
+				numbPlayers = 0; //Go back to top of while loop.
+			}
+
 		}
 
 		for (int i = 0; i < numbPlayers; i++) { // Loop through number of
@@ -67,12 +75,68 @@ public class Cluedo {
 												// of players.
 		}
 
-		for (Player p : this.players) { // Testing purposes.
-			System.out.println(p.getToken().getName());
-		}
-
 		System.out.println(this.murderInfo.toString());
 		in.close();
+
+		List<Player> temp = doStartRolls(this.players);
+		for(Player p : temp) {
+			System.out.println(p.getUsername());
+		}
+
+	}
+
+	/**
+	 * A method doing a player's turn. Is passed a player then does
+	 * their dice roll, moving and if applicable, it does their suggestions.
+	 *
+	 * @param p - The player who's turn will be completed.
+	 */
+
+	public void doTurn(Player p) {
+
+
+	}
+
+	public List<Player> doStartRolls(List<Player> list) {
+
+		int numbPlayers = list.size(); //Number of players in game.
+		List<Pair<Integer, Player>> arr = new ArrayList<>(); //ArrayList to store players in temp.
+
+		for (int i = 0; i < numbPlayers; i++) {
+			Player p = list.get(i);
+			int roll = rollDice(); //Roll the players starting number.
+			System.out.println(p.getUsername() + " rolled a: " + roll);
+			arr.add(new Pair<>(roll, p)); //Add player and their roll to a list.
+		}
+
+		List<Pair<Integer, Player>> tempArr = new ArrayList<>();
+		tempArr.add(new Pair<>(0, null));
+		for(int i = 0; i < numbPlayers; i++) {
+			int max = tempArr.get(0).getValue1();
+			int tempRoll = arr.get(i).getValue1();
+
+			if(tempRoll == max) { //Check for duplicate rolls.
+				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
+			}
+
+			else if(tempRoll > max) {
+				max = tempRoll;
+				tempArr.clear();
+				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
+			}
+
+			if(tempArr.size() > 1) {
+				list.clear();
+				for(int j = 0; j < tempArr.size(); j++) {
+					Player p = tempArr.get(i).getValue2();
+					list.add(p);
+				}
+
+				doStartRolls(list);
+			}
+		}
+
+		return list;
 	}
 
 
@@ -102,10 +166,10 @@ public class Cluedo {
 				setupPlayer(playerNumb); // Try again.
 			}
 		}
-		
+
 		System.out.println("Select a character: ");
 
-		String charName1 = in.next();
+		String charName1 = in.next(); //TODO can't have 2 word name. fix it.
 		String charName2 = in.next();
 
 		String charName = charName1 + " " + charName2; //Concat strings.
@@ -117,14 +181,13 @@ public class Cluedo {
 			setupPlayer(playerNumb); // Recall setup function, could just ask
 										// for character again.
 		}
-
 		this.charNames.remove(charName); // Remove this character as a pickable
 											// character.
 
-		Token token = new Token(charName, null); // TODO Change location to a
+		Token token = new Token(charName, null, true); // TODO Change location to a
 													// real location.
-		in.close();
-		
+		//in.close();
+
 		return (new Player(username, token)); // Return the new character.
 
 	}
@@ -139,14 +202,14 @@ public class Cluedo {
 	public int rollDice() {
 		return (int) (Math.random() * 12 + 1);
 	}
-	
+
 	/**
 	 * Gets a random number between 1 and 6 representing a dice roll for moving
 	 * around the board.
 	 *
 	 * @return An int between 1 and 6.
 	 */
-	
+
 	public int rollDice6() {
 		return (int) (Math.random() * 6 + 1);
 	}
@@ -267,7 +330,7 @@ public class Cluedo {
 																	// random
 																	// triplet.
 
-	
+
 	}
 
 	/**

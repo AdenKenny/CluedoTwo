@@ -1,5 +1,6 @@
 package util;
 
+import java.util.List;
 import java.util.Set;
 
 import cluedo.Card;
@@ -31,7 +32,7 @@ public class Triplet {
 	 * @return A string representing the outcome of the refutation.
 	 */
 
-	public Pair<Boolean, String> checkCards(Set<Player> players) {
+	public Pair<Boolean, String> checkCards(List<Player> players) {
 		for (Player player : players) {
 			if (player.checkHand(this.person)) {
 				String tmp = player.getUsername() + " refuted " + this.person.getName() + ".";
