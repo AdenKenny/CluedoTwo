@@ -30,6 +30,8 @@ public class Cluedo {
 	private Set<Card> setOfWeapons;
 	private Set<Card> setOfCharacters;
 
+	private Set<Card> allCards; //All cards, used for dealing.
+
 	public Cluedo() {
 		this.players = new ArrayList<>();
 		this.charNames = createCharStrings(); // Populate set with characters.
@@ -81,7 +83,7 @@ public class Cluedo {
 		List<Player> temp = doStartRolls(this.players); //Get the player with the highest roll.
 		List<Player> temp2 = new ArrayList<>(); //Temp array.
 		for(Player p : this.players) {
-			temp2.add(p); 
+			temp2.add(p);
 		}
 
 		this.players.clear();
@@ -89,7 +91,7 @@ public class Cluedo {
 		Player s = temp.get(0);
 		this.players.add(s);
 
-		for(Player p : temp2){
+		for(Player p : temp2) {
 			if(p.equals(s)) { //Empty block.
 				;
 			}
@@ -98,6 +100,8 @@ public class Cluedo {
 				this.players.add(p);
 			}
 		}
+
+
 	}
 
 	/**

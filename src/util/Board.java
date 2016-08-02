@@ -85,7 +85,7 @@ public class Board {
 	}
 
 	private String characterAt(int x, int y) {
-		Square square = boardSquares[x][y];
+		Square square = this.boardSquares[x][y];
 		if (square == null) {return null;}
 		for (Token t : square.getTokens()) {
 			//if t is a character, return t
@@ -97,12 +97,12 @@ public class Board {
 		if (x < 0 || x == BOARD_WIDTH || y < 0 || y == BOARD_HEIGHT) {
 			return '0';
 		}
-		return boardStrings[y].charAt(x);
+		return this.boardStrings[y].charAt(x);
 	}
 
 	public void draw() {
 		for (int i = 0; i < BOARD_WIDTH; i++) {
-			if (boardStrings[0].charAt(i) == '0') {
+			if (this.boardStrings[0].charAt(i) == '0') {
 				System.out.print("  ");
 			}
 			else {
@@ -234,7 +234,7 @@ public class Board {
 					x += 2;
 				}
 			}
-			if (boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
+			if (this.boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
 				System.out.print("|");
 			}
 			System.out.print("\n");
