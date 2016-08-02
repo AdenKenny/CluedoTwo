@@ -51,40 +51,55 @@ public class Cluedo {
 
 		this.board.draw();
 
-		Scanner in = new Scanner(System.in);
-		int numbPlayers = 0;
+		Scanner in = null; 
 
-		while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do eventually get a valid
-									// number of players.
+		
+		try {
+			
+			in = new Scanner(System.in);
+			
+			int numbPlayers = 0;
 
-			System.out.println("Enter the number of human players: ");
+			while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do eventually get a valid
+										// number of players.
 
-			String tmp = in.next();
+				System.out.println("Enter the number of human players: ");
 
-			try {
-				numbPlayers = Integer.parseInt(tmp); // Try to parse to int.
+				String tmp = in.next();
+
+				try {
+					numbPlayers = Integer.parseInt(tmp); // Try to parse to int.
+				}
+
+				catch (NumberFormatException e) { // If input is not convertable to
+													// an int. Invalid input.
+					System.out.println("This is not a valid number of players");
+				}
+
+				if (numbPlayers > 6 || numbPlayers < 0) {
+					System.out.println("This is not a valid number of players, needs to be between 3-6");
+					numbPlayers = 0; //Go back to top of while loop.
+				}
+
 			}
 
-			catch (NumberFormatException e) { // If input is not convertable to
-												// an int. Invalid input.
-				System.out.println("This is not a valid number of players");
+			for (int i = 0; i < numbPlayers; i++) { // Loop through number of
+													// players setting them up.
+				this.players.add(setupPlayer(i)); // Add the new player to the set
+													// of players.
 			}
 
-			if (numbPlayers > 6 || numbPlayers < 0) {
-				System.out.println("This is not a valid number of players, needs to be between 3-6");
-				numbPlayers = 0; //Go back to top of while loop.
-			}
-
+			System.out.println(this.murderInfo.toString());
 		}
-
-		for (int i = 0; i < numbPlayers; i++) { // Loop through number of
-												// players setting them up.
-			this.players.add(setupPlayer(i)); // Add the new player to the set
-												// of players.
+		
+		catch (RuntimeException e) {
+			e.printStackTrace();
 		}
-
-		System.out.println(this.murderInfo.toString());
-		in.close();
+		
+		finally {
+			assert(in != null);
+			in.close();
+		}
 
 		List<Player> temp = doStartRolls(this.players); //Get the player with the highest roll.
 		List<Player> temp2 = new ArrayList<>(); //Temp array.
@@ -107,7 +122,8 @@ public class Cluedo {
 			}
 		}
 
-
+		putCards();
+		dealHands();
 	}
 
 	/**
@@ -121,6 +137,27 @@ public class Cluedo {
 
 		rollDice();
 
+	}
+
+	public void putCards() {
+
+		for(Card c : this.setOfCharacters) {
+			this.allCards.add(c);
+		}
+
+		for(Card c : this.setOfWeapons) {
+			this.allCards.add(c);
+		}
+
+		for(Card c : this.setOfRooms) {
+			this.allCards.add(c);
+		}
+		
+		
+	}
+
+	public void dealHands() {
+		
 	}
 
 	/**
@@ -212,41 +249,63 @@ public class Cluedo {
 	public Player setupPlayer(int playerNumb) { // Does this need to take an
 												// arg?
 
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter your username:");
+		Scanner in = null;
+		
+		try {
+			in = new Scanner(System.in);
+			System.out.println("Enter your username:");
 
-		String username = in.next();
+			String username = in.next();
 
-		for (Player p : this.players) { // Make sure the chosen username is
-										// unique.
-			if (p.getUsername().equals(username)) {
-				System.out.println("This username has already been taken");
-				setupPlayer(playerNumb); // Try again.
+			for (Player p : this.players) { // Make sure the chosen username is
+											// unique.
+				if (p.getUsername().equals(username)) {
+					System.out.println("This username has already been taken");
+					setupPlayer(playerNumb); // Try again.
+				}
 			}
-		}
 
-		System.out.println("Select a character: ");
+			System.out.println("Select a character: ");
 
-		String charName1 = in.next(); //TODO can't have 2 word name. fix it.
-		String charName2 = in.next();
+			String charName1 = in.next(); //TODO can't have 2 word name. fix it.
+			String charName2 = in.next();
 
-		String charName = charName1 + " " + charName2; //Concat strings.
+			String charName = charName1 + " " + charName2; //Concat strings.
 
-		if (!this.charNames.contains(charName)) { // Invalid character, either
-													// doesn't exist
-													// or already taken.
-			System.out.println("This is not a valid character");
-			setupPlayer(playerNumb); // Recall setup function, could just ask
-										// for character again.
-		}
-		this.charNames.remove(charName); // Remove this character as a pickable
-											// character.
+			if (!this.charNames.contains(charName)) { // Invalid character, either
+														// doesn't exist
+														// or already taken.
+				System.out.println("This is not a valid character");
+				setupPlayer(playerNumb); // Recall setup function, could just ask
+											// for character again.
+			}
+			this.charNames.remove(charName); // Remove this character as a pickable
+												// character.
 
+<<<<<<< HEAD
 		Token token = new Token(charName, null, true, displayChars.get(charName)); // TODO Change location to a
 													// real location.
 		//in.close();
+=======
+			Token token = new Token(charName, null, true); // TODO Change location to a
+														// real location.
+			//in.close();
+>>>>>>> master
 
-		return (new Player(username, token)); // Return the new character.
+			return (new Player(username, token)); // Return the new character.
+		}
+		
+		catch (RuntimeException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		finally {
+			assert(in != null);
+			in.close();
+		}
+		
+		
 
 	}
 
@@ -369,16 +428,20 @@ public class Cluedo {
 			this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
 														// array.
 			Card charCard = arrOfCards[randChar]; // Get card at random position.
+			this.setOfCharacters.remove(charCard);
 
 			int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
 			Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
 			this.setOfWeapons.toArray(arrOfWeapons);
 			Card weaponCard = arrOfWeapons[randWeapon];
+			this.setOfWeapons.remove(weaponCard);
 
 			int randRoom = (int) (Math.random() * this.setOfRooms.size());
 			Card[] arrOfRooms = new Card[this.setOfRooms.size()];
 			this.setOfRooms.toArray(arrOfRooms);
 			Card roomCard = arrOfRooms[randRoom];
+			this.setOfRooms.remove(roomCard);
+
 
 			this.setOfCharacters.remove(roomCard); // Remove selected
 			this.setOfWeapons.remove(weaponCard);
