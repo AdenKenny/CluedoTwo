@@ -10,6 +10,7 @@ package util;
 public class Token {
 
 	protected String name;
+	String display;
 	protected Location location;
 	protected boolean isCharacter;
 
@@ -20,7 +21,7 @@ public class Token {
 	 * @param location The starting Location of the Token.
 	 */
 
-	public Token(String name, Location location, boolean isCharacter) {
+	public Token(String name, Location location, boolean isCharacter, String display) {
 		this.name = name;
 		this.location = location;
 		this.isCharacter = isCharacter;
@@ -50,6 +51,10 @@ public class Token {
 
 	public void setIsCharacter(boolean isCharacter) {
 		this.isCharacter = isCharacter;
+	}
+
+	public String getDisplay() {
+		return display;
 	}
 
 

@@ -15,7 +15,7 @@ public class Board {
 	private static final int BOARD_WIDTH = 24;
 	private static final int BOARD_HEIGHT = 25;
 
-	private Square[][] boardSquares;
+	private Location[][] boardSquares;
 	private Set<Room> rooms; //Set of the rooms on the board.
 	private Set<Token> tokens; //Set of person and weapon tokens.
 
@@ -85,9 +85,9 @@ public class Board {
 	}
 
 	private String characterAt(int x, int y) {
-		Square square = this.boardSquares[x][y];
-		if (square == null) {return null;}
-		for (Token t : square.getTokens()) {
+		Location location = this.boardSquares[x][y];
+		if (location == null) {return null;}
+		for (Token t : location.getTokens()) {
 			//if t is a character, return t
 		}
 		return null;

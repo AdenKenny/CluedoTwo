@@ -1,8 +1,10 @@
 package cluedo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -32,9 +34,13 @@ public class Cluedo {
 
 	private Set<Card> allCards; //All cards, used for dealing.
 
+	private Map<String, String> displayChars;
+
 	public Cluedo() {
 		this.players = new ArrayList<>();
 		this.charNames = createCharStrings(); // Populate set with characters.
+
+		this.displayChars = createDisplayMap();
 
 		this.setOfRooms = createRooms();
 		this.setOfWeapons = createWeapons();
@@ -43,7 +49,7 @@ public class Cluedo {
 		this.murderInfo = doMurder(); // Create triplet of murder info.
 		this.board = new Board();
 
-		//this.board.draw();
+		this.board.draw();
 
 		Scanner in = new Scanner(System.in);
 		int numbPlayers = 0;
@@ -175,6 +181,11 @@ public class Cluedo {
 		return list;
 	}
 
+	public Map<String, String> createDisplayMap() {
+		Map<String, String> map = new HashMap<>();
+		return map;
+	}
+
 
 	/**
 	 * Sets up a human player and adds it to the set of players to be passed to
@@ -220,12 +231,16 @@ public class Cluedo {
 		this.charNames.remove(charName); // Remove this character as a pickable
 											// character.
 
-		Token token = new Token(charName, null, true); // TODO Change location to a
+		Token token = new Token(charName, null, true, getDisplay(charName)); // TODO Change location to a
 													// real location.
 		//in.close();
 
 		return (new Player(username, token)); // Return the new character.
 
+	}
+
+	private String getDisplay(String charName) {
+		return null;
 	}
 
 	/**
