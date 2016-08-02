@@ -78,10 +78,10 @@ public class Cluedo {
 		System.out.println(this.murderInfo.toString());
 		in.close();
 
-		List<Player> temp = doStartRolls(this.players);
-		List<Player> temp2 = new ArrayList<>();
+		List<Player> temp = doStartRolls(this.players); //Get the player with the highest roll.
+		List<Player> temp2 = new ArrayList<>(); //Temp array.
 		for(Player p : this.players) {
-			temp2.add(p);
+			temp2.add(p); 
 		}
 
 		this.players.clear();
@@ -90,7 +90,7 @@ public class Cluedo {
 		this.players.add(s);
 
 		for(Player p : temp2){
-			if(p.equals(s)) {
+			if(p.equals(s)) { //Empty block.
 				;
 			}
 
