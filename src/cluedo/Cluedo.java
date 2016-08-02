@@ -79,10 +79,25 @@ public class Cluedo {
 		in.close();
 
 		List<Player> temp = doStartRolls(this.players);
-		for(Player p : temp) {
-			System.out.println(p.getUsername());
+		List<Player> temp2 = new ArrayList<>();
+		for(Player p : this.players) {
+			temp2.add(p);
 		}
 
+		this.players.clear();
+
+		Player s = temp.get(0);
+		this.players.add(s);
+
+		for(Player p : temp2){
+			if(p.equals(s)) {
+				;
+			}
+
+			else {
+				this.players.add(p);
+			}
+		}
 	}
 
 	/**
@@ -94,10 +109,23 @@ public class Cluedo {
 
 	public void doTurn(Player p) {
 
+		rollDice();
 
 	}
 
-	public List<Player> doStartRolls(List<Player> list) {
+	/**
+	 * Returns the player with the highest roll to see who starts.
+	 *
+	 * @param temp - List of players we're iterating through.
+	 * @return - A list containing the player with the highest roll.
+	 */
+
+	public List<Player> doStartRolls(List<Player> temp) {
+
+		List<Player> list = new ArrayList<>();
+		for(Player p : temp) {
+			list.add(p);
+		}
 
 		int numbPlayers = list.size(); //Number of players in game.
 		List<Pair<Integer, Player>> arr = new ArrayList<>(); //ArrayList to store players in temp.
@@ -134,6 +162,10 @@ public class Cluedo {
 
 				doStartRolls(list);
 			}
+
+			list.clear();
+			list.add(tempArr.get(0).getValue2());
+
 		}
 
 		return list;
@@ -247,7 +279,7 @@ public class Cluedo {
 		temp.add(new Card("Miss Scarlett"));
 		temp.add(new Card("Colonel Mustard"));
 		temp.add(new Card("Mrs White"));
-		temp.add(new Card("The Reverend Green"));
+		temp.add(new Card("Reverend Green"));
 		temp.add(new Card("Mrs Peacock"));
 		temp.add(new Card("Professor Plum"));
 
