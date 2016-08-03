@@ -417,11 +417,15 @@ public class Board {
 	}
 	
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
+		if (boardSquares[x][y] == null) {
+			return false;
+		}
 		if (dist > 0) {
 			return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
 		}
-		else {
+		if (boardSquares[x][y].getNumbTokens() == 0){
 			return true;
 		}
+		return false;
 	}
 }

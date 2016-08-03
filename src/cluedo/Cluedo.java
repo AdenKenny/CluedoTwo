@@ -117,11 +117,11 @@ public class Cluedo {
 		
 		
 		
-		//while (true) {
-			//for (Player p : this.players) {
-				doTurn(players.get(0));
-			//}
-		//}
+		while ((true == false) == (false == true)) {
+			for (Player p : this.players) {
+				doTurn(p);
+			}
+		}
 	
 	}
 
@@ -164,9 +164,11 @@ public class Cluedo {
 
 			int dist = rollDice();
 			System.out.println("You rolled a " + dist);
-			Map<String, Location> adjacent = location.getAdjacent();
+			
 			System.out.println("Where would you like to move? 'help' for options");
 			while (dist > 0) {
+				location = token.getLocation();
+				Map<String, Location> adjacent = location.getAdjacent();
 				String instruction = in.nextLine();
 				if (instruction.equals("help")) {
 					//help stuff
@@ -178,6 +180,7 @@ public class Cluedo {
 				Location toMove = adjacent.get(instruction);
 				if (toMove != null) {
 					toMove.addToken(token);
+					board.draw();
 					break;
 				}
 				String[] split = instruction.split(" ");
