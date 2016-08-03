@@ -94,11 +94,6 @@ public class Cluedo {
 		catch (RuntimeException e) {
 			e.printStackTrace();
 		}
-		
-		finally {
-			assert(in != null);
-			in.close();
-		}
 
 		List<Player> temp = doStartRolls(this.players); //Get the player with the highest roll.
 		List<Player> temp2 = new ArrayList<>(); //Temp array.
@@ -112,20 +107,21 @@ public class Cluedo {
 		this.players.add(s);
 
 		for(Player p : temp2) {
-			if(p.equals(s)) { //Empty block.
-				;
-			}
-
-			else {
+			if(!p.equals(s)) {
 				this.players.add(p);
 			}
 		}
 
 		putCards();		
 		dealHands();
-		while (true) {
-			
-		}
+		
+		
+		
+		//while (true) {
+			//for (Player p : this.players) {
+				doTurn(players.get(0));
+			//}
+		//}
 	
 	}
 
@@ -143,8 +139,10 @@ public class Cluedo {
 		
 		Location location = token.getLocation();
 		
+		Scanner in = null;
+		
 		try {
-			Scanner in = new Scanner(System.in);
+			in = new Scanner(System.in);
 			
 			if (location instanceof Room) {
 				System.out.println("'guess' or 'suggestion'");

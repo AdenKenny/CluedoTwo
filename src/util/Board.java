@@ -417,6 +417,11 @@ public class Board {
 	}
 	
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
-		return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
+		if (dist > 0) {
+			return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
+		}
+		else {
+			return true;
+		}
 	}
 }
