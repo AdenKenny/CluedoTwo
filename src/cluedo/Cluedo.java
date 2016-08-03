@@ -88,7 +88,8 @@ public class Cluedo {
 			for (int i = 0; i < numbPlayers; i++) { // Loop through number of
 													// players setting them up.
 				this.players.add(setupPlayer(i)); // Add the new player to the set
-													// of players.
+				// of players.
+				board.draw();
 			}
 
 			System.out.println(this.murderInfo.toString());
@@ -281,36 +282,36 @@ public class Cluedo {
 			in = new Scanner(System.in);
 			System.out.println("Enter your username:");
 
-			String username = in.next();
-
-			for (Player p : this.players) { // Make sure the chosen username is
-											// unique.
-				if (p.getUsername().equals(username)) {
-					System.out.println("This username has already been taken");
-					setupPlayer(playerNumb); // Try again.
+			String username = in.nextLine();
+			
+			String charName = null;
+			
+			while(!this.charNames.contains(charName)) {	
+	
+				for (Player p : this.players) { // Make sure the chosen username is
+												// unique.
+					if (p.getUsername().equals(username)) {
+						System.out.println("This username has already been taken");
+						setupPlayer(playerNumb); // Try again.
+					}
+				}
+	
+				System.out.println("Select a character: ");
+	
+				charName = in.nextLine();
+	
+				if (!this.charNames.contains(charName)) { // Invalid character, either
+															// doesn't exist
+															// or already taken.
+					System.out.println("This is not a valid character");
 				}
 			}
-
-			System.out.println("Select a character: ");
-
-			String charName1 = in.next(); //TODO can't have 2 word name. fix it.
-			String charName2 = in.next();
-
-			String charName = charName1 + " " + charName2; //Concat strings.
-
-			if (!this.charNames.contains(charName)) { // Invalid character, either
-														// doesn't exist
-														// or already taken.
-				System.out.println("This is not a valid character");
-				setupPlayer(playerNumb); // Recall setup function, could just ask
-											// for character again.
-			}
+				
 			this.charNames.remove(charName); // Remove this character as a pickable
 												// character.
 
 
-			Token token = new Token(charName, null, true, this.displayChars.get(charName)); // TODO Change location to a
-
+			Token token = new Token(charName, board.getStartingLocation(charName), true, this.displayChars.get(charName));
 
 			return (new Player(username, token)); // Return the new character.
 		}

@@ -23,8 +23,9 @@ public class Token {
 
 	public Token(String name, Location location, boolean isCharacter, String display) {
 		this.name = name;
-		this.location = location;
+		location.addToken(this);
 		this.isCharacter = isCharacter;
+		this.display = display;
 	}
 	
 	public boolean moveAdjacent(String dir) {
@@ -51,7 +52,9 @@ public class Token {
 	}
 
 	public void setLocation(Location location) {
-		this.location.removeToken(this);
+		if (this.location != null) {
+			this.location.removeToken(this);
+		}
 		this.location = location;
 	}
 

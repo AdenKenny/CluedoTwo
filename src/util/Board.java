@@ -1,9 +1,7 @@
 package util;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A class representing the board on which the game of Cluedo is played on.
@@ -17,9 +15,9 @@ public class Board {
 	private static final int BOARD_WIDTH = 24;
 	private static final int BOARD_HEIGHT = 25;
 
-	private Location[][] boardSquares;
+	private Square[][] boardSquares;
 	private Map<String, Room> rooms; //Set of the rooms on the board.
-	private Set<Token> tokens; //Set of person and weapon tokens.
+	private Map<String, Square> startingLocations; //Map of character names to locations.
 	
 	private char[][] asciiBoard;
 
@@ -40,6 +38,8 @@ public class Board {
 	O = lounge name
 	H = hall name
 	S = study name
+	lower case letters are where characters are displayed in room.
+	They correspond to the uppercase letters used for names.
 	**/
 
 	String[] boardStrings = {
@@ -71,11 +71,11 @@ public class Board {
 	};
 
 	public Board() {
-		this.tokens = new HashSet<>();
 		populateBoard();
 		roomSetup();
 		addRoomAccess();
 		asciiBoardSetup();
+		startingLocationSetup();
 	}
 
 	/**
@@ -327,6 +327,16 @@ public class Board {
 			this.asciiBoard[startX + i][y] = name.charAt(i);
 		}
 	}
+	
+	private void startingLocationSetup() {
+		startingLocations = new HashMap<>();
+		startingLocations.put("Mrs White", boardSquares[9][0]);
+		startingLocations.put("Reverend Green", boardSquares[14][0]);
+		startingLocations.put("Mrs Peacock", boardSquares[23][6]);
+		startingLocations.put("Professor Plum", boardSquares[23][19]);
+		startingLocations.put("Miss Scarlett", boardSquares[7][24]);
+		startingLocations.put("Colonel Mustard", boardSquares[0][17]);
+	}
 
 	private String characterAt(int x, int y) {
 		Location location = this.boardSquares[x][y];
@@ -377,6 +387,10 @@ public class Board {
 			System.out.print('\n');
 		}
 		System.out.print('\n');
+	}
+	
+	public Location getStartingLocation(String name) {
+		return startingLocations.get(name);
 	}
 	
 	public void addToken(Token t, int x, int y) {
