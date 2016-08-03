@@ -26,6 +26,15 @@ public class Token {
 		this.location = location;
 		this.isCharacter = isCharacter;
 	}
+	
+	public boolean moveAdjacent(String dir) {
+		Location newLoc = this.location.getAdjacent().get(dir);
+		if (newLoc == null) {
+			return false;
+		}
+		newLoc.addToken(this);
+		return true;
+	}
 
 	//Getters and Setters.
 
@@ -42,6 +51,7 @@ public class Token {
 	}
 
 	public void setLocation(Location location) {
+		this.location.removeToken(this);
 		this.location = location;
 	}
 

@@ -25,15 +25,25 @@ public abstract class Location {
 		this.adjacent = adjacent;
 		this.tokens = new HashSet<>();
 	}
+	
+	public void addAdjacent(String dir, Location adj) {
+		this.adjacent.put(dir, adj);
+	}
+	
+	public Map<String, Location> getAdjacent() {
+		return this.adjacent;
+	}
 
 	/**
-	 * Adds a token to the set of tokens at this location.
+	 * Adds a token to the set of tokens at this location and sets the tokens
+	 * location to this.
 	 *
 	 * @param t The token to be added.
 	 */
 
 	public void addToken(Token t) {
 		this.tokens.add(t);
+		t.setLocation(this);
 	}
 
 	/**
@@ -81,5 +91,4 @@ public abstract class Location {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

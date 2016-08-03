@@ -25,5 +25,16 @@ public class Room extends Location{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getDisplay() {
+		if (tokens.isEmpty()) {
+			return null;
+		}
+		String display = "";
+		for (Token t : tokens) {
+			display += t.getDisplay();
+		}
+		return display;
+	}
 
 }
