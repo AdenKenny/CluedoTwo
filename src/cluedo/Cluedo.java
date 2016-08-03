@@ -8,10 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import util.Board;
-import util.Pair;
-import util.Token;
-import util.Triplet;
+import util.*;
 
 
 /**
@@ -89,10 +86,9 @@ public class Cluedo {
 													// players setting them up.
 				this.players.add(setupPlayer(i)); // Add the new player to the set
 				// of players.
-				board.draw();
 			}
 
-			System.out.println(this.murderInfo.toString());
+			this.board.draw();
 		}
 		
 		catch (RuntimeException e) {
@@ -127,6 +123,9 @@ public class Cluedo {
 
 		putCards();		
 		dealHands();
+		while (true) {
+			
+		}
 	
 	}
 
@@ -138,8 +137,87 @@ public class Cluedo {
 	 */
 
 	public void doTurn(Player p) {
+		System.out.println(p.getUsername() + "'s turn.");
+		
+		Token token = p.getToken();
+		
+		Location location = token.getLocation();
+		
+		try {
+			Scanner in = new Scanner(System.in);
+			
+			if (location instanceof Room) {
+				System.out.println("'guess' or 'suggestion'");
+				while (true) {
+					String type = in.next();
+					if (type.equals("guess")) {
+						//do guess
+						break;
+					}
+					else if (type.equals("suggestion")) {
+						//do suggestion
+						break;
+					}
+					else {
+						System.out.println("Unexpected entry. Please enter 'guess' or 'suggestion'");
+					}
+				}
+			}
 
-		rollDice();
+			int dist = rollDice();
+			Map<String, Location> adjacent = location.getAdjacent();
+			System.out.println("Where would you like to move? 'help' for options");
+			while (dist > 0) {
+				String instruction = in.nextLine();
+				if (instruction.equals("help")) {
+					//help stuff
+					continue;
+				}
+				if (instruction.equals("end turn")) {
+					break;
+				}
+				Location toMove = adjacent.get(instruction);
+				if (toMove != null) {
+					toMove.addToken(token);
+					break;
+				}
+				String[] split = instruction.split(" ");
+				if (split.length != 2) {
+					System.out.println("Unexpected entry. Please try again, or 'help' for options");
+					continue;
+				}
+				int instrDist = Integer.parseInt(split[1]);
+				int xDir = 0;
+				int yDir = 0;
+				if (split[0].equals("left")) {
+					xDir = -1;
+				}
+				else if (split[0].equals("right")) {
+					xDir = 1;
+				}
+				else if (split[0].equals("up")) {
+					yDir = -1;		
+				}
+				else if (split[0].equals("down")) {
+					yDir = 1;
+				}
+				else {
+					System.out.println("Unexpected entry. Please try again, or 'help' for options");
+					continue;
+				}
+				if (instrDist <= dist && board.moveToken(token, xDir, yDir, instrDist)) {
+					dist -= instrDist;
+					board.draw();
+				}
+				else {
+					System.out.println("Illegal Move");
+				}
+			}
+			
+		}
+		catch(RuntimeException e) {
+			System.out.println(e);
+		}
 
 	}
 
