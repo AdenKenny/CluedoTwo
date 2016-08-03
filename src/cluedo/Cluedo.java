@@ -8,7 +8,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import util.*;
+import util.Board;
+import util.Location;
+import util.Pair;
+import util.Room;
+import util.Token;
+import util.Triplet;
 
 
 /**
@@ -171,7 +176,7 @@ public class Cluedo {
 				Map<String, Location> adjacent = location.getAdjacent();
 				String instruction = in.nextLine();
 				if (instruction.equals("help")) {
-					//help stuff
+					System.out.println("enter the direction you want to move in followed by the distance you to move.");
 					continue;
 				}
 				if (instruction.equals("end turn")) {
