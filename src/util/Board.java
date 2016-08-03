@@ -113,93 +113,93 @@ public class Board {
 	}
 	
 	private void asciiBoardSetup() {
-		asciiBoard = new char[2 * BOARD_WIDTH + 1][2 * BOARD_HEIGHT + 1];
+		this.asciiBoard = new char[2 * BOARD_WIDTH + 1][2 * BOARD_HEIGHT + 1];
 		for (int i = 0; i < BOARD_WIDTH; i++) {
 			if (this.boardStrings[0].charAt(i) == '0') {
-				asciiBoard[i * 2][0] = ' ';
-				asciiBoard[i * 2 + 1][0] = ' ';
+				this.asciiBoard[i * 2][0] = ' ';
+				this.asciiBoard[i * 2 + 1][0] = ' ';
 			}
 			else {
-				asciiBoard[i * 2][0] = ' ';
-				asciiBoard[i * 2 + 1][0] = '_';
+				this.asciiBoard[i * 2][0] = ' ';
+				this.asciiBoard[i * 2 + 1][0] = '_';
 			}
 		}
-		asciiBoard[2 * BOARD_WIDTH][0] = ' ';
+		this.asciiBoard[2 * BOARD_WIDTH][0] = ' ';
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				char square = boardChar(x, y);
 				char left = boardChar(x - 1, y);
 				char down = boardChar(x, y + 1);
 				if (Character.isLetter(square) && Character.toLowerCase(square) == square) {
-					asciiBoard[x * 2][y + 1] = square;
-					asciiBoard[x * 2 + 1][y + 1] = ' ';
+					this.asciiBoard[x * 2][y + 1] = square;
+					this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 				}
 				else if (square == '0') {
 					if (left == '0') {
-						asciiBoard[x * 2][y + 1] = ' ';
+						this.asciiBoard[x * 2][y + 1] = ' ';
 					}
 					else {
-						asciiBoard[x * 2][y + 1] = '|';
+						this.asciiBoard[x * 2][y + 1] = '|';
 					}
 					if (down != '0') {
-						asciiBoard[x * 2 + 1][y + 1] = '_';
+						this.asciiBoard[x * 2 + 1][y + 1] = '_';
 					}
 					else {
-						asciiBoard[x * 2 + 1][y + 1] = ' ';
+						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
 				else if (square == '1') {
-					asciiBoard[x * 2][y + 1] = '|';
-					asciiBoard[x * 2 + 1][y + 1] = '_';
+					this.asciiBoard[x * 2][y + 1] = '|';
+					this.asciiBoard[x * 2 + 1][y + 1] = '_';
 				}
 				else if (square == '2') {
 					if (left == '4') {
-						asciiBoard[x * 2][y + 1] = ':';
+						this.asciiBoard[x * 2][y + 1] = ':';
 					}
 					else {
-						asciiBoard[x * 2][y + 1] = '|';
+						this.asciiBoard[x * 2][y + 1] = '|';
 					}
 					if (down == '4') {
-						asciiBoard[x * 2 + 1][y + 1] = ' ';
+						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 					else {
-						asciiBoard[x * 2 + 1][y + 1] = '_';
+						this.asciiBoard[x * 2 + 1][y + 1] = '_';
 					}
 				}
 				else if (square == '3') {
 					if (left == '3' || left == '4' || (Character.isLetter(left) && Character.toLowerCase(left) == left)) {
-						asciiBoard[x * 2][y + 1] = ' ';
+						this.asciiBoard[x * 2][y + 1] = ' ';
 					}
 					else {
-						asciiBoard[x * 2][y + 1] = '|';
+						this.asciiBoard[x * 2][y + 1] = '|';
 					}
 					if (down == '0' || down == '1' || down == '2')
-						asciiBoard[x * 2 + 1][y + 1] = '_';
+						this.asciiBoard[x * 2 + 1][y + 1] = '_';
 					else {
-						asciiBoard[x * 2 + 1][y + 1] = ' ';
+						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
 				else if (square == '4') {
 					if (left == '0' || left == '1') {
-						asciiBoard[x * 2][y + 1] = '|';
+						this.asciiBoard[x * 2][y + 1] = '|';
 					}
 					else if (left == '2') {
-						asciiBoard[x * 2][y + 1] = ':';
+						this.asciiBoard[x * 2][y + 1] = ':';
 					}
 					else {
-						asciiBoard[x * 2][y + 1] = ' ';
+						this.asciiBoard[x * 2][y + 1] = ' ';
 					}
 					if (down == '0' || down == '1') {
-						asciiBoard[x * 2 + 1][y + 1] = '_';
+						this.asciiBoard[x * 2 + 1][y + 1] = '_';
 					}
 					else if (down == '2') {
-						asciiBoard[x * 2 + 1][y + 1] = '.';
+						this.asciiBoard[x * 2 + 1][y + 1] = '.';
 					}
 					else if (boardChar(x, y - 1) == '2') {
-						asciiBoard[x * 2 + 1][y + 1] = '\'';
+						this.asciiBoard[x * 2 + 1][y + 1] = '\'';
 					}
 					else {
-						asciiBoard[x * 2 + 1][y + 1] = ' ';
+						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
 				else if (square == 'K') {
@@ -248,17 +248,17 @@ public class Board {
 				}
 			}
 			if (this.boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
-				asciiBoard[BOARD_WIDTH * 2][y + 1] = '|';
+				this.asciiBoard[BOARD_WIDTH * 2][y + 1] = '|';
 			}
 			else {
-				asciiBoard[BOARD_WIDTH * 2][y + 1] = ' ';
+				this.asciiBoard[BOARD_WIDTH * 2][y + 1] = ' ';
 			}
 		}
 	}
 	
 	private void roomName(String name, int startX, int y) {
 		for (int i = 0; i < name.length(); i++) {
-			asciiBoard[startX + i][y] = name.charAt(i);
+			this.asciiBoard[startX + i][y] = name.charAt(i);
 		}
 	}
 
@@ -286,13 +286,13 @@ public class Board {
 
 	public void draw() {
 		for (int i = 0; i < BOARD_WIDTH * 2 + 1; i++) {
-			System.out.print(asciiBoard[i][0]);
+			System.out.print(this.asciiBoard[i][0]);
 		}
 		System.out.print('\n');
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				String character = characterAt(x, y);
-				char c = asciiBoard[x * 2][y + 1];
+				char c = this.asciiBoard[x * 2][y + 1];
 				if (character != null) {
 					System.out.print(character);
 				}
@@ -306,11 +306,11 @@ public class Board {
 					}
 				}
 				else {
-					System.out.print(asciiBoard[x * 2][y + 1]);
-					System.out.print(asciiBoard[x * 2 + 1][y + 1]);
+					System.out.print(this.asciiBoard[x * 2][y + 1]);
+					System.out.print(this.asciiBoard[x * 2 + 1][y + 1]);
 				}
 			}
-			System.out.print(asciiBoard[BOARD_WIDTH * 2][y + 1]);
+			System.out.print(this.asciiBoard[BOARD_WIDTH * 2][y + 1]);
 			System.out.print('\n');
 		}
 		System.out.print('\n');
