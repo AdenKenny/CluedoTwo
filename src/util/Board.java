@@ -406,7 +406,7 @@ public class Board {
 			for (int y = 0; y < BOARD_HEIGHT; y++) {
 				if (boardSquares[x][y] == location) {
 					if (checkDir(x, y, xDir, yDir, dist)) {
-						location.addToken(t);
+						boardSquares[x + xDir * dist][y + yDir * dist].addToken(t);
 						return true;
 					}
 					return false;

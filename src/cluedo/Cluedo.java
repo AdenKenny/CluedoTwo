@@ -163,6 +163,7 @@ public class Cluedo {
 			}
 
 			int dist = rollDice();
+			System.out.println("You rolled a " + dist);
 			Map<String, Location> adjacent = location.getAdjacent();
 			System.out.println("Where would you like to move? 'help' for options");
 			while (dist > 0) {
@@ -205,6 +206,7 @@ public class Cluedo {
 				}
 				if (instrDist <= dist && board.moveToken(token, xDir, yDir, instrDist)) {
 					dist -= instrDist;
+					System.out.println("You can move up to " + dist + " more.");
 					board.draw();
 				}
 				else {
