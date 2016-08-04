@@ -128,6 +128,14 @@ public class Player {
 		return false; // Does not.
 	}
 
+	public String handString() {
+		String handString = "";
+		for (Card c : hand) {
+			handString += c.getName() + "\n";
+		}
+		return handString;
+	}
+
 	@Override
 	public String toString() {
 		return "Player [status=" + this.status + ", username=" + this.username + ", personToken=" + this.personToken

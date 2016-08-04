@@ -423,4 +423,8 @@ public class Board {
 		}
 		return false;
 	}
+
+	public Map<String, Room> getRooms() {
+		return this.rooms;
+	}
 }

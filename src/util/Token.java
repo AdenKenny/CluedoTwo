@@ -27,7 +27,7 @@ public class Token {
 		this.isCharacter = isCharacter;
 		this.display = display;
 	}
-	
+
 	public boolean moveAdjacent(String dir) {
 		Location newLoc = this.location.getAdjacent().get(dir);
 		if (newLoc == null) {
@@ -69,7 +69,7 @@ public class Token {
 	public String getDisplay() {
 		return this.display;
 	}
-	
+
 	public boolean isCharacter() {
 		return this.isCharacter;
 	}

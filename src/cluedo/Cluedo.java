@@ -106,47 +106,31 @@ public class Cluedo {
 			e.printStackTrace();
 		}
 
-		List<Player> temp = doStartRolls(this.players); // Get the player with
+		Player highest = doStartRolls(this.players); // Get the player with
 		// the highest roll.
-		List<Player> temp2 = new ArrayList<>(); // Temp array.
-		for (Player p : this.players) {
-			temp2.add(p);
-		}
 
-		this.players.clear();
-
-		Player s = temp.get(0);
-		this.players.add(s);
-
-		for (Player p : temp2) {
-			if (!p.equals(s)) {
-				this.players.add(p);
-			}
-		}
+		this.players.remove(highest);
+		this.players.add(0, highest);
 
 		putCards();
 		dealHands();
-
-		System.out.println(this.murderInfo.toString());
 
 		while ((true == false) == (false == true)) { // Nice.
 			for (Player p : this.players) {
 				if (gameOver) {
 					return;
 				}
-				int left = 0;
+				int playersLeft = 0;
+				Player last = null;
 				for (Player pl : this.players) {
-					if (pl.getStatus()) {
-						left++;
+					if (p.getStatus()) {
+						playersLeft++;
+						last = pl;
 					}
 				}
-				if (left == 1) {
-					for (Player pl : this.players) {
-						if (pl.getStatus()) {
-							System.out.println(p.getUsername()+" wins as all others are out!");
-							return;
-						}
-					}
+				if (playersLeft == 1) {
+					System.out.println(last.getUsername() + " won as everyone else is out.");
+					return;
 				}
 				if (p.getStatus()) {
 					doTurn(p);
@@ -166,6 +150,22 @@ public class Cluedo {
 		this.allTokens.add(new Token("Reverend Green", board.getSquare(14, 0), true, "RG"));
 		this.allTokens.add(new Token("Colonel Mustard", board.getSquare(0, 17), true, "CM"));
 		this.allTokens.add(new Token("Mrs White", board.getSquare(9, 0), true, "MW"));
+
+		List<Room> rooms = new ArrayList<Room>();
+		rooms.addAll(board.getRooms().values());
+		Room[] weaponRooms = new Room[6];
+
+		for (int i = 0; i < 6; i++) {
+			int index = (int) Math.random() * (9 - i);
+			weaponRooms[i] = rooms.remove(index);
+		}
+
+		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "CS"));
+		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "DG"));
+		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "LP"));
+		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "RV"));
+		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "RO"));
+		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "SP"));
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class Cluedo {
 			in = new Scanner(System.in);
 
 			if (location instanceof Room) { //If the player is in the room they must guess.
-				System.out.println("'guess' or 'suggestion'");
+				System.out.println("Make a 'guess' or 'suggestion', or 'hand' to view hand");
 
 				guessing: while (true) {
 					String type = in.nextLine();
@@ -214,10 +214,7 @@ public class Cluedo {
 
 					else if (type.equals("suggestion")) { //Player is making a suggestion
 
-						System.out.println(this.murderInfo.toString());
-
 						Triplet suggestion = createTriplet(in, p);
-						System.out.println(suggestion.toString());
 						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); //Check refutations.
 
 						if (tempPair.getValue1()) { //If someone can refute.
@@ -230,6 +227,11 @@ public class Cluedo {
 
 					}
 
+					else if (type.equals("hand")) {
+						System.out.println(p.handString());
+						continue;
+					}
+
 					else {
 						System.out.println("Unexpected entry. Please enter 'guess' or 'suggestion'");
 					}
@@ -237,7 +239,7 @@ public class Cluedo {
 			}
 
 			int dist = rollDice(); //The distance a player can move.
-			System.out.println("You rolled a " + dist);
+			System.out.println(p.getUsername() + " rolled a " + dist);
 
 			System.out.println("Where would you like to move? 'help' for options");
 			while (dist > 0) { //Player still has moves left.
@@ -258,6 +260,10 @@ public class Cluedo {
 					}
 					continue;
 				}
+				if (instruction.equals("hand")) {
+					System.out.println(p.handString());
+					continue;
+				}
 				if (instruction.equals("end turn")) { //Player doesn't want to move.
 					break;
 				}
@@ -265,7 +271,7 @@ public class Cluedo {
 				if (toMove != null) {
 					toMove.addToken(token);
 					this.board.draw(); //Redraw board.
-					break;
+					continue;
 				}
 				String[] split = instruction.split(" ");
 				if (split.length != 2) {
@@ -324,18 +330,18 @@ public class Cluedo {
 	 * @return - A triplet based on the info from the scanner.
 	 */
 
-
 	public Triplet createTriplet(Scanner in, Player p) {
+
+		Room room = (Room) p.getToken().getLocation();
 
 		System.out.println("Person:");
 
 		String personSuggest;
-		Card person;
 		Person: while (true) {
 			personSuggest = in.nextLine();
-			person = new Card(personSuggest);
-			for (Card c : this.setOfCharacters) {
-				if (c.equals(person)) {
+			for (Token t : allTokens) {
+				if (t.getName().equals(personSuggest)) {
+					t.move(room);
 					break Person;
 				}
 			}
@@ -345,32 +351,23 @@ public class Cluedo {
 		System.out.println("Weapon:");
 
 		String weaponSuggest;
-		Card weapon;
 		Weapon: while (true) {
 			weaponSuggest = in.nextLine();
-			weapon = new Card(weaponSuggest);
-			for (Card c : this.setOfWeapons) {
-				if (c.equals(weapon)) {
+			for (Token t : allTokens) {
+				if (t.getName().equals(weaponSuggest)) {
+					room.addToken(t);
 					break Weapon;
 				}
 			}
 			System.out.println("That isn't a weapon.");
 		}
-
-		Room room = (Room) p.getToken().getLocation();
 		String roomSuggest = room.getName();
-
-		for (Token t : allTokens) {
-			if (t.getName().equals(personSuggest) || t.getName().equals(weaponSuggest)) {
-				t.move(room);
-			}
-		}
 
 		board.draw();
 
 		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
 
-		return new Triplet(person, weapon, new Card(roomSuggest));
+		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
 	}
 
 	/**
@@ -407,7 +404,7 @@ public class Cluedo {
 			++playerNumb;
 
 			if (playerNumb == numbPlayers) {
-				playerNumb = 0;
+				playerNumb = 0; //Reset to first player.
 			}
 
 			Player p = this.players.get(playerNumb);
@@ -422,61 +419,40 @@ public class Cluedo {
 	 *
 	 * @param temp
 	 *            - List of players we're iterating through.
-	 * @return - A list containing the player with the highest roll.
+	 * @return - Player with the highest roll.
 	 */
 
-	public List<Player> doStartRolls(List<Player> temp) {
+	public Player doStartRolls(List<Player> temp) {
 
-		List<Player> list = new ArrayList<>();
+		int highest = 0;
+
+		Map<Player, Integer> rolls = new HashMap<>();
+
 		for (Player p : temp) {
-			list.add(p);
+			int roll = rollDice6();
+			System.out.println(p.getUsername() + " rolled a " + roll);
+			if (roll < highest) {
+				continue;
+			}
+			highest = roll;
+			rolls.put(p, roll);
 		}
 
-		int numbPlayers = list.size(); // Number of players in game.
-		List<Pair<Integer, Player>> arr = new ArrayList<>(); // ArrayList to
-		// store players
-		// in temp.
+		List<Player> highRollers = new ArrayList<>();
 
-		for (int i = 0; i < numbPlayers; i++) {
-			Player p = list.get(i);
-			int roll = rollDice(); // Roll the players starting number.
-			System.out.println(p.getUsername() + " rolled a: " + roll);
-			arr.add(new Pair<>(roll, p)); // Add player and their roll to a
-			// list.
+		for (Player p : rolls.keySet()) {
+			if (rolls.get(p) == highest) {
+				highRollers.add(p);
+			}
 		}
 
-		List<Pair<Integer, Player>> tempArr = new ArrayList<>();
-		tempArr.add(new Pair<>(0, null)); //A pair in which a player and their roll is stored.
-		for (int i = 0; i < numbPlayers; i++) {
-			int max = tempArr.get(0).getValue1(); //The new max roll is the role from the player.
-			int tempRoll = arr.get(i).getValue1();
-
-			if (tempRoll == max) { // Check for duplicate rolls.
-				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
-			}
-
-			else if (tempRoll > max) { //We have a new max roll.
-				max = tempRoll;
-				tempArr.clear();
-				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
-			}
-
-			if (tempArr.size() > 1) {
-				list.clear();
-				for (int j = 0; j < tempArr.size(); j++) {
-					Player p = tempArr.get(i).getValue2();
-					list.add(p);
-				}
-
-				doStartRolls(list); //List has more than 1 player, call until we get one player.
-			}
-
-			list.clear();
-			list.add(tempArr.get(0).getValue2());
-
+		if (highRollers.size() == 1) {
+			return highRollers.get(0);
 		}
-
-		return list;
+		else {
+			System.out.println("Draw! Highest rollers rolling again.");
+			return doStartRolls(highRollers);
+		}
 	}
 
 	/**
