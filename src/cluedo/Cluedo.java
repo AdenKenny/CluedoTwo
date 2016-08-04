@@ -189,13 +189,13 @@ public class Cluedo {
 			in = new Scanner(System.in);
 
 			if (location instanceof Room) { //If the player is in the room they must guess.
-				System.out.println("Make a 'guess' or 'suggestion', or 'hand' to view hand");
+				System.out.println("Make an 'accusation' or 'suggestion', or 'hand' to view hand");
 
 				guessing: while (true) {
 					String type = in.nextLine();
-					if (type.equals("guess")) {
+					if (type.equals("accusation")) {
 
-						Triplet guess = createTriplet(in, p);
+						Triplet guess = accusation(in);
 
 						if (guess.equalsTriplet(this.murderInfo)) { // Guess was
 							// correct,
@@ -214,7 +214,7 @@ public class Cluedo {
 
 					else if (type.equals("suggestion")) { //Player is making a suggestion
 
-						Triplet suggestion = createTriplet(in, p);
+						Triplet suggestion = suggestion(in, p);
 						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); //Check refutations.
 
 						if (tempPair.getValue1()) { //If someone can refute.
@@ -323,6 +323,51 @@ public class Cluedo {
 		}
 
 	}
+
+
+	public Triplet accusation(Scanner in) {
+		System.out.println("Person:");
+
+		String personSuggest;
+		Person: while (true) {
+			personSuggest = in.nextLine();
+			for (Token t : allTokens) {
+				if (t.getName().equals(personSuggest)) {
+					break Person;
+				}
+			}
+			System.out.println("That isn't a person.");
+		}
+
+		System.out.println("Weapon:");
+
+		String weaponSuggest;
+		Weapon: while (true) {
+			weaponSuggest = in.nextLine();
+			for (Token t : allTokens) {
+				if (t.getName().equals(weaponSuggest)) {
+					break Weapon;
+				}
+			}
+			System.out.println("That isn't a weapon.");
+		}
+
+		System.out.println("Weapon:");
+
+		String roomSuggest;
+		Room: while (true) {
+			roomSuggest = in.nextLine();
+			for (String r : board.getRooms().keySet()) {
+				if (r.equals(roomSuggest)) {
+					break Room;
+				}
+			}
+			System.out.println("That isn't a weapon.");
+		}
+
+		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+	}
+
 	/**
 	 * Creates a triplet based on the player's guess. A player is required to be passed
 	 * as the room in the triplet is based on the player's current location.
@@ -332,7 +377,7 @@ public class Cluedo {
 	 * @return - A triplet based on the info from the scanner.
 	 */
 
-	public Triplet createTriplet(Scanner in, Player p) {
+	public Triplet suggestion(Scanner in, Player p) {
 
 		Room room = (Room) p.getToken().getLocation();
 
