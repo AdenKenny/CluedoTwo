@@ -154,8 +154,11 @@ public class Cluedo {
 				while (true) {
 					String type = in.nextLine();
 					if (type.equals("guess")) {
-						//do guess
-						break;
+						String person = in.next();
+						String weapon = in.next();
+						String room = in.next();
+
+						System.out.println(person + weapon + room);
 					}
 					else if (type.equals("suggestion")) {
 						//do suggestion
@@ -195,7 +198,7 @@ public class Cluedo {
 				Location toMove = adjacent.get(instruction);
 				if (toMove != null) {
 					toMove.addToken(token);
-					board.draw();
+					this.board.draw();
 					break;
 				}
 				String[] split = instruction.split(" ");
@@ -203,37 +206,45 @@ public class Cluedo {
 					System.out.println("Unexpected entry. Please try again, or 'help' for options");
 					continue;
 				}
-				int instrDist = Integer.parseInt(split[1]);
-				if (instrDist < 1) {
-					System.out.println("Distance must be greater than 0");
-					continue;
+				try {
+					int instrDist = Integer.parseInt(split[1]);
+					if (instrDist < 1) {
+						System.out.println("Distance must be greater than 0");
+						continue;
+					}
+					int xDir = 0;
+					int yDir = 0;
+					if (split[0].equals("left")) {
+						xDir = -1;
+					}
+					else if (split[0].equals("right")) {
+						xDir = 1;
+					}
+					else if (split[0].equals("up")) {
+						yDir = -1;
+					}
+					else if (split[0].equals("down")) {
+						yDir = 1;
+					}
+					else {
+						System.out.println("Unexpected entry. Please try again, or 'help' for options");
+						continue;
+					}
+					if (instrDist <= dist && this.board.moveToken(token, xDir, yDir, instrDist)) {
+						dist -= instrDist;
+						System.out.println("You can move up to " + dist + " more.");
+						this.board.draw();
+					}
+					else {
+						System.out.println("Illegal Move");
+					}
 				}
-				int xDir = 0;
-				int yDir = 0;
-				if (split[0].equals("left")) {
-					xDir = -1;
+
+				catch (NumberFormatException e){
+
 				}
-				else if (split[0].equals("right")) {
-					xDir = 1;
-				}
-				else if (split[0].equals("up")) {
-					yDir = -1;
-				}
-				else if (split[0].equals("down")) {
-					yDir = 1;
-				}
-				else {
-					System.out.println("Unexpected entry. Please try again, or 'help' for options");
-					continue;
-				}
-				if (instrDist <= dist && board.moveToken(token, xDir, yDir, instrDist)) {
-					dist -= instrDist;
-					System.out.println("You can move up to " + dist + " more.");
-					board.draw();
-				}
-				else {
-					System.out.println("Illegal Move");
-				}
+
+
 			}
 
 		}
@@ -411,7 +422,7 @@ public class Cluedo {
 												// character.
 
 
-			Token token = new Token(charName, board.getStartingLocation(charName), true, this.displayChars.get(charName));
+			Token token = new Token(charName, this.board.getStartingLocation(charName), true, this.displayChars.get(charName));
 
 			return (new Player(username, token)); // Return the new character.
 		}
