@@ -160,12 +160,12 @@ public class Cluedo {
 			weaponRooms[i] = rooms.remove(index);
 		}
 
-		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "CS"));
-		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "DG"));
-		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "LP"));
-		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "RV"));
-		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "RO"));
-		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "SP"));
+		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "cs"));
+		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "dg"));
+		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "lp"));
+		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "rv"));
+		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "ro"));
+		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "sp"));
 	}
 
 	/**
@@ -251,6 +251,8 @@ public class Cluedo {
 					System.out.println("'left', 'right', 'up' or 'down'");
 					System.out.println("Example: 'up 4'");
 					System.out.println("'adjacent' for instructions for moving into and out of rooms, if possible.");
+					System.out.println("'hand' to view hand");
+					System.out.println("'end turn'");
 					continue;
 				}
 				if (instruction.equals("adjacent")) {

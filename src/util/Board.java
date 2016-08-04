@@ -20,6 +20,8 @@ public class Board {
 
 	private char[][] asciiBoard;
 
+	String[] key;
+
 	/**
 	0 = empty space
 	1 = square
@@ -43,7 +45,7 @@ public class Board {
 
 	String[] boardStrings = {
 			"000000000100001000000000",
-			"333333011133331110333333",
+			"@3333301113333111033333@",
 			"3333331133333333113C3333",
 			"3K33331133333333113V3333",
 			"3333331133B33333114c3333",
@@ -66,7 +68,7 @@ public class Board {
 			"33O33331133H333114333333",
 			"3333333113333331133S3333",
 			"3o3333311333333113s33333",
-			"333333010033330010333333",
+			"@3333301003333001033333@",
 	};
 
 	public Board() {
@@ -74,6 +76,7 @@ public class Board {
 		roomSetup();
 		addRoomAccess();
 		asciiBoardSetup();
+		keySetup();
 	}
 
 	/**
@@ -231,7 +234,7 @@ public class Board {
 					}
 				}
 				else if (square == '3') {
-					if (left == '3' || left == '4' || (Character.isLetter(left) && Character.toLowerCase(left) == left)) {
+					if (left == '3' || left == '4' || left == '@' || (Character.isLetter(left) && Character.toLowerCase(left) == left)) {
 						this.asciiBoard[x * 2][y + 1] = ' ';
 					}
 					else {
@@ -265,6 +268,15 @@ public class Board {
 					else {
 						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
+				}
+				else if (square == '@') {
+					if (left == '0') {
+						this.asciiBoard[x * 2][y + 1] = '|';
+					}
+					else {
+						this.asciiBoard[x * 2][y + 1] = ' ';
+					}
+					this.asciiBoard[x * 2 + 1][y + 1] = '@';
 				}
 				else if (square == 'K') {
 					roomName(" KITCHEN", x * 2, y + 1);
@@ -317,6 +329,26 @@ public class Board {
 			else {
 				this.asciiBoard[BOARD_WIDTH * 2][y + 1] = ' ';
 			}
+		}
+	}
+
+	private void keySetup() {
+		key = new String[BOARD_HEIGHT];
+		key[0] = "MS = Miss Scarlett";
+		key[1] = "PP = Professor Plum";
+		key[2] = "MP = Mrs Peacock";
+		key[3] = "RG = Reverend Green";
+		key[4] = "CM = Colonel Mustard";
+		key[5] = "MW = Mrs White";
+		key[6] = "";
+		key[7] = "cs = Candlestick";
+		key[8] = "dg = Dagger";
+		key[9] = "lp = Lead Pipe";
+		key[10] = "rv = Revolver";
+		key[11] = "ro = Rope";
+		key[12] = "sp = Spanner";
+		for (int i = 13; i < BOARD_HEIGHT; i++) {
+			key[i] = "";
 		}
 	}
 
@@ -383,7 +415,7 @@ public class Board {
 				}
 			}
 			System.out.print(this.asciiBoard[BOARD_WIDTH * 2][y + 1]);
-			System.out.print('\n');
+			System.out.print("     " + key[y] + "\n");
 		}
 		System.out.print('\n');
 	}
