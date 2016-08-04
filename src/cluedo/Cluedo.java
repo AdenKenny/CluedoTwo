@@ -71,7 +71,7 @@ public class Cluedo {
 				// valid
 				// number of players.
 
-				System.out.println("Enter the number of human players: ");
+				System.out.println("Enter the number of players: ");
 
 				String tmp = in.nextLine();
 
@@ -115,7 +115,7 @@ public class Cluedo {
 		putCards();
 		dealHands();
 
-		while ((true == false) == (false == true)) { // Nice.
+		while (true) {
 			for (Player p : this.players) {
 				if (gameOver) {
 					return;
@@ -123,7 +123,7 @@ public class Cluedo {
 				int playersLeft = 0;
 				Player last = null;
 				for (Player pl : this.players) {
-					if (p.getStatus()) {
+					if (pl.getStatus()) {
 						playersLeft++;
 						last = pl;
 					}
@@ -188,61 +188,13 @@ public class Cluedo {
 		try {
 			in = new Scanner(System.in);
 
-			if (location instanceof Room) { //If the player is in the room they must guess.
-				System.out.println("Make an 'accusation' or 'suggestion', or 'hand' to view hand");
-
-				guessing: while (true) {
-					String type = in.nextLine();
-					if (type.equals("accusation")) {
-
-						Triplet guess = accusation(in);
-
-						if (guess.equalsTriplet(this.murderInfo)) { // Guess was
-							// correct,
-							// player
-							// wins
-							// game.
-							System.out.println("Correct");
-							System.out.println(p.getUsername() + " won the game as they guessed correctly!");
-							gameOver = true;
-							return;
-						}
-						System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
-						p.setStatus(false); //Set player to out of the game.
-						return;
-					}
-
-					else if (type.equals("suggestion")) { //Player is making a suggestion
-
-						Triplet suggestion = suggestion(in, p);
-						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); //Check refutations.
-
-						if (tempPair.getValue1()) { //If someone can refute.
-							System.out.println(tempPair.getValue2());
-							break guessing;
-						}
-
-						System.out.println("No one could refute this, you should have made this a guess...");
-						break guessing; //Player could have won if this was a guess.
-
-					}
-
-					else if (type.equals("hand")) {
-						System.out.println(p.handString());
-						continue;
-					}
-
-					else {
-						System.out.println("Unexpected entry. Please enter 'guess' or 'suggestion'");
-					}
-				}
-			}
+			boolean suggestionMade = false;
 
 			int dist = rollDice(); //The distance a player can move.
 			System.out.println(p.getUsername() + " rolled a " + dist);
 
-			System.out.println("Where would you like to move? 'help' for options");
-			while (dist > 0) { //Player still has moves left.
+			System.out.println("What would you like to do? 'help' for options");
+			while (true) { //Player still has moves left.
 				location = token.getLocation();
 				Map<String, Location> adjacent = location.getAdjacent(); //Get adjacent locations.
 				String instruction = in.nextLine();
@@ -252,6 +204,8 @@ public class Cluedo {
 					System.out.println("Example: 'up 4'");
 					System.out.println("'adjacent' for instructions for moving into and out of rooms, if possible.");
 					System.out.println("'hand' to view hand");
+					System.out.println("'suggestion' to make a suggestion.");
+					System.out.println("'accusation' to make accusation.");
 					System.out.println("'end turn'");
 					continue;
 				}
@@ -260,6 +214,40 @@ public class Cluedo {
 					for (String key : adjacent.keySet()) {
 						System.out.println(key);
 					}
+					continue;
+				}
+				if (instruction.equals("accusation")) {
+					Triplet guess = accusation(in);
+
+					if (guess.equalsTriplet(this.murderInfo)) { // Accusation was correct, player wins game.
+						System.out.println("Correct");
+						System.out.println(p.getUsername() + " won the game as they guessed correctly!");
+						gameOver = true;
+						return;
+					}
+					System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
+					p.setStatus(false); //Set player to out of the game.
+					return;
+				}
+				if (instruction.equals("suggestion")) {
+					if (suggestionMade) {
+						System.out.println("You have already made a suggestion this turn.");
+						continue;
+					}
+					if (!(location instanceof Room)) {
+						System.out.println("You must be in a room to make a suggestion.");
+						continue;
+					}
+					Triplet suggestion = suggestion(in, p);
+					Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); //Check refutations.
+
+					if (tempPair.getValue1()) { //If someone can refute.
+						System.out.println(tempPair.getValue2());
+					}
+					else {
+						System.out.println("No one could refute this.");
+					}
+					suggestionMade = true;
 					continue;
 				}
 				if (instruction.equals("hand")) {
@@ -271,10 +259,18 @@ public class Cluedo {
 				}
 				Location toMove = adjacent.get(instruction);
 				if (toMove != null) {
+					if (dist == 0) {
+						System.out.println("You can't move any further this turn");
+						continue;
+					}
 					toMove.addToken(token);
+					--dist;
 					this.board.draw(); //Redraw board.
+					System.out.println("You can move up to " + dist + " more.");
 					continue;
 				}
+					
+					
 				String[] split = instruction.split(" ");
 				if (split.length != 2) {
 					System.out.println("Unexpected entry. Please try again, or 'help' for options");
@@ -300,13 +296,17 @@ public class Cluedo {
 						System.out.println("Unexpected entry. Please try again, or 'help' for options");
 						continue;
 					}
-					if (instrDist <= dist && this.board.moveToken(token, xDir, yDir, instrDist)) {
+					if (instrDist > dist) {
+						System.out.println("You can't move that far.");
+						continue;
+					}
+					if (this.board.moveToken(token, xDir, yDir, instrDist)) {
 						dist -= instrDist;
 						this.board.draw();
 						System.out.println("You can move up to " + dist + " more.");
-					} else {
-						System.out.println("Illegal Move");
+						continue;
 					}
+					System.out.println("Illegal Move");
 				}
 
 				catch (NumberFormatException e) {
@@ -352,17 +352,17 @@ public class Cluedo {
 			System.out.println("That isn't a weapon.");
 		}
 
-		System.out.println("Weapon:");
+		System.out.println("Room:");
 
 		String roomSuggest;
 		Room: while (true) {
 			roomSuggest = in.nextLine();
-			for (String r : board.getRooms().keySet()) {
-				if (r.equals(roomSuggest)) {
+			for (Room r : board.getRooms().values()) {
+				if (r.getName().equals(roomSuggest)) {
 					break Room;
 				}
 			}
-			System.out.println("That isn't a weapon.");
+			System.out.println("That isn't a room.");
 		}
 
 		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
@@ -388,7 +388,7 @@ public class Cluedo {
 			personSuggest = in.nextLine();
 			for (Token t : allTokens) {
 				if (t.getName().equals(personSuggest)) {
-					t.move(room);
+					room.addToken(t);
 					break Person;
 				}
 			}
