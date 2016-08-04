@@ -38,6 +38,8 @@ public class Cluedo {
 
 	private Map<String, String> displayChars;
 
+	private boolean gameOver;
+
 	public Cluedo() {
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
@@ -127,7 +129,23 @@ public class Cluedo {
 
 		while ((true == false) == (false == true)) { // Nice.
 			for (Player p : this.players) {
-
+				if (gameOver) {
+					return;
+				}
+				int left = 0;
+				for (Player pl : this.players) {
+					if (pl.getStatus()) {
+						left++;
+					}
+				}
+				if (left == 1) {
+					for (Player pl : this.players) {
+						if (pl.getStatus()) {
+							System.out.println(p.getUsername()+" wins as all others are out!");
+							return;
+						}
+					}
+				}
 				if (p.getStatus()) {
 					doTurn(p);
 				}
@@ -173,11 +191,16 @@ public class Cluedo {
 							// game.
 							System.out.println("Correct");
 							System.out.println(p.getUsername() + " won the game as they guessed correctly!");
+<<<<<<< HEAD
 							return;
+=======
+							gameOver = true;
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 						}
 						this.players.remove(p); // Player is removed from
 												// active players.
 
+<<<<<<< HEAD
 						System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
 						p.setStatus(false); //Set player to out of the game.
 
@@ -198,6 +221,13 @@ public class Cluedo {
 						}
 
 						else {
+=======
+						else { // Guess was incorrect, player loses game.
+
+
+							System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
+							p.setStatus(false);
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 							return;
 						}
 					}
@@ -284,8 +314,8 @@ public class Cluedo {
 					}
 					if (instrDist <= dist && this.board.moveToken(token, xDir, yDir, instrDist)) {
 						dist -= instrDist;
-						System.out.println("You can move up to " + dist + " more.");
 						this.board.draw();
+						System.out.println("You can move up to " + dist + " more.");
 					} else {
 						System.out.println("Illegal Move");
 					}
@@ -314,14 +344,51 @@ public class Cluedo {
 	 * @return - A triplet based on the info from the scanner.
 	 */
 
+<<<<<<< HEAD
 	private Triplet createTriplet(Scanner in, Player p) {
+=======
+	public Triplet createTriplet(Scanner in, Player p) {
 
-		String person = in.nextLine();
-		String weapon = in.nextLine();
+		System.out.println("Person:");
 
+		String personSuggest;
+		Card person;
+		Person: while (true) {
+			personSuggest = in.nextLine();
+			person = new Card(personSuggest);
+			for (Card c : this.setOfCharacters) {
+				if (c.equals(person)) {
+					break Person;
+				}
+			}
+			System.out.println("That isn't a person.");
+		}
+
+		System.out.println("Weapon:");
+
+		String weaponSuggest;
+		Card weapon;
+		Weapon: while (true) {
+			weaponSuggest = in.nextLine();
+			weapon = new Card(weaponSuggest);
+			for (Card c : this.setOfWeapons) {
+				if (c.equals(weapon)) {
+					break Weapon;
+				}
+			}
+			System.out.println("That isn't a weapon.");
+		}
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
+
+		String roomSuggest = ((Room) p.getToken().getLocation()).getName();
+
+<<<<<<< HEAD
 		Room r = (Room) p.getToken().getLocation(); //Safe cast.
+=======
+		System.out.println(personSuggest + " with a " + " in the " + roomSuggest);
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 
-		return new Triplet(new Card(person), new Card(weapon), new Card(r.getName()));
+		return new Triplet(person, weapon, new Card(roomSuggest));
 	}
 
 	/**
@@ -518,7 +585,7 @@ public class Cluedo {
 	 */
 
 	public int rollDice() {
-		return (int) (Math.random() * 12 + 1);
+		return rollDice6() + rollDice6();
 	}
 
 	/**
