@@ -341,9 +341,13 @@ public class Cluedo {
 			System.out.println("That isn't a weapon.");
 		}
 
-		String roomSuggest = ((Room) p.getToken().getLocation()).getName();
+		Room room = (Room) p.getToken().getLocation();
+
+		String roomSuggest = room.getName();
 
 		System.out.println(personSuggest + " with a " + " in the " + roomSuggest);
+
+
 
 		return new Triplet(person, weapon, new Card(roomSuggest));
 	}
@@ -479,8 +483,6 @@ public class Cluedo {
 	 * @return newPlayer - A setup player that will be added to the set of
 	 *         players in the game.
 	 */
-
-	// TODO Base starting location off of unique position for each token.
 	public Player setupPlayer(int playerNumb) { // Does this need to take an
 		// arg?
 
