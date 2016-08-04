@@ -17,7 +17,6 @@ public class Board {
 
 	private Square[][] boardSquares;
 	private Map<String, Room> rooms; //Set of the rooms on the board.
-	private Map<String, Square> startingLocations; //Map of character names to locations.
 
 	private char[][] asciiBoard;
 
@@ -75,7 +74,6 @@ public class Board {
 		roomSetup();
 		addRoomAccess();
 		asciiBoardSetup();
-		startingLocationSetup();
 	}
 
 	/**
@@ -329,21 +327,6 @@ public class Board {
 	}
 
 	/**
-	 * Each character has a unique starting location, this method assigns this
-	 * locations to the token representing a character.
-	 */
-
-	private void startingLocationSetup() {
-		this.startingLocations = new HashMap<>();
-		this.startingLocations.put("Mrs White", this.boardSquares[9][0]);
-		this.startingLocations.put("Reverend Green", this.boardSquares[14][0]);
-		this.startingLocations.put("Mrs Peacock", this.boardSquares[23][6]);
-		this.startingLocations.put("Professor Plum", this.boardSquares[23][19]);
-		this.startingLocations.put("Miss Scarlett", this.boardSquares[7][24]);
-		this.startingLocations.put("Colonel Mustard", this.boardSquares[0][17]);
-	}
-
-	/**
 	 * Gets the player at a given location.
 	 * @param x - An int representing the location on the x axis.
 	 * @param y - An int representing the location on the y axis.
@@ -366,6 +349,10 @@ public class Board {
 			return '0';
 		}
 		return this.boardStrings[y].charAt(x);
+	}
+
+	public Square getSquare(int x, int y) {
+		return this.boardSquares[x][y];
 	}
 
 	public void draw() {
@@ -399,10 +386,6 @@ public class Board {
 			System.out.print('\n');
 		}
 		System.out.print('\n');
-	}
-
-	public Location getStartingLocation(String name) {
-		return this.startingLocations.get(name);
 	}
 
 	public void addToken(Token t, int x, int y) {
