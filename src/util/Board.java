@@ -152,30 +152,30 @@ public class Board {
 	}
 
 	private void addRoomAccess() {
-		this.boardSquares[4][7].addAdjacent("Kitchen", rooms.get("k"));
+		this.boardSquares[4][7].addAdjacent("Kitchen", this.rooms.get("k"));
 
-		this.boardSquares[7][5].addAdjacent("Ball Room", rooms.get("b"));
-		this.boardSquares[9][8].addAdjacent("Ball Room", rooms.get("b"));
-		this.boardSquares[14][8].addAdjacent("Ball Room", rooms.get("b"));
+		this.boardSquares[7][5].addAdjacent("Ball Room", this.rooms.get("b"));
+		this.boardSquares[9][8].addAdjacent("Ball Room", this.rooms.get("b"));
+		this.boardSquares[14][8].addAdjacent("Ball Room", this.rooms.get("b"));
 
-		this.boardSquares[18][5].addAdjacent("Conservatory", rooms.get("c"));
+		this.boardSquares[18][5].addAdjacent("Conservatory", this.rooms.get("c"));
 
-		this.boardSquares[8][12].addAdjacent("Dining Room", rooms.get("d"));
-		this.boardSquares[6][16].addAdjacent("Dining Room", rooms.get("d"));
+		this.boardSquares[8][12].addAdjacent("Dining Room", this.rooms.get("d"));
+		this.boardSquares[6][16].addAdjacent("Dining Room", this.rooms.get("d"));
 
-		this.boardSquares[17][9].addAdjacent("Billiard Room", rooms.get("i"));
-		this.boardSquares[22][13].addAdjacent("Billiard Room", rooms.get("i"));
+		this.boardSquares[17][9].addAdjacent("Billiard Room", this.rooms.get("i"));
+		this.boardSquares[22][13].addAdjacent("Billiard Room", this.rooms.get("i"));
 
-		this.boardSquares[20][13].addAdjacent("Library", rooms.get("l"));
-		this.boardSquares[16][16].addAdjacent("Library", rooms.get("l"));
+		this.boardSquares[20][13].addAdjacent("Library", this.rooms.get("l"));
+		this.boardSquares[16][16].addAdjacent("Library", this.rooms.get("l"));
 
-		this.boardSquares[6][18].addAdjacent("Lounge", rooms.get("o"));
+		this.boardSquares[6][18].addAdjacent("Lounge", this.rooms.get("o"));
 
-		this.boardSquares[11][17].addAdjacent("Hall", rooms.get("h"));
-		this.boardSquares[12][17].addAdjacent("Hall", rooms.get("h"));
-		this.boardSquares[15][20].addAdjacent("Hall", rooms.get("h"));
+		this.boardSquares[11][17].addAdjacent("Hall", this.rooms.get("h"));
+		this.boardSquares[12][17].addAdjacent("Hall", this.rooms.get("h"));
+		this.boardSquares[15][20].addAdjacent("Hall", this.rooms.get("h"));
 
-		this.boardSquares[17][20].addAdjacent("Study", rooms.get("s"));
+		this.boardSquares[17][20].addAdjacent("Study", this.rooms.get("s"));
 	}
 
 	private void asciiBoardSetup() {
@@ -329,13 +329,13 @@ public class Board {
 	}
 
 	private void startingLocationSetup() {
-		startingLocations = new HashMap<>();
-		startingLocations.put("Mrs White", boardSquares[9][0]);
-		startingLocations.put("Reverend Green", boardSquares[14][0]);
-		startingLocations.put("Mrs Peacock", boardSquares[23][6]);
-		startingLocations.put("Professor Plum", boardSquares[23][19]);
-		startingLocations.put("Miss Scarlett", boardSquares[7][24]);
-		startingLocations.put("Colonel Mustard", boardSquares[0][17]);
+		this.startingLocations = new HashMap<>();
+		this.startingLocations.put("Mrs White", this.boardSquares[9][0]);
+		this.startingLocations.put("Reverend Green", this.boardSquares[14][0]);
+		this.startingLocations.put("Mrs Peacock", this.boardSquares[23][6]);
+		this.startingLocations.put("Professor Plum", this.boardSquares[23][19]);
+		this.startingLocations.put("Miss Scarlett", this.boardSquares[7][24]);
+		this.startingLocations.put("Colonel Mustard", this.boardSquares[0][17]);
 	}
 
 	private String characterAt(int x, int y) {
@@ -369,7 +369,7 @@ public class Board {
 					System.out.print(character);
 				}
 				else if ((Character.isLetter(c) && Character.toLowerCase(c) == c)) {
-					String characters = rooms.get(Character.toString(c)).getDisplay();
+					String characters = this.rooms.get(Character.toString(c)).getDisplay();
 					if (characters != null) {
 						System.out.print(characters);
 						x += characters.length() / 2 - 1;
@@ -390,11 +390,11 @@ public class Board {
 	}
 
 	public Location getStartingLocation(String name) {
-		return startingLocations.get(name);
+		return this.startingLocations.get(name);
 	}
 
 	public void addToken(Token t, int x, int y) {
-		boardSquares[x][y].addToken(t);
+		this.boardSquares[x][y].addToken(t);
 	}
 
 	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
@@ -404,9 +404,9 @@ public class Board {
 		}
 		for (int x = 0; x < BOARD_WIDTH; x++) {
 			for (int y = 0; y < BOARD_HEIGHT; y++) {
-				if (boardSquares[x][y] == location) {
+				if (this.boardSquares[x][y] == location) {
 					if (checkDir(x, y, xDir, yDir, dist)) {
-						boardSquares[x + xDir * dist][y + yDir * dist].addToken(t);
+						this.boardSquares[x + xDir * dist][y + yDir * dist].addToken(t);
 						return true;
 					}
 					return false;
@@ -417,13 +417,13 @@ public class Board {
 	}
 
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
-		if (boardSquares[x][y] == null) {
+		if (this.boardSquares[x][y] == null) {
 			return false;
 		}
 		if (dist > 0) {
 			return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
 		}
-		if (boardSquares[x][y].getNumbTokens() == 0){
+		if (this.boardSquares[x][y].getNumbTokens() == 0){
 			return true;
 		}
 		return false;

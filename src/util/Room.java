@@ -27,11 +27,11 @@ public class Room extends Location{
 	}
 	
 	public String getDisplay() {
-		if (tokens.isEmpty()) {
+		if (this.tokens.isEmpty()) {
 			return null;
 		}
 		String display = "";
-		for (Token t : tokens) {
+		for (Token t : this.tokens) {
 			display += t.getDisplay();
 		}
 		return display;

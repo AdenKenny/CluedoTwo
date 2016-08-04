@@ -15,7 +15,6 @@ import util.Room;
 import util.Token;
 import util.Triplet;
 
-
 /**
  * A class containing the main game logic including setting up the game and then
  * playing the game.
@@ -29,13 +28,13 @@ public class Cluedo {
 	private Board board; // The game board.
 	private List<Player> players; // List containing the players in the game.
 	private Set<String> charNames; // Set containing the names of the characters
-									// in the game.
+	// in the game.
 
 	private Set<Card> setOfRooms; // Used for creating the triplet.
 	private Set<Card> setOfWeapons;
 	private Set<Card> setOfCharacters;
 
-	private Set<Card> allCards; //All cards, used for dealing.
+	private Set<Card> allCards; // All cards, used for dealing.
 
 	private Map<String, String> displayChars;
 
@@ -57,15 +56,16 @@ public class Cluedo {
 
 		Scanner in = null;
 
-
 		try {
 
 			in = new Scanner(System.in);
 
 			int numbPlayers = 0;
 
-			while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do eventually get a valid
-										// number of players.
+			while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do
+				// eventually get a
+				// valid
+				// number of players.
 
 				System.out.println("Enter the number of human players: ");
 
@@ -75,21 +75,23 @@ public class Cluedo {
 					numbPlayers = Integer.parseInt(tmp); // Try to parse to int.
 				}
 
-				catch (NumberFormatException e) { // If input is not convertable to
-													// an int. Invalid input.
+				catch (NumberFormatException e) { // If input is not convertable
+					// to
+					// an int. Invalid input.
 					System.out.println("This is not a valid number of players");
 				}
 
 				if (numbPlayers > 6 || numbPlayers < 0) {
 					System.out.println("This is not a valid number of players, needs to be between 3-6");
-					numbPlayers = 0; //Go back to top of while loop.
+					numbPlayers = 0; // Go back to top of while loop.
 				}
 
 			}
 
 			for (int i = 0; i < numbPlayers; i++) { // Loop through number of
-													// players setting them up.
-				this.players.add(setupPlayer(i)); // Add the new player to the set
+				// players setting them up.
+				this.players.add(setupPlayer(i)); // Add the new player to the
+				// set
 				// of players.
 			}
 
@@ -100,9 +102,10 @@ public class Cluedo {
 			e.printStackTrace();
 		}
 
-		List<Player> temp = doStartRolls(this.players); //Get the player with the highest roll.
-		List<Player> temp2 = new ArrayList<>(); //Temp array.
-		for(Player p : this.players) {
+		List<Player> temp = doStartRolls(this.players); // Get the player with
+		// the highest roll.
+		List<Player> temp2 = new ArrayList<>(); // Temp array.
+		for (Player p : this.players) {
 			temp2.add(p);
 		}
 
@@ -111,8 +114,8 @@ public class Cluedo {
 		Player s = temp.get(0);
 		this.players.add(s);
 
-		for(Player p : temp2) {
-			if(!p.equals(s)) {
+		for (Player p : temp2) {
+			if (!p.equals(s)) {
 				this.players.add(p);
 			}
 		}
@@ -120,21 +123,26 @@ public class Cluedo {
 		putCards();
 		dealHands();
 
+		System.out.println(this.murderInfo.toString());
 
-
-		while ((true == false) == (false == true)) {
+		while ((true == false) == (false == true)) { // Nice.
 			for (Player p : this.players) {
-				doTurn(p);
+
+				if (p.getStatus()) {
+					doTurn(p);
+				}
+
 			}
 		}
 
 	}
 
 	/**
-	 * A method doing a player's turn. Is passed a player then does
-	 * their dice roll, moving and if applicable, it does their suggestions.
+	 * A method doing a player's turn. Is passed a player then does their dice
+	 * roll, moving and if applicable, it does their suggestions.
 	 *
-	 * @param p - The player who's turn will be completed.
+	 * @param p
+	 *            - The player who's turn will be completed.
 	 */
 
 	public void doTurn(Player p) {
@@ -154,16 +162,53 @@ public class Cluedo {
 				while (true) {
 					String type = in.nextLine();
 					if (type.equals("guess")) {
-						String person = in.next();
-						String weapon = in.next();
-						String room = in.next();
 
-						System.out.println(person + weapon + room);
+						Triplet guess = createTriplet(in);
+
+						if (guess.equalsTriplet(this.murderInfo)) { // Guess was
+							// correct,
+							// player
+							// wins
+							// game.
+							System.out.println("Correct");
+							System.out.println(p.getUsername() + " won the game as they guessed correctly!");
+							in.next();
+							System.exit(1);
+						}
+
+						else { // Guess was incorrect, player loses game.
+							this.players.remove(p); // Player is removed from active players.
+
+
+							System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
+
+							if(this.players.size() == 1) {
+
+									Player winner = null;
+
+									for (Player temp : this.players) {
+										winner = temp;
+									}
+
+									assert (winner != null);
+									System.out.println(winner.getUsername() + " wins the game as they're the last player left!");
+									in.next();
+									System.exit(1);
+
+								}
+
+							else {
+								return;
+							}
+						}
 					}
+
 					else if (type.equals("suggestion")) {
-						//do suggestion
-						break;
+						Triplet suggestion = createTriplet(in);
+
+
 					}
+
 					else {
 						System.out.println("Unexpected entry. Please enter 'guess' or 'suggestion'");
 					}
@@ -216,17 +261,13 @@ public class Cluedo {
 					int yDir = 0;
 					if (split[0].equals("left")) {
 						xDir = -1;
-					}
-					else if (split[0].equals("right")) {
+					} else if (split[0].equals("right")) {
 						xDir = 1;
-					}
-					else if (split[0].equals("up")) {
+					} else if (split[0].equals("up")) {
 						yDir = -1;
-					}
-					else if (split[0].equals("down")) {
+					} else if (split[0].equals("down")) {
 						yDir = 1;
-					}
-					else {
+					} else {
 						System.out.println("Unexpected entry. Please try again, or 'help' for options");
 						continue;
 					}
@@ -234,24 +275,32 @@ public class Cluedo {
 						dist -= instrDist;
 						System.out.println("You can move up to " + dist + " more.");
 						this.board.draw();
-					}
-					else {
+					} else {
 						System.out.println("Illegal Move");
 					}
 				}
 
-				catch (NumberFormatException e){
-
+				catch (NumberFormatException e) {
+					System.out.println("This isn't a valid move thing.");
+					continue;
 				}
-
 
 			}
 
-		}
-		catch(RuntimeException e) {
+		} catch (RuntimeException e) {
 			System.out.println(e);
 		}
 
+	}
+
+	public Triplet createTriplet(Scanner in) {
+
+
+		String person = in.nextLine();
+		String weapon = in.nextLine();
+		String room = in.nextLine();
+
+		return new Triplet(new Card(person), new Card(weapon), new Card(room));
 	}
 
 	/**
@@ -261,22 +310,22 @@ public class Cluedo {
 
 	public void putCards() {
 
-		for(Card c : this.setOfCharacters) {
+		for (Card c : this.setOfCharacters) {
 			this.allCards.add(c);
 		}
 
-		for(Card c : this.setOfWeapons) {
+		for (Card c : this.setOfWeapons) {
 			this.allCards.add(c);
 		}
 
-		for(Card c : this.setOfRooms) {
+		for (Card c : this.setOfRooms) {
 			this.allCards.add(c);
 		}
 	}
 
 	/**
-	 * Deals the remaining cards to the hands of the players in the game.
-	 * Each player will receive (18 / n) cards where n is the number of players.
+	 * Deals the remaining cards to the hands of the players in the game. Each
+	 * player will receive (18 / n) cards where n is the number of players.
 	 */
 
 	public void dealHands() {
@@ -284,10 +333,10 @@ public class Cluedo {
 		int numbPlayers = this.players.size();
 		int playerNumb = 0;
 
-		for(Card c : this.allCards) {
+		for (Card c : this.allCards) {
 			++playerNumb;
 
-			if(playerNumb == numbPlayers) {
+			if (playerNumb == numbPlayers) {
 				playerNumb = 0;
 			}
 
@@ -301,46 +350,50 @@ public class Cluedo {
 	/**
 	 * Returns the player with the highest roll to see who starts.
 	 *
-	 * @param temp - List of players we're iterating through.
+	 * @param temp
+	 *            - List of players we're iterating through.
 	 * @return - A list containing the player with the highest roll.
 	 */
 
 	public List<Player> doStartRolls(List<Player> temp) {
 
 		List<Player> list = new ArrayList<>();
-		for(Player p : temp) {
+		for (Player p : temp) {
 			list.add(p);
 		}
 
-		int numbPlayers = list.size(); //Number of players in game.
-		List<Pair<Integer, Player>> arr = new ArrayList<>(); //ArrayList to store players in temp.
+		int numbPlayers = list.size(); // Number of players in game.
+		List<Pair<Integer, Player>> arr = new ArrayList<>(); // ArrayList to
+		// store players
+		// in temp.
 
 		for (int i = 0; i < numbPlayers; i++) {
 			Player p = list.get(i);
-			int roll = rollDice(); //Roll the players starting number.
+			int roll = rollDice(); // Roll the players starting number.
 			System.out.println(p.getUsername() + " rolled a: " + roll);
-			arr.add(new Pair<>(roll, p)); //Add player and their roll to a list.
+			arr.add(new Pair<>(roll, p)); // Add player and their roll to a
+			// list.
 		}
 
 		List<Pair<Integer, Player>> tempArr = new ArrayList<>();
 		tempArr.add(new Pair<>(0, null));
-		for(int i = 0; i < numbPlayers; i++) {
+		for (int i = 0; i < numbPlayers; i++) {
 			int max = tempArr.get(0).getValue1();
 			int tempRoll = arr.get(i).getValue1();
 
-			if(tempRoll == max) { //Check for duplicate rolls.
+			if (tempRoll == max) { // Check for duplicate rolls.
 				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
 			}
 
-			else if(tempRoll > max) {
+			else if (tempRoll > max) {
 				max = tempRoll;
 				tempArr.clear();
 				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
 			}
 
-			if(tempArr.size() > 1) {
+			if (tempArr.size() > 1) {
 				list.clear();
-				for(int j = 0; j < tempArr.size(); j++) {
+				for (int j = 0; j < tempArr.size(); j++) {
 					Player p = tempArr.get(i).getValue2();
 					list.add(p);
 				}
@@ -372,7 +425,6 @@ public class Cluedo {
 		return map;
 	}
 
-
 	/**
 	 * Sets up a human player and adds it to the set of players to be passed to
 	 * the board when the game is setup.
@@ -385,7 +437,7 @@ public class Cluedo {
 
 	// TODO Base starting location off of unique position for each token.
 	public Player setupPlayer(int playerNumb) { // Does this need to take an
-												// arg?
+		// arg?
 
 		Scanner in = null;
 
@@ -397,10 +449,11 @@ public class Cluedo {
 
 			String charName = null;
 
-			while(!this.charNames.contains(charName)) {
+			while (!this.charNames.contains(charName)) {
 
-				for (Player p : this.players) { // Make sure the chosen username is
-												// unique.
+				for (Player p : this.players) { // Make sure the chosen username
+					// is
+					// unique.
 					if (p.getUsername().equals(username)) {
 						System.out.println("This username has already been taken");
 						setupPlayer(playerNumb); // Try again.
@@ -411,18 +464,20 @@ public class Cluedo {
 
 				charName = in.nextLine();
 
-				if (!this.charNames.contains(charName)) { // Invalid character, either
-															// doesn't exist
-															// or already taken.
+				if (!this.charNames.contains(charName)) { // Invalid character,
+					// either
+					// doesn't exist
+					// or already taken.
 					System.out.println("This is not a valid character");
 				}
 			}
 
-			this.charNames.remove(charName); // Remove this character as a pickable
-												// character.
+			this.charNames.remove(charName); // Remove this character as a
+			// pickable
+			// character.
 
-
-			Token token = new Token(charName, this.board.getStartingLocation(charName), true, this.displayChars.get(charName));
+			Token token = new Token(charName, this.board.getStartingLocation(charName), true,
+					this.displayChars.get(charName));
 
 			return (new Player(username, token)); // Return the new character.
 		}
@@ -431,10 +486,6 @@ public class Cluedo {
 			e.printStackTrace();
 			return null;
 		}
-
-
-
-
 
 	}
 
@@ -469,8 +520,8 @@ public class Cluedo {
 
 	private Set<String> createCharStrings() {
 		Set<String> temp = new HashSet<>(); // This could be another type of set
-											// to keep
-											// the ordering of characters.
+		// to keep
+		// the ordering of characters.
 		temp.add("Miss Scarlett");
 		temp.add("Professor Plum");
 		temp.add("Mrs Peacock");
@@ -529,7 +580,7 @@ public class Cluedo {
 		Set<Card> temp = new HashSet<>();
 
 		temp.add(new Card("Kitchen"));
-		temp.add(new Card("Ballroom"));
+		temp.add(new Card("Ball Room"));
 		temp.add(new Card("Conservatory"));
 		temp.add(new Card("Billiard Room"));
 		temp.add(new Card("Library"));
@@ -550,57 +601,58 @@ public class Cluedo {
 
 	private Triplet doMurder() {
 
+		int randChar = (int) (Math.random() * this.setOfCharacters.size());
+		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
+		// array.
+		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
+		// array.
+		Card charCard = arrOfCards[randChar]; // Get card at random position.
+		this.setOfCharacters.remove(charCard);
 
-			int randChar = (int) (Math.random() * this.setOfCharacters.size());
-			Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
-																		// array.
-			this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
-														// array.
-			Card charCard = arrOfCards[randChar]; // Get card at random position.
-			this.setOfCharacters.remove(charCard);
+		int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
+		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
+		this.setOfWeapons.toArray(arrOfWeapons);
+		Card weaponCard = arrOfWeapons[randWeapon];
+		this.setOfWeapons.remove(weaponCard);
 
-			int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
-			Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
-			this.setOfWeapons.toArray(arrOfWeapons);
-			Card weaponCard = arrOfWeapons[randWeapon];
-			this.setOfWeapons.remove(weaponCard);
+		int randRoom = (int) (Math.random() * this.setOfRooms.size());
+		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
+		this.setOfRooms.toArray(arrOfRooms);
+		Card roomCard = arrOfRooms[randRoom];
+		this.setOfRooms.remove(roomCard);
 
-			int randRoom = (int) (Math.random() * this.setOfRooms.size());
-			Card[] arrOfRooms = new Card[this.setOfRooms.size()];
-			this.setOfRooms.toArray(arrOfRooms);
-			Card roomCard = arrOfRooms[randRoom];
-			this.setOfRooms.remove(roomCard);
+		this.setOfCharacters.remove(roomCard); // Remove selected
+		this.setOfWeapons.remove(weaponCard);
+		this.setOfRooms.remove(roomCard);
 
-
-			this.setOfCharacters.remove(roomCard); // Remove selected
-			this.setOfWeapons.remove(weaponCard);
-			this.setOfRooms.remove(roomCard);
-
-			return (new Triplet(charCard, weaponCard, roomCard)); // Return the new
-																	// random
-																	// triplet.
-
+		return (new Triplet(charCard, weaponCard, roomCard)); // Return the new
+		// random
+		// triplet.
 
 	}
 
 	/**
-	 * Checks to see if a suggestion is correct when compared to the murder info.
-	 * Checks to see if the player's hand contains a card in the suggestion.
-	 * Then checks to see if any player can refute the suggestion.
+	 * Checks to see if a suggestion is correct when compared to the murder
+	 * info. Checks to see if the player's hand contains a card in the
+	 * suggestion. Then checks to see if any player can refute the suggestion.
 	 *
-	 * @param suggestion The suggestion to check.
-	 * @param player The player who made the suggestion.
+	 * @param suggestion
+	 *            The suggestion to check.
+	 * @param player
+	 *            The player who made the suggestion.
 	 * @return A boolean based on if the suggestion was correct or not.
 	 */
 
 	public Pair<Boolean, String> checkSuggestion(Triplet suggestion, Player player) {
 
-		if(suggestion.equalsTriplet(this.murderInfo)) { //This was the correct guess.
+		if (suggestion.equalsTriplet(this.murderInfo)) { // This was the correct
+			// guess.
 			return new Pair<>(true, "This was the correct suggestion.");
 		}
 
-		if(suggestion.containsPlayer(player)) { //Check to see if player hand contains a
-												//card in the triplet.
+		if (suggestion.containsPlayer(player)) { // Check to see if player hand
+			// contains a
+			// card in the triplet.
 			return new Pair<>(false, "You cannot guess a card that's in your hand.");
 		}
 

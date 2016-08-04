@@ -67,11 +67,11 @@ public class Token {
 	}
 
 	public String getDisplay() {
-		return display;
+		return this.display;
 	}
 	
 	public boolean isCharacter() {
-		return isCharacter;
+		return this.isCharacter;
 	}
 
 
