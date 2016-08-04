@@ -36,7 +36,7 @@ public class Cluedo {
 
 	private Set<Card> allCards; // All cards, used for dealing.
 
-	private Map<String, String> displayChars;
+	private Set<Token> allTokens;
 
 	private boolean gameOver;
 
@@ -45,14 +45,16 @@ public class Cluedo {
 		this.allCards = new HashSet<>();
 		this.charNames = createCharStrings(); // Populate set with characters.
 
-		this.displayChars = createDisplayMap();
-
 		this.setOfRooms = createRooms();
 		this.setOfWeapons = createWeapons();
 		this.setOfCharacters = createCharacters();
 
-		this.murderInfo = doMurder(); // Create triplet of murder info.
+
 		this.board = new Board();
+
+		tokensSetup();
+
+		this.murderInfo = doMurder(); // Create triplet of murder info.
 
 		this.board.draw();
 
@@ -155,6 +157,17 @@ public class Cluedo {
 
 	}
 
+	private void tokensSetup() {
+		this.allTokens = new HashSet<>();
+
+		this.allTokens.add(new Token("Miss Scarlett", board.getSquare(7, 24), true, "MS"));
+		this.allTokens.add(new Token("Professor Plum", board.getSquare(23, 19), true, "PP"));
+		this.allTokens.add(new Token("Mrs Peacock", board.getSquare(23, 6), true, "MP"));
+		this.allTokens.add(new Token("Reverend Green", board.getSquare(14, 0), true, "RG"));
+		this.allTokens.add(new Token("Colonel Mustard", board.getSquare(0, 17), true, "CM"));
+		this.allTokens.add(new Token("Mrs White", board.getSquare(9, 0), true, "MW"));
+	}
+
 	/**
 	 * A method doing a player's turn. Is passed a player then does their dice
 	 * roll, moving and if applicable, it does their suggestions.
@@ -191,45 +204,12 @@ public class Cluedo {
 							// game.
 							System.out.println("Correct");
 							System.out.println(p.getUsername() + " won the game as they guessed correctly!");
-<<<<<<< HEAD
-							return;
-=======
 							gameOver = true;
->>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
+							return;
 						}
-						this.players.remove(p); // Player is removed from
-												// active players.
-
-<<<<<<< HEAD
 						System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
 						p.setStatus(false); //Set player to out of the game.
-
-						if (this.players.size() == 1) { //One player left in the game.
-
-							Player winner = null;
-
-							for (Player temp : this.players) { //Find the winner of the game.
-								winner = temp;
-							}
-
-							assert (winner != null);
-							System.out.println(
-									winner.getUsername() + " wins the game as they're the last player left!");
-							in.next();
-							System.exit(1);
-
-						}
-
-						else {
-=======
-						else { // Guess was incorrect, player loses game.
-
-
-							System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
-							p.setStatus(false);
->>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
-							return;
-						}
+						return;
 					}
 
 					else if (type.equals("suggestion")) { //Player is making a suggestion
@@ -344,9 +324,7 @@ public class Cluedo {
 	 * @return - A triplet based on the info from the scanner.
 	 */
 
-<<<<<<< HEAD
-	private Triplet createTriplet(Scanner in, Player p) {
-=======
+
 	public Triplet createTriplet(Scanner in, Player p) {
 
 		System.out.println("Person:");
@@ -378,19 +356,17 @@ public class Cluedo {
 			}
 			System.out.println("That isn't a weapon.");
 		}
->>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 
 		Room room = (Room) p.getToken().getLocation();
-
 		String roomSuggest = room.getName();
 
-<<<<<<< HEAD
-		Room r = (Room) p.getToken().getLocation(); //Safe cast.
-=======
 		System.out.println(personSuggest + " with a " + " in the " + roomSuggest);
->>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 
-
+		for (Token t : allTokens) {
+			if (t.getName().equals(personSuggest) || t.getName().equals(weaponSuggest)) {
+				t.move(room);
+			}
+		}
 
 		return new Triplet(person, weapon, new Card(roomSuggest));
 	}
@@ -502,22 +478,6 @@ public class Cluedo {
 	}
 
 	/**
-	 * Creates a map of character names to the letter displayed on the board.
-	 *
-	 * @return Map<String, String>
-	 */
-	public Map<String, String> createDisplayMap() {
-		Map<String, String> map = new HashMap<>();
-		map.put("Miss Scarlett", "MS");
-		map.put("Professor Plum", "PP");
-		map.put("Mrs Peacock", "MP");
-		map.put("Reverend Green", "RG");
-		map.put("Colonel Mustard", "CM");
-		map.put("Mrs White", "MW");
-		return map;
-	}
-
-	/**
 	 * Sets up a human player and adds it to the set of players to be passed to
 	 * the board when the game is setup.
 	 *
@@ -566,8 +526,13 @@ public class Cluedo {
 			// pickable
 			// character.
 
-			Token token = new Token(charName, this.board.getStartingLocation(charName), true,
-					this.displayChars.get(charName));
+			Token token = null;
+
+			for (Token t : this.allTokens) {
+				if (t.getName().equals(charName)) {
+					token = t;
+				}
+			}
 
 			return (new Player(username, token)); // Return the new character.
 		}
