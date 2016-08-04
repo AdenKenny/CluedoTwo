@@ -11,7 +11,7 @@ import cluedo.Cluedo;
 public class StartingTest {
 
 	@Test
-	public void testNames() {
+	public void testEntertainment() {
 		Cluedo game = new Cluedo();
 		System.out.println("Was the game fun?");
 		String reply = "";
