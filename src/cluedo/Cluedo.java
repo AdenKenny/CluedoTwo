@@ -159,11 +159,13 @@ public class Cluedo {
 
 			if (location instanceof Room) {
 				System.out.println("'guess' or 'suggestion'");
+
+				guessing:
 				while (true) {
 					String type = in.nextLine();
 					if (type.equals("guess")) {
 
-						Triplet guess = createTriplet(in);
+						Triplet guess = createTriplet(in, p);
 
 						if (guess.equalsTriplet(this.murderInfo)) { // Guess was
 							// correct,
@@ -181,6 +183,7 @@ public class Cluedo {
 
 
 							System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
+							p.setStatus(false);
 
 							if(this.players.size() == 1) {
 
@@ -204,7 +207,22 @@ public class Cluedo {
 					}
 
 					else if (type.equals("suggestion")) {
-						Triplet suggestion = createTriplet(in);
+
+						System.out.println(this.murderInfo.toString());
+
+						Triplet suggestion = createTriplet(in, p);
+						System.out.println(suggestion.toString());
+						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players);
+
+						if(tempPair.getValue1()) {
+							System.out.println(tempPair.getValue2());
+							break guessing;
+						}
+
+						else {
+							System.out.println("No one could refute this, you should have made this a guess...");
+							break guessing;
+						}
 
 
 					}
@@ -293,14 +311,15 @@ public class Cluedo {
 
 	}
 
-	public Triplet createTriplet(Scanner in) {
+	public Triplet createTriplet(Scanner in, Player p) {
 
 
 		String person = in.nextLine();
 		String weapon = in.nextLine();
-		String room = in.nextLine();
 
-		return new Triplet(new Card(person), new Card(weapon), new Card(room));
+		Room r = (Room) p.getToken().getLocation();
+
+		return new Triplet(new Card(person), new Card(weapon), new Card(r.getName()));
 	}
 
 	/**

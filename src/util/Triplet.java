@@ -37,10 +37,12 @@ public class Triplet {
 				String tmp = player.getUsername() + " refuted " + this.person.getName() + ".";
 				return new Pair<>(true, tmp);
 			}
+
 			if (player.checkHand(this.weapon)) {
 				String tmp = player.getUsername() + " refuted " + this.weapon.getName() + ".";
 				return new Pair<>(true, tmp);
 			}
+
 			if (player.checkHand(this.room)) {
 				String tmp = player.getUsername() + " refuted " + this.room.getName() + ".";
 				return new Pair<>(true, tmp);
