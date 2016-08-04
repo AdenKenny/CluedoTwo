@@ -360,13 +360,15 @@ public class Cluedo {
 		Room room = (Room) p.getToken().getLocation();
 		String roomSuggest = room.getName();
 
-		System.out.println(personSuggest + " with a " + " in the " + roomSuggest);
-
 		for (Token t : allTokens) {
 			if (t.getName().equals(personSuggest) || t.getName().equals(weaponSuggest)) {
 				t.move(room);
 			}
 		}
+
+		board.draw();
+
+		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
 
 		return new Triplet(person, weapon, new Card(roomSuggest));
 	}
