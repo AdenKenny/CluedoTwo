@@ -55,13 +55,13 @@ public class Cluedo {
 
 		this.board.draw();
 
-		Scanner in = null; 
+		Scanner in = null;
 
-		
+
 		try {
-			
+
 			in = new Scanner(System.in);
-			
+
 			int numbPlayers = 0;
 
 			while (numbPlayers == 0 || numbPlayers > 6) { // Make sure we do eventually get a valid
@@ -95,7 +95,7 @@ public class Cluedo {
 
 			this.board.draw();
 		}
-		
+
 		catch (RuntimeException e) {
 			e.printStackTrace();
 		}
@@ -117,17 +117,17 @@ public class Cluedo {
 			}
 		}
 
-		putCards();		
+		putCards();
 		dealHands();
-		
-		
-		
+
+
+
 		while ((true == false) == (false == true)) {
 			for (Player p : this.players) {
 				doTurn(p);
 			}
 		}
-	
+
 	}
 
 	/**
@@ -139,20 +139,20 @@ public class Cluedo {
 
 	public void doTurn(Player p) {
 		System.out.println(p.getUsername() + "'s turn.");
-		
+
 		Token token = p.getToken();
-		
+
 		Location location = token.getLocation();
-		
+
 		Scanner in = null;
-		
+
 		try {
 			in = new Scanner(System.in);
-			
+
 			if (location instanceof Room) {
 				System.out.println("'guess' or 'suggestion'");
 				while (true) {
-					String type = in.next();
+					String type = in.nextLine();
 					if (type.equals("guess")) {
 						//do guess
 						break;
@@ -169,7 +169,7 @@ public class Cluedo {
 
 			int dist = rollDice();
 			System.out.println("You rolled a " + dist);
-			
+
 			System.out.println("Where would you like to move? 'help' for options");
 			while (dist > 0) {
 				location = token.getLocation();
@@ -177,6 +177,16 @@ public class Cluedo {
 				String instruction = in.nextLine();
 				if (instruction.equals("help")) {
 					System.out.println("enter the direction you want to move in followed by the distance you to move.");
+					System.out.println("'left', 'right', 'up' or 'down'");
+					System.out.println("Example: 'up 4'");
+					System.out.println("'adjacent' for instructions for moving into and out of rooms, if possible.");
+					continue;
+				}
+				if (instruction.equals("adjacent")) {
+					System.out.println("Enter one of the following:");
+					for (String key : adjacent.keySet()) {
+						System.out.println(key);
+					}
 					continue;
 				}
 				if (instruction.equals("end turn")) {
@@ -194,6 +204,10 @@ public class Cluedo {
 					continue;
 				}
 				int instrDist = Integer.parseInt(split[1]);
+				if (instrDist < 1) {
+					System.out.println("Distance must be greater than 0");
+					continue;
+				}
 				int xDir = 0;
 				int yDir = 0;
 				if (split[0].equals("left")) {
@@ -203,7 +217,7 @@ public class Cluedo {
 					xDir = 1;
 				}
 				else if (split[0].equals("up")) {
-					yDir = -1;		
+					yDir = -1;
 				}
 				else if (split[0].equals("down")) {
 					yDir = 1;
@@ -221,7 +235,7 @@ public class Cluedo {
 					System.out.println("Illegal Move");
 				}
 			}
-			
+
 		}
 		catch(RuntimeException e) {
 			System.out.println(e);
@@ -233,9 +247,9 @@ public class Cluedo {
 	 * After the murder details have been done this puts all the cards into one
 	 * set ready to be dealt amongst the players.
 	 */
-	
+
 	public void putCards() {
-		
+
 		for(Card c : this.setOfCharacters) {
 			this.allCards.add(c);
 		}
@@ -253,24 +267,24 @@ public class Cluedo {
 	 * Deals the remaining cards to the hands of the players in the game.
 	 * Each player will receive (18 / n) cards where n is the number of players.
 	 */
-	
+
 	public void dealHands() {
 
 		int numbPlayers = this.players.size();
 		int playerNumb = 0;
-		
+
 		for(Card c : this.allCards) {
 			++playerNumb;
-			
+
 			if(playerNumb == numbPlayers) {
 				playerNumb = 0;
 			}
-			
+
 			Player p = this.players.get(playerNumb);
 			p.addCard(c);
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -333,7 +347,7 @@ public class Cluedo {
 
 	/**
 	 * Creates a map of character names to the letter displayed on the board.
-	 * 
+	 *
 	 * @return Map<String, String>
 	 */
 	public Map<String, String> createDisplayMap() {
@@ -363,17 +377,17 @@ public class Cluedo {
 												// arg?
 
 		Scanner in = null;
-		
+
 		try {
 			in = new Scanner(System.in);
 			System.out.println("Enter your username:");
 
 			String username = in.nextLine();
-			
+
 			String charName = null;
-			
-			while(!this.charNames.contains(charName)) {	
-	
+
+			while(!this.charNames.contains(charName)) {
+
 				for (Player p : this.players) { // Make sure the chosen username is
 												// unique.
 					if (p.getUsername().equals(username)) {
@@ -381,18 +395,18 @@ public class Cluedo {
 						setupPlayer(playerNumb); // Try again.
 					}
 				}
-	
+
 				System.out.println("Select a character: ");
-	
+
 				charName = in.nextLine();
-	
+
 				if (!this.charNames.contains(charName)) { // Invalid character, either
 															// doesn't exist
 															// or already taken.
 					System.out.println("This is not a valid character");
 				}
 			}
-				
+
 			this.charNames.remove(charName); // Remove this character as a pickable
 												// character.
 
@@ -401,15 +415,15 @@ public class Cluedo {
 
 			return (new Player(username, token)); // Return the new character.
 		}
-		
+
 		catch (RuntimeException e) {
 			e.printStackTrace();
 			return null;
 		}
-		
-	
-		
-		
+
+
+
+
 
 	}
 

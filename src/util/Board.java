@@ -18,7 +18,7 @@ public class Board {
 	private Square[][] boardSquares;
 	private Map<String, Room> rooms; //Set of the rooms on the board.
 	private Map<String, Square> startingLocations; //Map of character names to locations.
-	
+
 	private char[][] asciiBoard;
 
 	/**
@@ -95,54 +95,54 @@ public class Board {
 			}
 		}
 	}
-	
+
 	private void roomSetup() {
 		this.rooms = new HashMap<>();
-		
+
 		Map<String, Location> adjacent = new HashMap<>();
 		adjacent.put("down", this.boardSquares[4][7]);
 		Room kitchen = new Room("Kitchen", adjacent);
 		this.rooms.put("k", kitchen);
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("left", this.boardSquares[7][5]);
 		adjacent.put("down left", this.boardSquares[9][8]);
 		adjacent.put("down right", this.boardSquares[14][8]);
 		this.rooms.put("b", new Room("Ball Room", adjacent));
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("down", this.boardSquares[18][5]);
 		Room conservatory = new Room("Conservatory", adjacent);
 		this.rooms.put("c", conservatory);
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("right", this.boardSquares[8][12]);
 		adjacent.put("down", this.boardSquares[6][16]);
 		this.rooms.put("d", new Room("Dining Room", adjacent));
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("left", this.boardSquares[17][9]);
 		adjacent.put("down", this.boardSquares[22][13]);
 		this.rooms.put("i", new Room("Billiard Room", adjacent));
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[20][13]);
 		adjacent.put("left", this.boardSquares[16][16]);
 		this.rooms.put("l", new Room("Library", adjacent));
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[6][18]);
 		adjacent.put("Conservatory", conservatory);
 		Room lounge = new Room("Lounge", adjacent);
 		conservatory.addAdjacent("Lounge", lounge);
 		this.rooms.put("o", lounge);
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("up left", this.boardSquares[11][17]);
 		adjacent.put("up right", this.boardSquares[12][17]);
 		adjacent.put("right", this.boardSquares[15][20]);
 		this.rooms.put("h", new Room("Hall", adjacent));
-		
+
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[17][20]);
 		adjacent.put("Kitchen", kitchen);
@@ -150,34 +150,34 @@ public class Board {
 		kitchen.addAdjacent("Study", study);
 		this.rooms.put("s", study);
 	}
-	
+
 	private void addRoomAccess() {
 		this.boardSquares[4][7].addAdjacent("Kitchen", rooms.get("k"));
-		
+
 		this.boardSquares[7][5].addAdjacent("Ball Room", rooms.get("b"));
 		this.boardSquares[9][8].addAdjacent("Ball Room", rooms.get("b"));
 		this.boardSquares[14][8].addAdjacent("Ball Room", rooms.get("b"));
-		
+
 		this.boardSquares[18][5].addAdjacent("Conservatory", rooms.get("c"));
-		
+
 		this.boardSquares[8][12].addAdjacent("Dining Room", rooms.get("d"));
 		this.boardSquares[6][16].addAdjacent("Dining Room", rooms.get("d"));
-		
+
 		this.boardSquares[17][9].addAdjacent("Billiard Room", rooms.get("i"));
 		this.boardSquares[22][13].addAdjacent("Billiard Room", rooms.get("i"));
-		
+
 		this.boardSquares[20][13].addAdjacent("Library", rooms.get("l"));
 		this.boardSquares[16][16].addAdjacent("Library", rooms.get("l"));
-		
+
 		this.boardSquares[6][18].addAdjacent("Lounge", rooms.get("o"));
-		
+
 		this.boardSquares[11][17].addAdjacent("Hall", rooms.get("h"));
 		this.boardSquares[12][17].addAdjacent("Hall", rooms.get("h"));
 		this.boardSquares[15][20].addAdjacent("Hall", rooms.get("h"));
-		
+
 		this.boardSquares[17][20].addAdjacent("Study", rooms.get("s"));
 	}
-	
+
 	private void asciiBoardSetup() {
 		this.asciiBoard = new char[2 * BOARD_WIDTH + 1][2 * BOARD_HEIGHT + 1];
 		for (int i = 0; i < BOARD_WIDTH; i++) {
@@ -321,13 +321,13 @@ public class Board {
 			}
 		}
 	}
-	
+
 	private void roomName(String name, int startX, int y) {
 		for (int i = 0; i < name.length(); i++) {
 			this.asciiBoard[startX + i][y] = name.charAt(i);
 		}
 	}
-	
+
 	private void startingLocationSetup() {
 		startingLocations = new HashMap<>();
 		startingLocations.put("Mrs White", boardSquares[9][0]);
@@ -372,7 +372,7 @@ public class Board {
 					String characters = rooms.get(Character.toString(c)).getDisplay();
 					if (characters != null) {
 						System.out.print(characters);
-						x += characters.length() / 2;
+						x += characters.length() / 2 - 1;
 					}
 					else {
 						System.out.print("  ");
@@ -388,15 +388,15 @@ public class Board {
 		}
 		System.out.print('\n');
 	}
-	
+
 	public Location getStartingLocation(String name) {
 		return startingLocations.get(name);
 	}
-	
+
 	public void addToken(Token t, int x, int y) {
 		boardSquares[x][y].addToken(t);
 	}
-	
+
 	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
 		Location location = t.getLocation();
 		if (location instanceof Room) {
@@ -415,7 +415,7 @@ public class Board {
 		}
 		return false;
 	}
-	
+
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
 		if (boardSquares[x][y] == null) {
 			return false;
