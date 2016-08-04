@@ -35,7 +35,7 @@ public class Triplet {
 		for (Player player : players) {
 			if (player.checkHand(this.person)) {
 				String tmp = player.getUsername() + " refuted " + this.person.getName() + ".";
-				return new Pair<>(true, tmp);
+				return new Pair<>(true, tmp); //This was a wrong guess and someone can refute.
 			}
 
 			if (player.checkHand(this.weapon)) {
@@ -97,13 +97,31 @@ public class Triplet {
 	}
 
 
+	/**
+	 * Returns the person card in this triplet.
+	 *
+	 * @return - A card representing the person in this triplet.
+	 */
+
 	public Card getPerson() {
 		return this.person;
 	}
 
+	/**
+	 * Returns the weapon card in this triplet.
+	 *
+	 * @return - A card representing the weapon in this triplet.
+	 */
+
 	public Card getWeapon() {
 		return this.weapon;
 	}
+
+	/**
+	 * Returns the room card in this triplet.
+	 *
+	 * @return - A card representing the room in this triplet.
+	 */
 
 	public Card getRoom() {
 		return this.room;

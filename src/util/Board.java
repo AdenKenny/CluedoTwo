@@ -328,6 +328,11 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Each character has a unique starting location, this method assigns this
+	 * locations to the token representing a character.
+	 */
+
 	private void startingLocationSetup() {
 		this.startingLocations = new HashMap<>();
 		this.startingLocations.put("Mrs White", this.boardSquares[9][0]);
@@ -337,6 +342,13 @@ public class Board {
 		this.startingLocations.put("Miss Scarlett", this.boardSquares[7][24]);
 		this.startingLocations.put("Colonel Mustard", this.boardSquares[0][17]);
 	}
+
+	/**
+	 * Gets the player at a given location.
+	 * @param x - An int representing the location on the x axis.
+	 * @param y - An int representing the location on the y axis.
+	 * @return - returns a string representing a character at the location, if there is a player there.
+	 */
 
 	private String characterAt(int x, int y) {
 		Location location = this.boardSquares[x][y];

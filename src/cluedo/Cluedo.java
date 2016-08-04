@@ -168,18 +168,17 @@ public class Cluedo {
 
 		Token token = p.getToken();
 
-		Location location = token.getLocation();
+		Location location = token.getLocation(); //Get the location of the player.
 
 		Scanner in = null;
 
 		try {
 			in = new Scanner(System.in);
 
-			if (location instanceof Room) {
+			if (location instanceof Room) { //If the player is in the room they must guess.
 				System.out.println("'guess' or 'suggestion'");
 
-				guessing:
-				while (true) {
+				guessing: while (true) {
 					String type = in.nextLine();
 					if (type.equals("guess")) {
 
@@ -192,36 +191,62 @@ public class Cluedo {
 							// game.
 							System.out.println("Correct");
 							System.out.println(p.getUsername() + " won the game as they guessed correctly!");
+<<<<<<< HEAD
+							return;
+=======
 							gameOver = true;
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
+						}
+						this.players.remove(p); // Player is removed from
+												// active players.
+
+<<<<<<< HEAD
+						System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
+						p.setStatus(false); //Set player to out of the game.
+
+						if (this.players.size() == 1) { //One player left in the game.
+
+							Player winner = null;
+
+							for (Player temp : this.players) { //Find the winner of the game.
+								winner = temp;
+							}
+
+							assert (winner != null);
+							System.out.println(
+									winner.getUsername() + " wins the game as they're the last player left!");
+							in.next();
+							System.exit(1);
+
 						}
 
+						else {
+=======
 						else { // Guess was incorrect, player loses game.
 
 
 							System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
 							p.setStatus(false);
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 							return;
 						}
 					}
 
-					else if (type.equals("suggestion")) {
+					else if (type.equals("suggestion")) { //Player is making a suggestion
 
 						System.out.println(this.murderInfo.toString());
 
 						Triplet suggestion = createTriplet(in, p);
 						System.out.println(suggestion.toString());
-						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players);
+						Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); //Check refutations.
 
-						if(tempPair.getValue1()) {
+						if (tempPair.getValue1()) { //If someone can refute.
 							System.out.println(tempPair.getValue2());
 							break guessing;
 						}
 
-						else {
-							System.out.println("No one could refute this, you should have made this a guess...");
-							break guessing;
-						}
-
+						System.out.println("No one could refute this, you should have made this a guess...");
+						break guessing; //Player could have won if this was a guess.
 
 					}
 
@@ -231,13 +256,13 @@ public class Cluedo {
 				}
 			}
 
-			int dist = rollDice();
+			int dist = rollDice(); //The distance a player can move.
 			System.out.println("You rolled a " + dist);
 
 			System.out.println("Where would you like to move? 'help' for options");
-			while (dist > 0) {
+			while (dist > 0) { //Player still has moves left.
 				location = token.getLocation();
-				Map<String, Location> adjacent = location.getAdjacent();
+				Map<String, Location> adjacent = location.getAdjacent(); //Get adjacent locations.
 				String instruction = in.nextLine();
 				if (instruction.equals("help")) {
 					System.out.println("enter the direction you want to move in followed by the distance you to move.");
@@ -253,13 +278,13 @@ public class Cluedo {
 					}
 					continue;
 				}
-				if (instruction.equals("end turn")) {
+				if (instruction.equals("end turn")) { //Player doesn't want to move.
 					break;
 				}
 				Location toMove = adjacent.get(instruction);
 				if (toMove != null) {
 					toMove.addToken(token);
-					this.board.draw();
+					this.board.draw(); //Redraw board.
 					break;
 				}
 				String[] split = instruction.split(" ");
@@ -298,17 +323,30 @@ public class Cluedo {
 
 				catch (NumberFormatException e) {
 					System.out.println("This isn't a valid move thing.");
-					continue;
+					continue; //Generic error.
 				}
 
 			}
 
-		} catch (RuntimeException e) {
+		}
+
+		catch (RuntimeException e) {
 			System.out.println(e);
 		}
 
 	}
+	/**
+	 * Creates a triplet based on the player's guess. A player is required to be passed
+	 * as the room in the triplet is based on the player's current location.
+	 *
+	 * @param in - The scanner passed along, should be System.in()
+	 * @param p - The player who's guessing.
+	 * @return - A triplet based on the info from the scanner.
+	 */
 
+<<<<<<< HEAD
+	private Triplet createTriplet(Scanner in, Player p) {
+=======
 	public Triplet createTriplet(Scanner in, Player p) {
 
 		System.out.println("Person:");
@@ -340,12 +378,17 @@ public class Cluedo {
 			}
 			System.out.println("That isn't a weapon.");
 		}
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 
 		Room room = (Room) p.getToken().getLocation();
 
 		String roomSuggest = room.getName();
 
+<<<<<<< HEAD
+		Room r = (Room) p.getToken().getLocation(); //Safe cast.
+=======
 		System.out.println(personSuggest + " with a " + " in the " + roomSuggest);
+>>>>>>> e8b1afb11ebb5cb4cbe53efb21b8ea961c8a143b
 
 
 
@@ -425,16 +468,16 @@ public class Cluedo {
 		}
 
 		List<Pair<Integer, Player>> tempArr = new ArrayList<>();
-		tempArr.add(new Pair<>(0, null));
+		tempArr.add(new Pair<>(0, null)); //A pair in which a player and their roll is stored.
 		for (int i = 0; i < numbPlayers; i++) {
-			int max = tempArr.get(0).getValue1();
+			int max = tempArr.get(0).getValue1(); //The new max roll is the role from the player.
 			int tempRoll = arr.get(i).getValue1();
 
 			if (tempRoll == max) { // Check for duplicate rolls.
 				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
 			}
 
-			else if (tempRoll > max) {
+			else if (tempRoll > max) { //We have a new max roll.
 				max = tempRoll;
 				tempArr.clear();
 				tempArr.add(new Pair<>(tempRoll, arr.get(i).getValue2()));
@@ -447,7 +490,7 @@ public class Cluedo {
 					list.add(p);
 				}
 
-				doStartRolls(list);
+				doStartRolls(list); //List has more than 1 player, call until we get one player.
 			}
 
 			list.clear();

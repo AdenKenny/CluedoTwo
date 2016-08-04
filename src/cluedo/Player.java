@@ -9,7 +9,7 @@ import util.Token;
  * A class representing a player in the game. Stores information such as the cards in the player's
  * hand, the status of the player (Eliminated from the game or not), and the token which represents
  * the player on the board.
- * 
+ *
  * @author Aden Kenny and Simon Pope.
  */
 
@@ -22,7 +22,7 @@ public class Player {
 	/**
 	 * Creates a player object, takes the player's username and a token representing the character
 	 * they picked.
-	 * 
+	 *
 	 * @param username
 	 *            - A string representing the player's username.
 	 * @param personToken
@@ -39,7 +39,7 @@ public class Player {
 	/**
 	 * Returns true or false based on if the player is still participating in the game. i.e. the
 	 * player has not been eliminated from the game.
-	 * 
+	 *
 	 * @return - A boolean based on if the player has lost or not.
 	 */
 
@@ -47,9 +47,22 @@ public class Player {
 		return this.status;
 	}
 
+	/**
+	 * Returns the player's username, used for addressing the players and for
+	 * other player related methods.
+	 *
+	 * @return - A string representing this player's username.
+	 */
+
 	public String getUsername() {
 		return this.username;
 	}
+
+	/**
+	 * Returns a player's token, so related to their position on the board itself.
+	 *
+	 * @return - A token representing a player.
+	 */
 
 	public Token getToken() {
 		return this.personToken;
@@ -58,7 +71,7 @@ public class Player {
 	/**
 	 * Sets the player's game status, either in or out of the game. Called when a player loses the
 	 * game.
-	 * 
+	 *
 	 * @param status
 	 *            - The boolean that is passed to the method.
 	 */
@@ -69,7 +82,7 @@ public class Player {
 
 	/**
 	 * Adds a card to this player's hand.
-	 * 
+	 *
 	 * @param card
 	 *            - The card that is added.
 	 */
@@ -77,18 +90,30 @@ public class Player {
 	public void addCard(Card card) {
 		this.hand.add(card);
 	}
-	
+
+	/**
+	 * Returns a set of cards which are the cards in this player's hand.
+	 *
+	 * @return - The set of the player's hand.
+	 */
+
 	public Set<Card> getHand() {
 		return this.hand;
 	}
-	
+
+	/**
+	 * Returns the size of the set that represents the player's hand.
+	 *
+	 * @return - An int representing the size of the player's hand.
+	 */
+
 	public int getHandSize() {
 		return this.hand.size();
 	}
 
 	/**
 	 * Checks to see if the player's hand contains a card.
-	 * 
+	 *
 	 * @param other
 	 *            The card to be checked if the player's hand contains.
 	 * @return Boolean representing if the card is contained.
