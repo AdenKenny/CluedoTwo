@@ -14,10 +14,24 @@ public class Card {
 		this.name = name;
 	}
 
+	/**
+	 * Checks to see if this card equals another card. i.e. their names
+	 * are equal.
+	 *
+	 * @param card - The card which we are checking against.
+	 * @return - boolean, true or false if they're equal.
+	 */
+
 	public boolean equalsCard(Card card) {
 		return card.getName().equals(this.name);
 	}
 
+
+
+	/**
+	 * Returns the string representing the name of the card.
+	 * @return - String, the name field.
+	 */
 	public String getName() {
 		return this.name;
 	}
