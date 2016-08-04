@@ -69,7 +69,7 @@ public class Cluedo {
 
 				System.out.println("Enter the number of human players: ");
 
-				String tmp = in.next();
+				String tmp = in.nextLine();
 
 				try {
 					numbPlayers = Integer.parseInt(tmp); // Try to parse to int.
