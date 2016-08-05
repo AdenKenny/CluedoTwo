@@ -5,9 +5,9 @@ import java.util.List;
 import cluedo.Player;
 import items.Card;
 
+
 /**
- * A class representing a Person, a Weapon, and a Room. This makes up
- * a guess or a suggestion towards resolving the murder.
+ * A class representing a Person, a Weapon, and a Room. This makes up a guess or a suggestion towards resolving the murder.
  *
  * @author Aden Kenny and Simon Pope.
  */
@@ -27,7 +27,8 @@ public class Triplet {
 	/**
 	 * Checks the player's card to see if they can refute a guess.
 	 *
-	 * @param players - The set of players in the game.
+	 * @param players
+	 *            The set of players in the game.
 	 * @return A string representing the outcome of the refutation.
 	 */
 
@@ -35,7 +36,7 @@ public class Triplet {
 		for (Player player : players) {
 			if (player.checkHand(this.person)) {
 				String tmp = player.getUsername() + " refuted " + this.person.getName() + ".";
-				return new Pair<>(true, tmp); //This was a wrong guess and someone can refute.
+				return new Pair<>(true, tmp); // This was a wrong guess and someone can refute.
 			}
 
 			if (player.checkHand(this.weapon)) {
@@ -54,53 +55,52 @@ public class Triplet {
 
 	@Override
 	public String toString() {
-		return this.person.getName() + " with a " +
-		this.weapon.getName() + " in the " + this.room.getName() + ".";
+		return this.person.getName() + " with a " + this.weapon.getName() + " in the " + this.room.getName() + ".";
 	}
 
 	/**
 	 * Checks to see if the contents of one triplet equals another.
 	 *
-	 * @param other - The triplet to compare this to.
+	 * @param other
+	 *            The triplet to compare this to.
 	 * @return True or false based on the contents of the two triplets.
 	 */
 
 	public boolean equalsTriplet(Triplet other) {
-		return this.person.equals(other.getPerson())
-				&& this.weapon.equals(other.getWeapon())
+		return this.person.equals(other.getPerson()) && this.weapon.equals(other.getWeapon())
 				&& this.room.equals(other.getRoom());
 	}
 
 	/**
-	 * Checks to see if a player's hand contains any of the cards in this
-	 * triplet. Used to check if a player suggests a card that is in his hand.
+	 * Checks to see if a player's hand contains any of the cards in this triplet. Used to check if a player suggests a card that
+	 * is in his hand.
 	 *
-	 * @param player - The player who's hand will be checked.
+	 * @param player
+	 *            The player who's hand will be checked.
 	 * @return Boolean based on if the player holds a card in this triplet.
 	 */
 
 	public boolean containsPlayer(Player player) {
 
-		if(player.checkHand(this.person)) {
+		if (player.checkHand(this.person)) {
 			return true;
 		}
 
-		else if(player.checkHand(this.room)) {
+		else if (player.checkHand(this.room)) {
 			return true;
 		}
 
-		else if(player.checkHand(this.weapon)) {
+		else if (player.checkHand(this.weapon)) {
 			return true;
 		}
 
 		return false;
 	}
 
-
 	/**
 	 * Returns the person card in this triplet.
 	 *
-	 * @return - A card representing the person in this triplet.
+	 * @return A card representing the person in this triplet.
 	 */
 
 	public Card getPerson() {
@@ -110,7 +110,7 @@ public class Triplet {
 	/**
 	 * Returns the weapon card in this triplet.
 	 *
-	 * @return - A card representing the weapon in this triplet.
+	 * @return A card representing the weapon in this triplet.
 	 */
 
 	public Card getWeapon() {
@@ -149,17 +149,20 @@ public class Triplet {
 		if (this.person == null) {
 			if (other.person != null)
 				return false;
-		} else if (!this.person.equals(other.person))
+		}
+		else if (!this.person.equals(other.person))
 			return false;
 		if (this.room == null) {
 			if (other.room != null)
 				return false;
-		} else if (!this.room.equals(other.room))
+		}
+		else if (!this.room.equals(other.room))
 			return false;
 		if (this.weapon == null) {
 			if (other.weapon != null)
 				return false;
-		} else if (!this.weapon.equals(other.weapon))
+		}
+		else if (!this.weapon.equals(other.weapon))
 			return false;
 		return true;
 	}

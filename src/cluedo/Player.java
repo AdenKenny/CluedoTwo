@@ -6,28 +6,28 @@ import java.util.Set;
 import items.Card;
 import items.Token;
 
+
 /**
- * A class representing a player in the game. Stores information such as the cards in the player's
- * hand, the status of the player (Eliminated from the game or not), and the token which represents
- * the player on the board.
+ * A class representing a player in the game. Stores information such as the cards in the player's hand, the status of the player
+ * (eliminated from the game or not), and the token which represents the player on the board.
  *
  * @author Aden Kenny and Simon Pope.
  */
 
 public class Player {
+
 	private boolean status; // Hasn't been eliminated.
 	private String username;
 	private Token personToken;
 	private Set<Card> hand; // Represents a player's hand.
 
 	/**
-	 * Creates a player object, takes the player's username and a token representing the character
-	 * they picked.
+	 * Creates a player object, takes the player's username and a token representing the character they picked.
 	 *
 	 * @param username
-	 *            - A string representing the player's username.
+	 *            A string representing the player's username.
 	 * @param personToken
-	 *            - A token representing the character the player selected.
+	 *            A token representing the character the player selected.
 	 */
 
 	public Player(String username, Token personToken) {
@@ -38,10 +38,10 @@ public class Player {
 	}
 
 	/**
-	 * Returns true or false based on if the player is still participating in the game. i.e. the
-	 * player has not been eliminated from the game.
+	 * Returns true or false based on if the player is still participating in the game. i.e. the player has not been eliminated
+	 * from the game.
 	 *
-	 * @return - A boolean based on if the player has lost or not.
+	 * @return A boolean based on if the player has lost or not.
 	 */
 
 	public boolean getStatus() {
@@ -49,10 +49,9 @@ public class Player {
 	}
 
 	/**
-	 * Returns the player's username, used for addressing the players and for
-	 * other player related methods.
+	 * Returns the player's username, used for addressing the players and for other player related methods.
 	 *
-	 * @return - A string representing this player's username.
+	 * @return A string representing this player's username.
 	 */
 
 	public String getUsername() {
@@ -62,7 +61,7 @@ public class Player {
 	/**
 	 * Returns a player's token, so related to their position on the board itself.
 	 *
-	 * @return - A token representing a player.
+	 * @return A token representing a player.
 	 */
 
 	public Token getToken() {
@@ -70,11 +69,9 @@ public class Player {
 	}
 
 	/**
-	 * Sets the player's game status, either in or out of the game. Called when a player loses the
-	 * game.
+	 * Sets the player's game status, either in or out of the game. Called when a player loses the game.
 	 *
-	 * @param status
-	 *            - The boolean that is passed to the method.
+	 * @param status The boolean that is passed to the method.
 	 */
 
 	public void setStatus(boolean status) {
@@ -84,8 +81,7 @@ public class Player {
 	/**
 	 * Adds a card to this player's hand.
 	 *
-	 * @param card
-	 *            - The card that is added.
+	 * @param card The card that is to be added.
 	 */
 
 	public void addCard(Card card) {
@@ -95,8 +91,7 @@ public class Player {
 	/**
 	 * Checks to see if the player's hand contains a card.
 	 *
-	 * @param other
-	 *            - The card to be checked if the player's hand contains.
+	 * @param other The card to be checked if the player's hand contains.
 	 * @return Boolean representing if the card is contained.
 	 */
 
@@ -111,7 +106,8 @@ public class Player {
 
 	/**
 	 * Returns the hand of the player, with one card per line.
-	 * @return String
+	 *
+	 * @return A String representing the cards in a player's hand.
 	 */
 	public String handString() {
 		String handString = "";

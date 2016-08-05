@@ -28,25 +28,26 @@ public class Board {
 	private String[] key;
 
 	/**
-	0 = empty space
-	1 = square
-	2 = square next to door
-	3 = room
-	4 = room next to door
-	K = kitchen name
-	B = ball room name
-	C = conser- name
-	V = vatory name
-	D = dining name
-	R = room name
-	I = billiard name
-	L = library name
-	O = lounge name
-	H = hall name
-	S = study name
-	lower case letters are where characters are displayed in room.
-	They correspond to the uppercase letters used for names.
-	**/
+	 * 0 = empty space
+	 * 1 = square
+	 * 2 = square next to door
+	 * 3 = room
+	 * 4 = room next to door
+	 * K = kitchen name
+	 * B = ball room name
+	 * C = conser- name
+	 * V = vatory name
+	 * D = dining name
+	 * R = room name
+	 * I = billiard name
+	 * L = library name
+	 * O = lounge name
+	 * H = hall name
+	 * S = study name
+	 *
+	 * Lower case letters are where characters are displayed in room.
+	 * They correspond to the uppercase letters used for names.
+	 **/
 
 	String[] boardStrings = {
 			"000000000100001000000000",
@@ -90,6 +91,7 @@ public class Board {
 	 * and to, '2' represents a door into a room on a square (so the player can still
 	 * move to this square), and '3' represents a room.
 	 */
+
 	private void populateBoard() {
 		this.boardSquares = new Square[BOARD_WIDTH][BOARD_HEIGHT];
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
@@ -361,7 +363,7 @@ public class Board {
 	}
 
 	/**
-	 * set up the key displayed on the side of the board
+	 * Set up the key displayed on the side of the board.
 	 */
 	private void keySetup() {
 		this.key = new String[BOARD_HEIGHT];
@@ -384,10 +386,10 @@ public class Board {
 	}
 
 	/**
-	 * add the name of the room to the ascii char array
-	 * @param name - The name to write out
-	 * @param startX - the x index to write the first character
-	 * @param y - the y index to write out the characters
+	 * Add the name of the room to the ascii char array.
+	 * @param name The name to write out.
+	 * @param startX The x index to write the first character.
+	 * @param y The y index to write out the characters.
 	 */
 	private void roomName(String name, int startX, int y) {
 		for (int i = 0; i < name.length(); i++) {
@@ -397,9 +399,10 @@ public class Board {
 
 	/**
 	 * Gets the player at a given location.
-	 * @param x - An int representing the location on the x axis.
-	 * @param y - An int representing the location on the y axis.
-	 * @return - returns a string representing a character at the location, if there is a player there.
+	 *
+	 * @param x An int representing the location on the x axis.
+	 * @param y An int representing the location on the y axis.
+	 * @return Returns a string representing a character at the location, if there is a player there.
 	 */
 
 	private String characterAt(int x, int y) {
@@ -414,9 +417,9 @@ public class Board {
 	}
 
 	/**
-	 * Returns the character at a certain co-ordinate, 0 if out of bounds
-	 * @param x - xOrdinate
-	 * @param y - yOrdinate
+	 * Returns the character at a certain coordinate, 0 if out of bounds.
+	 * @param x The xOrdinate
+	 * @param y The yOrdinate
 	 * @return char
 	 */
 	private char boardChar(int x, int y) {
@@ -427,10 +430,10 @@ public class Board {
 	}
 
 	/**
-	 * Returns the square at a specified co-ordinate.
-	 * @param x - xOrdinate
-	 * @param y - yOrdinate
-	 * @return Square
+	 * Returns the square at a specified coordinate.
+	 * @param x The xOrdinate
+	 * @param y The yOrdinate
+	 * @return Square - The square at this coordinate.
 	 */
 	public Square getSquare(int x, int y) {
 		return this.boardSquares[x][y];
@@ -474,9 +477,9 @@ public class Board {
 
 	/**
 	 * Add a token to a place on the board.
-	 * @param t - Token to place
-	 * @param x - xOrdinate
-	 * @param y - yOrdinate
+	 * @param t Token to place
+	 * @param x The xOrdinate
+	 * @param y The yOrdinate
 	 */
 	public void addToken(Token t, int x, int y) {
 		this.boardSquares[x][y].addToken(t);
@@ -486,11 +489,11 @@ public class Board {
 	 * Checks if a move is legal. If it is, does the move and returns true
 	 * Otherwise, it does nothing and returns false.
 	 *
-	 * @param t - Token to move
-	 * @param xDir - direction in x axis
-	 * @param yDir - direction in y axis
-	 * @param dist - how far to move
-	 * @return true if move done, false if move illegal
+	 * @param t Token to move.
+	 * @param xDir Direction in x axis.
+	 * @param yDir Direction in y axis.
+	 * @param dist How far to move.
+	 * @return True if move was valid, false if move illegal.
 	 */
 	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
 		Location location = t.getLocation();
@@ -513,11 +516,11 @@ public class Board {
 
 	/**
 	 * Recursive function to check if a move in a direction is legal.
-	 * @param x - start xOrdinate
-	 * @param y - start yOrdinate
-	 * @param xDir - direction to move in x axis
-	 * @param yDir - direction to move in y axis
-	 * @param dist - how far to move
+	 * @param x The start xOrdinate.
+	 * @param y The start yOrdinate.
+	 * @param xDir The direction to move in x axis.
+	 * @param yDir The direction to move in y axis.
+	 * @param dist How far to move.
 	 * @return
 	 */
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
@@ -535,7 +538,7 @@ public class Board {
 
 	/**
 	 * Returns a map of Strings to Rooms.
-	 * @return
+	 * @return A Map of Strings to Rooms.
 	 */
 	public Map<String, Room> getRooms() {
 		return this.rooms;

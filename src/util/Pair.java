@@ -1,5 +1,14 @@
 package util;
 
+/**
+ * A class that holds a pair of generic objects. Used for utility purposes.
+ *
+ * @author Aden kenny and Simon Pope.
+ *
+ * @param <E> The first generic parameter.
+ * @param <T> The second generic parameter.
+ */
+
 public class Pair<E, T> {
 
 	private E value1;

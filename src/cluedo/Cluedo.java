@@ -72,7 +72,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * Setup the character and weapons tokens
+	 * Setup the character and weapons tokens.
 	 */
 	private void tokensSetup() {
 		this.allTokens = new HashSet<>();
@@ -108,8 +108,7 @@ public class Cluedo {
 	 * A method doing a player's turn. Is passed a player then does their dice roll, moving and if applicable, it does their
 	 * suggestions.
 	 *
-	 * @param p
-	 *            - The player who's turn will be completed.
+	 * @param p The player who's turn will be completed.
 	 */
 
 	@SuppressWarnings("unused")
@@ -287,6 +286,15 @@ public class Cluedo {
 
 	}
 
+	/**
+	 * Creates an accusation based on the user's input. Makes sure inputs are valid
+	 * i.e. when prompted for the weapon, that the input actually corresponds a
+	 * weapon.
+	 *
+	 * @param in The scanner which input will be read from (Probably System.in).
+	 * @return a Triplet with the user input values.
+	 */
+
 	private Triplet accusation(Scanner in) {
 		System.out.println("Person:");
 
@@ -307,7 +315,7 @@ public class Cluedo {
 		Weapon: while (true) {
 			weaponSuggest = in.nextLine();
 			for (Token t : this.allTokens) {
-				if (t.getName().equals(weaponSuggest)) {
+				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
 					break Weapon;
 				}
 			}
@@ -334,11 +342,9 @@ public class Cluedo {
 	 * Creates a triplet based on the player's guess. A player is required to be passed as the room in the triplet is based on the
 	 * player's current location.
 	 *
-	 * @param in
-	 *            - The scanner passed along, should be System.in()
-	 * @param p
-	 *            - The player who's guessing.
-	 * @return - A triplet based on the info from the scanner.
+	 * @param in The scanner passed along, should be System.in()
+	 * @param p The player who's guessing.
+	 * @return A triplet based on the info from the scanner.
 	 */
 
 	private Triplet suggestion(Scanner in, Player p) {
@@ -351,7 +357,7 @@ public class Cluedo {
 		Person: while (true) {
 			personSuggest = in.nextLine();
 			for (Token t : this.allTokens) {
-				if (t.getName().equals(personSuggest)) {
+				if (t.isCharacter() && t.getName().equals(personSuggest)) {
 					room.addToken(t);
 					break Person;
 				}
@@ -365,7 +371,7 @@ public class Cluedo {
 		Weapon: while (true) {
 			weaponSuggest = in.nextLine();
 			for (Token t : this.allTokens) {
-				if (t.getName().equals(weaponSuggest)) {
+				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
 					room.addToken(t);
 					break Weapon;
 				}
@@ -427,9 +433,8 @@ public class Cluedo {
 	/**
 	 * Returns the player with the highest roll to see who starts.
 	 *
-	 * @param temp
-	 *            - List of players we're iterating through.
-	 * @return - Player with the highest roll.
+	 * @param temp List of players we're iterating through.
+	 * @return Player with the highest roll.
 	 */
 
 	private Player doStartRolls(List<Player> temp) {
@@ -466,9 +471,8 @@ public class Cluedo {
 	/**
 	 * Sets up a human player and adds it to the set of players to be passed to the board when the game is setup.
 	 *
-	 * @param playerNumb
-	 *            - The number of the player to be setup.
-	 * @return newPlayer - A setup player that will be added to the set of players in the game.
+	 * @param playerNumb The number of the player to be setup.
+	 * @return newPlayer A setup player that will be added to the set of players in the game.
 	 */
 	private Player setupPlayer(int playerNumb) { // Does this need to take an
 		// arg?
@@ -644,6 +648,10 @@ public class Cluedo {
 
 	}
 
+	/**
+	 * Does the game logic.
+	 */
+
 	private void runGame() {
 		while (true) {
 			for (Player p : this.players) {
@@ -659,21 +667,12 @@ public class Cluedo {
 						last = pl;
 					}
 				}
-				// if this is a multiplayer game and only one player is left,
-				// they win
-				if (this.players.size() > 1 && playersLeft == 1) {
+				// if only one player is left, they win
+				if (playersLeft == 1) {
 					assert (last != null);
 					System.out.println(last.getUsername() + " won as everyone else is out.");
 					System.out.println("The murder was actually done by " + this.murderInfo);
 					System.out.println("It seems that detective work requires more competence than you lot have.");
-					return;
-				}
-				// if it's a single player game, and the person goes out, the
-				// game ends.
-				if (playersLeft == 0) {
-					System.out.println("Game over!");
-					System.out.println("The murder was actually done by " + this.murderInfo);
-					System.out.println("You have all of the cards in hand, except the murder. How did you get this wrong?");
 					return;
 				}
 				if (p.getStatus()) {
@@ -685,6 +684,12 @@ public class Cluedo {
 	}
 
 	@SuppressWarnings("unused")
+
+	/**
+	 * Gets the player details from the System.in. Then adds the player created from
+	 * these details into the game. Once all the players have been setup the board is drawn.
+	 */
+
 	private void setupPlayers() {
 		try {
 
@@ -693,7 +698,7 @@ public class Cluedo {
 			int numbPlayers = 0;
 
 			// Make sure we do eventually get a valid number of players.
-			while (numbPlayers == 0 || numbPlayers > 6) {
+			while (numbPlayers < 3 || numbPlayers > 6) {
 
 				System.out.println("Enter the number of players: ");
 
@@ -708,7 +713,7 @@ public class Cluedo {
 					System.out.println("This is not a valid number.");
 				}
 
-				if (numbPlayers > 6 || numbPlayers < 0) {
+				if (numbPlayers > 6 || numbPlayers < 3) {
 					System.out.println("This is not a valid number of players, needs to be between 3-6");
 					numbPlayers = 0; // Go back to top of while loop.
 				}

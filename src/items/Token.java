@@ -2,9 +2,9 @@ package items;
 
 import location.Location;
 
+
 /**
- * A class representing a Token on the board. A token is any item on the game board
- * such as a person or a weapon.
+ * A class representing a Token on the board. A token is any item on the game board such as a person or a weapon.
  *
  * @author Aden Kenny and Simon Pope.
  */
@@ -19,8 +19,10 @@ public class Token {
 	/**
 	 * The constructor takes the name of the token and the starting Location.
 	 *
-	 * @param name -  A string representing the name of the Token.
-	 * @param location - The starting Location of the Token.
+	 * @param name
+	 *            A string representing the name of the Token.
+	 * @param location
+	 *            The starting Location of the Token.
 	 */
 
 	public Token(String name, Location location, boolean isCharacter, String display) {
@@ -30,7 +32,7 @@ public class Token {
 		this.display = display;
 	}
 
-	//Getters and Setters.
+	// Getters and Setters.
 
 	public String getName() {
 		return this.name;
@@ -46,7 +48,9 @@ public class Token {
 
 	/**
 	 * Removes the token from the old location and set the token location.
-	 * @param location - the destination
+	 *
+	 * @param location
+	 *            The destination
 	 */
 	public void setLocation(Location location) {
 		if (this.location != null) {

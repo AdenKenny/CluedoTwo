@@ -4,14 +4,14 @@ import java.util.Map;
 
 import items.Token;
 
+
 /**
  * A class representing a room on the Cluedo board.
  *
  * @author Aden Kenny and Simon Pope.
- *
  */
 
-public class Room extends Location{
+public class Room extends Location {
 
 	private String name;
 
@@ -30,7 +30,8 @@ public class Room extends Location{
 
 	/**
 	 * Returns a string of the tokens in the room.
-	 * @return
+	 *
+	 * @return - A String representing the tokens in the room.
 	 */
 	public String getDisplay() {
 		if (this.tokens.isEmpty()) {
