@@ -97,6 +97,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Sets up all the rooms, including the secret passageways.
+	 */
 	private void roomSetup() {
 		this.rooms = new HashMap<>();
 
@@ -152,6 +155,9 @@ public class Board {
 		this.rooms.put("s", study);
 	}
 
+	/**
+	 * Adds the connections between the rooms and the squares outside the door.
+	 */
 	private void addRoomAccess() {
 		this.boardSquares[4][7].addAdjacent("Kitchen", this.rooms.get("k"));
 
@@ -179,8 +185,13 @@ public class Board {
 		this.boardSquares[17][20].addAdjacent("Study", this.rooms.get("s"));
 	}
 
+	/**
+	 * Reads the board strings and converts it into a 2d array of display characters.
+	 */
 	private void asciiBoardSetup() {
 		this.asciiBoard = new char[2 * BOARD_WIDTH + 1][2 * BOARD_HEIGHT + 1];
+
+		//add wall to top of house
 		for (int i = 0; i < BOARD_WIDTH; i++) {
 			if (this.boardStrings[0].charAt(i) == '0') {
 				this.asciiBoard[i * 2][0] = ' ';
@@ -191,16 +202,19 @@ public class Board {
 				this.asciiBoard[i * 2 + 1][0] = '_';
 			}
 		}
+
 		this.asciiBoard[2 * BOARD_WIDTH][0] = ' ';
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				char square = boardChar(x, y);
 				char left = boardChar(x - 1, y);
 				char down = boardChar(x, y + 1);
+				//lowercase letter, token in rooms are displayed here
 				if (Character.isLetter(square) && Character.toLowerCase(square) == square) {
 					this.asciiBoard[x * 2][y + 1] = square;
 					this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 				}
+				//if this is an empty space, i.e. not part of the gameboard
 				else if (square == '0') {
 					if (left == '0') {
 						this.asciiBoard[x * 2][y + 1] = ' ';
@@ -215,10 +229,12 @@ public class Board {
 						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
+				//normal square
 				else if (square == '1') {
 					this.asciiBoard[x * 2][y + 1] = '|';
 					this.asciiBoard[x * 2 + 1][y + 1] = '_';
 				}
+				//square which connects to room
 				else if (square == '2') {
 					if (left == '4') {
 						this.asciiBoard[x * 2][y + 1] = ':';
@@ -233,6 +249,7 @@ public class Board {
 						this.asciiBoard[x * 2 + 1][y + 1] = '_';
 					}
 				}
+				//normal room
 				else if (square == '3') {
 					if (left == '3' || left == '4' || left == '@' || (Character.isLetter(left) && Character.toLowerCase(left) == left)) {
 						this.asciiBoard[x * 2][y + 1] = ' ';
@@ -246,6 +263,7 @@ public class Board {
 						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
+				//room part which connects to a square (door)
 				else if (square == '4') {
 					if (left == '0' || left == '1') {
 						this.asciiBoard[x * 2][y + 1] = '|';
@@ -269,6 +287,7 @@ public class Board {
 						this.asciiBoard[x * 2 + 1][y + 1] = ' ';
 					}
 				}
+				//secret passageway
 				else if (square == '@') {
 					if (left == '0') {
 						this.asciiBoard[x * 2][y + 1] = '|';
@@ -278,6 +297,7 @@ public class Board {
 					}
 					this.asciiBoard[x * 2 + 1][y + 1] = '@';
 				}
+				//display names of rooms
 				else if (square == 'K') {
 					roomName(" KITCHEN", x * 2, y + 1);
 					x += 3;
@@ -323,6 +343,7 @@ public class Board {
 					x += 2;
 				}
 			}
+			//add wall to right side of house
 			if (this.boardStrings[y].charAt(BOARD_WIDTH - 1) != '0') {
 				this.asciiBoard[BOARD_WIDTH * 2][y + 1] = '|';
 			}

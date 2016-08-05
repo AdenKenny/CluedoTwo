@@ -128,6 +128,10 @@ public class Player {
 		return false; // Does not.
 	}
 
+	/**
+	 * Returns the hand of the player, with one card per line.
+	 * @return String
+	 */
 	public String handString() {
 		String handString = "";
 		for (Card c : hand) {
