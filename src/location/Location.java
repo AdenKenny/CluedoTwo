@@ -1,8 +1,10 @@
-package util;
+package location;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import items.Token;
 
 /**
  * An abstract class representing a location on the board. Both 'Room' and 'Square'

@@ -2,8 +2,8 @@ package util;
 
 import java.util.List;
 
-import cluedo.Card;
 import cluedo.Player;
+import items.Card;
 
 /**
  * A class representing a Person, a Weapon, and a Room. This makes up

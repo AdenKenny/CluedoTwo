@@ -1,4 +1,6 @@
-package util;
+package items;
+
+import location.Location;
 
 /**
  * A class representing a Token on the board. A token is any item on the game board

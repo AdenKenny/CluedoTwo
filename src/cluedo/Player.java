@@ -3,7 +3,8 @@ package cluedo;
 import java.util.HashSet;
 import java.util.Set;
 
-import util.Token;
+import items.Card;
+import items.Token;
 
 /**
  * A class representing a player in the game. Stores information such as the cards in the player's

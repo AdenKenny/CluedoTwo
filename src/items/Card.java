@@ -1,4 +1,4 @@
-package cluedo;
+package items;
 
 /**
  * A class representing a card that is held in a player's hand or in a triplet.

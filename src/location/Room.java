@@ -1,6 +1,8 @@
-package util;
+package location;
 
 import java.util.Map;
+
+import items.Token;
 
 /**
  * A class representing a room on the Cluedo board.

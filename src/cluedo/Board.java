@@ -1,7 +1,12 @@
-package util;
+package cluedo;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import items.Token;
+import location.Location;
+import location.Room;
+import location.Square;
 
 /**
  * A class representing the board on which the game of Cluedo is played on.

@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import util.Board;
-import util.Location;
+import items.Card;
+import items.Token;
+import location.Location;
+import location.Room;
 import util.Pair;
-import util.Room;
-import util.Token;
 import util.Triplet;
 
 /**
@@ -109,7 +109,8 @@ public class Cluedo {
 	 * A method doing a player's turn. Is passed a player then does their dice
 	 * roll, moving and if applicable, it does their suggestions.
 	 *
-	 * @param p - The player who's turn will be completed.
+	 * @param p
+	 *            - The player who's turn will be completed.
 	 */
 
 	private void doTurn(Player p) {
@@ -282,12 +283,6 @@ public class Cluedo {
 
 	}
 
-	/**
-	 * Make an accusation from texp input.
-	 *
-	 * @param in - the Scanner used for texp input
-	 * @return accusation Triplet
-	 */
 	private Triplet accusation(Scanner in) {
 		System.out.println("Person:");
 
@@ -461,10 +456,9 @@ public class Cluedo {
 
 		if (highRollers.size() == 1) {
 			return highRollers.get(0);
-		} else {
-			System.out.println("Draw! Highest rollers rolling again.");
-			return doStartRolls(highRollers);
 		}
+		System.out.println("Draw! Highest rollers rolling again.");
+		return doStartRolls(highRollers);
 	}
 
 	/**
@@ -701,6 +695,7 @@ public class Cluedo {
 				// if this is a multiplayer game and only one player is left,
 				// they win
 				if (players.size() > 1 && playersLeft == 1) {
+					assert(last != null);
 					System.out.println(last.getUsername() + " won as everyone else is out.");
 					System.out.println("The murder was actually done by " + murderInfo);
 					System.out.println("It seems that detective work requires more competence than you lot have.");
@@ -723,9 +718,6 @@ public class Cluedo {
 		}
 	}
 
-	/**
-	 * Setup all the players.
-	 */
 	private void setupPlayers() {
 		try {
 
