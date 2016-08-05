@@ -95,7 +95,7 @@ public class Player {
 	 * Checks to see if the player's hand contains a card.
 	 *
 	 * @param other
-	 *            The card to be checked if the player's hand contains.
+	 *            - The card to be checked if the player's hand contains.
 	 * @return Boolean representing if the card is contained.
 	 */
 

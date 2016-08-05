@@ -27,7 +27,7 @@ public class Triplet {
 	/**
 	 * Checks the player's card to see if they can refute a guess.
 	 *
-	 * @param players The set of players in the game.
+	 * @param players - The set of players in the game.
 	 * @return A string representing the outcome of the refutation.
 	 */
 
@@ -61,7 +61,7 @@ public class Triplet {
 	/**
 	 * Checks to see if the contents of one triplet equals another.
 	 *
-	 * @param other The triplet to compare this to.
+	 * @param other - The triplet to compare this to.
 	 * @return True or false based on the contents of the two triplets.
 	 */
 
@@ -75,7 +75,7 @@ public class Triplet {
 	 * Checks to see if a player's hand contains any of the cards in this
 	 * triplet. Used to check if a player suggests a card that is in his hand.
 	 *
-	 * @param player The player who's hand will be checked.
+	 * @param player - The player who's hand will be checked.
 	 * @return Boolean based on if the player holds a card in this triplet.
 	 */
 

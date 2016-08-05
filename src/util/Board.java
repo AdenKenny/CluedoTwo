@@ -20,7 +20,7 @@ public class Board {
 
 	private char[][] asciiBoard;
 
-	String[] key;
+	private String[] key;
 
 	/**
 	0 = empty space
@@ -355,7 +355,9 @@ public class Board {
 		}
 	}
 
-	//set up the key displayed on the side of the board
+	/**
+	 * set up the key displayed on the side of the board
+	 */
 	private void keySetup() {
 		key = new String[BOARD_HEIGHT];
 		key[0] = "MS = Miss Scarlett";
@@ -378,9 +380,9 @@ public class Board {
 
 	/**
 	 * add the name of the room to the ascii char array
-	 * @param name
-	 * @param startX
-	 * @param y
+	 * @param name - The name to write out
+	 * @param startX - the x index to write the first character
+	 * @param y - the y index to write out the characters
 	 */
 	private void roomName(String name, int startX, int y) {
 		for (int i = 0; i < name.length(); i++) {
@@ -408,8 +410,8 @@ public class Board {
 
 	/**
 	 * Returns the character at a certain co-ordinate, 0 if out of bounds
-	 * @param x
-	 * @param y
+	 * @param x - xOrdinate
+	 * @param y - yOrdinate
 	 * @return char
 	 */
 	private char boardChar(int x, int y) {
@@ -421,8 +423,8 @@ public class Board {
 
 	/**
 	 * Returns the square at a specified co-ordinate.
-	 * @param x
-	 * @param y
+	 * @param x - xOrdinate
+	 * @param y - yOrdinate
 	 * @return Square
 	 */
 	public Square getSquare(int x, int y) {
@@ -467,9 +469,9 @@ public class Board {
 
 	/**
 	 * Add a token to a place on the board.
-	 * @param t
-	 * @param x
-	 * @param y
+	 * @param t - Token to place
+	 * @param x - xOrdinate
+	 * @param y - yOrdinate
 	 */
 	public void addToken(Token t, int x, int y) {
 		this.boardSquares[x][y].addToken(t);
@@ -479,10 +481,10 @@ public class Board {
 	 * Checks if a move is legal. If it is, does the move and returns true
 	 * Otherwise, it does nothing and returns false.
 	 *
-	 * @param t
-	 * @param xDir
-	 * @param yDir
-	 * @param dist
+	 * @param t - Token to move
+	 * @param xDir - direction in x axis
+	 * @param yDir - direction in y axis
+	 * @param dist - how far to move
 	 * @return true if move done, false if move illegal
 	 */
 	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
@@ -506,11 +508,11 @@ public class Board {
 
 	/**
 	 * Recursive function to check if a move in a direction is legal.
-	 * @param x
-	 * @param y
-	 * @param xDir
-	 * @param yDir
-	 * @param dist
+	 * @param x - start xOrdinate
+	 * @param y - start yOrdinate
+	 * @param xDir - direction to move in x axis
+	 * @param yDir - direction to move in y axis
+	 * @param dist - how far to move
 	 * @return
 	 */
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {

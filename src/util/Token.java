@@ -9,16 +9,16 @@ package util;
 
 public class Token {
 
-	protected String name;
-	String display;
-	protected Location location;
-	protected boolean isCharacter;
+	private String name;
+	private String display;
+	private Location location;
+	private boolean isCharacter;
 
 	/**
 	 * The constructor takes the name of the token and the starting Location.
 	 *
-	 * @param name A string representing the name of the Token.
-	 * @param location The starting Location of the Token.
+	 * @param name -  A string representing the name of the Token.
+	 * @param location - The starting Location of the Token.
 	 */
 
 	public Token(String name, Location location, boolean isCharacter, String display) {
@@ -44,7 +44,7 @@ public class Token {
 
 	/**
 	 * Removes the token from the old location and set the token location.
-	 * @param location
+	 * @param location - the destination
 	 */
 	public void setLocation(Location location) {
 		if (this.location != null) {

@@ -109,8 +109,7 @@ public class Cluedo {
 	 * A method doing a player's turn. Is passed a player then does their dice
 	 * roll, moving and if applicable, it does their suggestions.
 	 *
-	 * @param p
-	 *            - The player who's turn will be completed.
+	 * @param p - The player who's turn will be completed.
 	 */
 
 	private void doTurn(Player p) {
@@ -283,6 +282,12 @@ public class Cluedo {
 
 	}
 
+	/**
+	 * Make an accusation from texp input.
+	 *
+	 * @param in - the Scanner used for texp input
+	 * @return accusation Triplet
+	 */
 	private Triplet accusation(Scanner in) {
 		System.out.println("Person:");
 
@@ -718,6 +723,9 @@ public class Cluedo {
 		}
 	}
 
+	/**
+	 * Setup all the players.
+	 */
 	private void setupPlayers() {
 		try {
 
