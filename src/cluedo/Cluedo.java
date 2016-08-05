@@ -15,9 +15,9 @@ import location.Room;
 import util.Pair;
 import util.Triplet;
 
+
 /**
- * A class containing the main game logic including setting up the game and then
- * playing the game.
+ * A class containing the main game logic including setting up the game and then playing the game.
  *
  * @author Aden Kenny and Simon Pope.
  */
@@ -35,7 +35,6 @@ public class Cluedo {
 	private Set<Card> setOfCharacters;
 
 	private Set<Card> allCards; // All cards, used for dealing.
-
 	private Set<Token> allTokens; // The character and weapon tokens
 
 	private boolean gameOver;
@@ -79,20 +78,20 @@ public class Cluedo {
 		this.allTokens = new HashSet<>();
 
 		// put characters in starting locations
-		this.allTokens.add(new Token("Miss Scarlett", board.getSquare(7, 24), true, "MS"));
-		this.allTokens.add(new Token("Professor Plum", board.getSquare(23, 19), true, "PP"));
-		this.allTokens.add(new Token("Mrs Peacock", board.getSquare(23, 6), true, "MP"));
-		this.allTokens.add(new Token("Reverend Green", board.getSquare(14, 0), true, "RG"));
-		this.allTokens.add(new Token("Colonel Mustard", board.getSquare(0, 17), true, "CM"));
-		this.allTokens.add(new Token("Mrs White", board.getSquare(9, 0), true, "MW"));
+		this.allTokens.add(new Token("Miss Scarlett", this.board.getSquare(7, 24), true, "MS"));
+		this.allTokens.add(new Token("Professor Plum", this.board.getSquare(23, 19), true, "PP"));
+		this.allTokens.add(new Token("Mrs Peacock", this.board.getSquare(23, 6), true, "MP"));
+		this.allTokens.add(new Token("Reverend Green", this.board.getSquare(14, 0), true, "RG"));
+		this.allTokens.add(new Token("Colonel Mustard", this.board.getSquare(0, 17), true, "CM"));
+		this.allTokens.add(new Token("Mrs White", this.board.getSquare(9, 0), true, "MW"));
 
-		List<Room> rooms = new ArrayList<Room>();
-		rooms.addAll(board.getRooms().values());
+		List<Room> rooms = new ArrayList<>();
+		rooms.addAll(this.board.getRooms().values());
 		Room[] weaponRooms = new Room[6];
 
 		// get 6 random rooms
 		for (int i = 0; i < 6; i++) {
-			int index = (int) Math.random() * (9 - i);
+			int index = (int) (Math.random() * (9 - i));
 			weaponRooms[i] = rooms.remove(index);
 		}
 
@@ -106,13 +105,14 @@ public class Cluedo {
 	}
 
 	/**
-	 * A method doing a player's turn. Is passed a player then does their dice
-	 * roll, moving and if applicable, it does their suggestions.
+	 * A method doing a player's turn. Is passed a player then does their dice roll, moving and if applicable, it does their
+	 * suggestions.
 	 *
 	 * @param p
 	 *            - The player who's turn will be completed.
 	 */
 
+	@SuppressWarnings("unused")
 	private void doTurn(Player p) {
 		System.out.println(p.getUsername() + "'s turn.");
 
@@ -172,7 +172,7 @@ public class Cluedo {
 																// game.
 						System.out.println("Correct");
 						System.out.println(p.getUsername() + " won the game as they guessed correctly!");
-						gameOver = true;
+						this.gameOver = true;
 						return;
 					}
 					System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
@@ -196,7 +196,8 @@ public class Cluedo {
 
 					if (tempPair.getValue1()) { // If someone can refute.
 						System.out.println(tempPair.getValue2());
-					} else {
+					}
+					else {
 						System.out.println("No one could refute this.");
 					}
 					suggestionMade = true;
@@ -210,8 +211,7 @@ public class Cluedo {
 				}
 
 				// end your turn
-				if (instruction.equals("end turn")) { // Player doesn't want to
-														// move.
+				if (instruction.equals("end turn")) { // Player doesn't want to move.
 					break;
 				}
 
@@ -245,13 +245,17 @@ public class Cluedo {
 					int yDir = 0;
 					if (split[0].equals("left")) {
 						xDir = -1;
-					} else if (split[0].equals("right")) {
+					}
+					else if (split[0].equals("right")) {
 						xDir = 1;
-					} else if (split[0].equals("up")) {
+					}
+					else if (split[0].equals("up")) {
 						yDir = -1;
-					} else if (split[0].equals("down")) {
+					}
+					else if (split[0].equals("down")) {
 						yDir = 1;
-					} else {
+					}
+					else {
 						System.out.println("Unexpected entry. Please try again, or 'help' for options");
 						continue;
 					}
@@ -289,7 +293,7 @@ public class Cluedo {
 		String personSuggest;
 		Person: while (true) {
 			personSuggest = in.nextLine();
-			for (Token t : allTokens) {
+			for (Token t : this.allTokens) {
 				if (t.getName().equals(personSuggest)) {
 					break Person;
 				}
@@ -302,7 +306,7 @@ public class Cluedo {
 		String weaponSuggest;
 		Weapon: while (true) {
 			weaponSuggest = in.nextLine();
-			for (Token t : allTokens) {
+			for (Token t : this.allTokens) {
 				if (t.getName().equals(weaponSuggest)) {
 					break Weapon;
 				}
@@ -315,7 +319,7 @@ public class Cluedo {
 		String roomSuggest;
 		Room: while (true) {
 			roomSuggest = in.nextLine();
-			for (Room r : board.getRooms().values()) {
+			for (Room r : this.board.getRooms().values()) {
 				if (r.getName().equals(roomSuggest)) {
 					break Room;
 				}
@@ -327,9 +331,8 @@ public class Cluedo {
 	}
 
 	/**
-	 * Creates a triplet based on the player's guess. A player is required to be
-	 * passed as the room in the triplet is based on the player's current
-	 * location.
+	 * Creates a triplet based on the player's guess. A player is required to be passed as the room in the triplet is based on the
+	 * player's current location.
 	 *
 	 * @param in
 	 *            - The scanner passed along, should be System.in()
@@ -347,7 +350,7 @@ public class Cluedo {
 		String personSuggest;
 		Person: while (true) {
 			personSuggest = in.nextLine();
-			for (Token t : allTokens) {
+			for (Token t : this.allTokens) {
 				if (t.getName().equals(personSuggest)) {
 					room.addToken(t);
 					break Person;
@@ -361,7 +364,7 @@ public class Cluedo {
 		String weaponSuggest;
 		Weapon: while (true) {
 			weaponSuggest = in.nextLine();
-			for (Token t : allTokens) {
+			for (Token t : this.allTokens) {
 				if (t.getName().equals(weaponSuggest)) {
 					room.addToken(t);
 					break Weapon;
@@ -371,7 +374,7 @@ public class Cluedo {
 		}
 		String roomSuggest = room.getName();
 
-		board.draw();
+		this.board.draw();
 
 		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
 
@@ -379,8 +382,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * After the murder details have been done this puts all the cards into one
-	 * set ready to be dealt amongst the players.
+	 * After the murder details have been done this puts all the cards into one set ready to be dealt amongst the players.
 	 */
 
 	private void putCards() {
@@ -399,8 +401,8 @@ public class Cluedo {
 	}
 
 	/**
-	 * Deals the remaining cards to the hands of the players in the game. Each
-	 * player will receive (18 / n) cards where n is the number of players.
+	 * Deals the remaining cards to the hands of the players in the game. Each player will receive (18 / n) cards where n is the
+	 * number of players.
 	 */
 
 	private void dealHands() {
@@ -462,13 +464,11 @@ public class Cluedo {
 	}
 
 	/**
-	 * Sets up a human player and adds it to the set of players to be passed to
-	 * the board when the game is setup.
+	 * Sets up a human player and adds it to the set of players to be passed to the board when the game is setup.
 	 *
 	 * @param playerNumb
 	 *            - The number of the player to be setup.
-	 * @return newPlayer - A setup player that will be added to the set of
-	 *         players in the game.
+	 * @return newPlayer - A setup player that will be added to the set of players in the game.
 	 */
 	private Player setupPlayer(int playerNumb) { // Does this need to take an
 		// arg?
@@ -529,8 +529,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * Gets a random number between 1 and 12 representing a dice roll for moving
-	 * around the board.
+	 * Gets a random number between 1 and 12 representing a dice roll for moving around the board.
 	 *
 	 * @return An int between 1 and 12.
 	 */
@@ -540,8 +539,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * Gets a random number between 1 and 6 representing a dice roll for moving
-	 * around the board.
+	 * Gets a random number between 1 and 6 representing a dice roll for moving around the board.
 	 *
 	 * @return An int between 1 and 6.
 	 */
@@ -551,8 +549,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * Puts the list of playable characters in a set and returns them. For
-	 * purposes of selecting characters.
+	 * Puts the list of playable characters in a set and returns them. For purposes of selecting characters.
 	 */
 
 	private void createCharStrings() {
@@ -614,8 +611,7 @@ public class Cluedo {
 	}
 
 	/**
-	 * Picks a random weapon, person, and room into a triplet. These are the
-	 * murder details that have to be guessed.
+	 * Picks a random weapon, person, and room into a triplet. These are the murder details that have to be guessed.
 	 */
 
 	private void doMurder() {
@@ -648,39 +644,10 @@ public class Cluedo {
 
 	}
 
-	/**
-	 * Checks to see if a suggestion is correct when compared to the murder
-	 * info. Checks to see if the player's hand contains a card in the
-	 * suggestion. Then checks to see if any player can refute the suggestion.
-	 *
-	 * @param suggestion
-	 *            The suggestion to check.
-	 * @param player
-	 *            The player who made the suggestion.
-	 * @return A boolean based on if the suggestion was correct or not.
-	 */
-
-	private Pair<Boolean, String> checkSuggestion(Triplet suggestion, Player player) {
-
-		if (suggestion.equalsTriplet(this.murderInfo)) { // This was the correct
-			// guess.
-			return new Pair<>(true, "This was the correct suggestion.");
-		}
-
-		if (suggestion.containsPlayer(player)) { // Check to see if player hand
-			// contains a
-			// card in the triplet.
-			return new Pair<>(false, "You cannot guess a card that's in your hand.");
-		}
-
-		return suggestion.checkCards(this.players);
-
-	}
-
 	private void runGame() {
 		while (true) {
 			for (Player p : this.players) {
-				if (gameOver) {
+				if (this.gameOver) {
 					return;
 				}
 				int playersLeft = 0; // calculate the number of players left
@@ -694,10 +661,10 @@ public class Cluedo {
 				}
 				// if this is a multiplayer game and only one player is left,
 				// they win
-				if (players.size() > 1 && playersLeft == 1) {
-					assert(last != null);
+				if (this.players.size() > 1 && playersLeft == 1) {
+					assert (last != null);
 					System.out.println(last.getUsername() + " won as everyone else is out.");
-					System.out.println("The murder was actually done by " + murderInfo);
+					System.out.println("The murder was actually done by " + this.murderInfo);
 					System.out.println("It seems that detective work requires more competence than you lot have.");
 					return;
 				}
@@ -705,9 +672,8 @@ public class Cluedo {
 				// game ends.
 				if (playersLeft == 0) {
 					System.out.println("Game over!");
-					System.out.println("The murder was actually done by " + murderInfo);
-					System.out.println(
-							"You have all of the cards in hand, except the murder. How did you get this wrong?");
+					System.out.println("The murder was actually done by " + this.murderInfo);
+					System.out.println("You have all of the cards in hand, except the murder. How did you get this wrong?");
 					return;
 				}
 				if (p.getStatus()) {
@@ -718,6 +684,7 @@ public class Cluedo {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void setupPlayers() {
 		try {
 
@@ -735,7 +702,8 @@ public class Cluedo {
 				try {
 					numbPlayers = Integer.parseInt(input); // Try to parse to
 															// int.
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					// If input is not convertable to an int. Invalid input.
 					System.out.println("This is not a valid number.");
 				}
@@ -759,6 +727,7 @@ public class Cluedo {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		new Cluedo();
 	}

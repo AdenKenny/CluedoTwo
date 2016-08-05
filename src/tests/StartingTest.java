@@ -28,7 +28,7 @@ public class StartingTest {
 
 	@Test
 	public void testEntertainment() {
-		Cluedo game = new Cluedo();
+		new Cluedo();
 		System.out.println("Was the game fun?");
 		String reply = "";
 		try {

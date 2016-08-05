@@ -115,7 +115,7 @@ public class Player {
 	 */
 	public String handString() {
 		String handString = "";
-		for (Card c : hand) {
+		for (Card c : this.hand) {
 			handString += c.getName() + "\n";
 		}
 		return handString;

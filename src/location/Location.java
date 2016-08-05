@@ -15,7 +15,7 @@ import items.Token;
 
 public abstract class Location {
 
-	protected Map<String, Location> adjacent; //A map of adjacent locations to this one.
+	private Map<String, Location> adjacent; //A map of adjacent locations to this one.
 	protected Set<Token> tokens; //A set of the tokens contained at this location.
 
 	/**

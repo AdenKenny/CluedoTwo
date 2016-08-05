@@ -2,8 +2,8 @@ package util;
 
 public class Pair<E, T> {
 
-	E value1;
-	T value2;
+	private E value1;
+	private T value2;
 
 	public Pair(E value1, T value2) {
 		this.value1 = value1;

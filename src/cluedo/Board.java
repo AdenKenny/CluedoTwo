@@ -364,22 +364,22 @@ public class Board {
 	 * set up the key displayed on the side of the board
 	 */
 	private void keySetup() {
-		key = new String[BOARD_HEIGHT];
-		key[0] = "MS = Miss Scarlett";
-		key[1] = "PP = Professor Plum";
-		key[2] = "MP = Mrs Peacock";
-		key[3] = "RG = Reverend Green";
-		key[4] = "CM = Colonel Mustard";
-		key[5] = "MW = Mrs White";
-		key[6] = "";
-		key[7] = "cs = Candlestick";
-		key[8] = "dg = Dagger";
-		key[9] = "lp = Lead Pipe";
-		key[10] = "rv = Revolver";
-		key[11] = "ro = Rope";
-		key[12] = "sp = Spanner";
+		this.key = new String[BOARD_HEIGHT];
+		this.key[0] = "MS = Miss Scarlett";
+		this.key[1] = "PP = Professor Plum";
+		this.key[2] = "MP = Mrs Peacock";
+		this.key[3] = "RG = Reverend Green";
+		this.key[4] = "CM = Colonel Mustard";
+		this.key[5] = "MW = Mrs White";
+		this.key[6] = "";
+		this.key[7] = "cs = Candlestick";
+		this.key[8] = "dg = Dagger";
+		this.key[9] = "lp = Lead Pipe";
+		this.key[10] = "rv = Revolver";
+		this.key[11] = "ro = Rope";
+		this.key[12] = "sp = Spanner";
 		for (int i = 13; i < BOARD_HEIGHT; i++) {
-			key[i] = "";
+			this.key[i] = "";
 		}
 	}
 
@@ -467,7 +467,7 @@ public class Board {
 				}
 			}
 			System.out.print(this.asciiBoard[BOARD_WIDTH * 2][y + 1]);
-			System.out.print("     " + key[y] + "\n");
+			System.out.print("     " + this.key[y] + "\n");
 		}
 		System.out.print('\n');
 	}
