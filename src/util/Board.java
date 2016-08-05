@@ -204,6 +204,8 @@ public class Board {
 		}
 
 		this.asciiBoard[2 * BOARD_WIDTH][0] = ' ';
+
+		//read through each square
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				char square = boardChar(x, y);
@@ -353,6 +355,7 @@ public class Board {
 		}
 	}
 
+	//set up the key displayed on the side of the board
 	private void keySetup() {
 		key = new String[BOARD_HEIGHT];
 		key[0] = "MS = Miss Scarlett";
@@ -373,6 +376,12 @@ public class Board {
 		}
 	}
 
+	/**
+	 * add the name of the room to the ascii char array
+	 * @param name
+	 * @param startX
+	 * @param y
+	 */
 	private void roomName(String name, int startX, int y) {
 		for (int i = 0; i < name.length(); i++) {
 			this.asciiBoard[startX + i][y] = name.charAt(i);
@@ -397,6 +406,12 @@ public class Board {
 		return null;
 	}
 
+	/**
+	 * Returns the character at a certain co-ordinate, 0 if out of bounds
+	 * @param x
+	 * @param y
+	 * @return char
+	 */
 	private char boardChar(int x, int y) {
 		if (x < 0 || x == BOARD_WIDTH || y < 0 || y == BOARD_HEIGHT) {
 			return '0';
@@ -404,10 +419,19 @@ public class Board {
 		return this.boardStrings[y].charAt(x);
 	}
 
+	/**
+	 * Returns the square at a specified co-ordinate.
+	 * @param x
+	 * @param y
+	 * @return Square
+	 */
 	public Square getSquare(int x, int y) {
 		return this.boardSquares[x][y];
 	}
 
+	/**
+	 * Draw the board and key.
+	 */
 	public void draw() {
 		for (int i = 0; i < BOARD_WIDTH * 2 + 1; i++) {
 			System.out.print(this.asciiBoard[i][0]);
@@ -441,10 +465,26 @@ public class Board {
 		System.out.print('\n');
 	}
 
+	/**
+	 * Add a token to a place on the board.
+	 * @param t
+	 * @param x
+	 * @param y
+	 */
 	public void addToken(Token t, int x, int y) {
 		this.boardSquares[x][y].addToken(t);
 	}
 
+	/**
+	 * Checks if a move is legal. If it is, does the move and returns true
+	 * Otherwise, it does nothing and returns false.
+	 *
+	 * @param t
+	 * @param xDir
+	 * @param yDir
+	 * @param dist
+	 * @return true if move done, false if move illegal
+	 */
 	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
 		Location location = t.getLocation();
 		if (location instanceof Room) {
@@ -464,6 +504,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Recursive function to check if a move in a direction is legal.
+	 * @param x
+	 * @param y
+	 * @param xDir
+	 * @param yDir
+	 * @param dist
+	 * @return
+	 */
 	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
 		if (this.boardSquares[x][y] == null) {
 			return false;
@@ -477,6 +526,10 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Returns a map of Strings to Rooms.
+	 * @return
+	 */
 	public Map<String, Room> getRooms() {
 		return this.rooms;
 	}

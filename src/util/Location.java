@@ -25,11 +25,21 @@ public abstract class Location {
 		this.adjacent = adjacent;
 		this.tokens = new HashSet<>();
 	}
-	
+
+	/**
+	 * Adds an adjacent location, which means people can move to that location from
+	 * this one.
+	 * @param dir
+	 * @param adj
+	 */
 	public void addAdjacent(String dir, Location adj) {
 		this.adjacent.put(dir, adj);
 	}
-	
+
+	/**
+	 * Returns all of the adjacent locations which can be moved to from this location.
+	 * @return Map of Strings to Locations
+	 */
 	public Map<String, Location> getAdjacent() {
 		return this.adjacent;
 	}
@@ -85,10 +95,5 @@ public abstract class Location {
 
 	public int getNumbTokens() {
 		return this.tokens.size();
-	}
-
-	public boolean checkMove(Location location) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

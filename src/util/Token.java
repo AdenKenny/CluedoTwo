@@ -28,15 +28,6 @@ public class Token {
 		this.display = display;
 	}
 
-	public boolean moveAdjacent(String dir) {
-		Location newLoc = this.location.getAdjacent().get(dir);
-		if (newLoc == null) {
-			return false;
-		}
-		newLoc.addToken(this);
-		return true;
-	}
-
 	//Getters and Setters.
 
 	public String getName() {
@@ -51,19 +42,15 @@ public class Token {
 		return this.location;
 	}
 
+	/**
+	 * Removes the token from the old location and set the token location.
+	 * @param location
+	 */
 	public void setLocation(Location location) {
 		if (this.location != null) {
 			this.location.removeToken(this);
 		}
 		this.location = location;
-	}
-
-	public boolean getIsCharacter() {
-		return this.isCharacter;
-	}
-
-	public void setIsCharacter(boolean isCharacter) {
-		this.isCharacter = isCharacter;
 	}
 
 	public String getDisplay() {
@@ -72,20 +59,5 @@ public class Token {
 
 	public boolean isCharacter() {
 		return this.isCharacter;
-	}
-
-
-	/**
-	 * Moves the token to a new location, a Location is passed.
-	 * Removes this token from the old location then adds it to
-	 * the new location.
-	 *
-	 * @param location The location this token is being moved to.
-	 */
-
-	public void move(Location location) {
-		this.location.removeToken(this);
-		this.location = location;
-		this.location.addToken(this);
 	}
 }

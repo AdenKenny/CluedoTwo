@@ -25,7 +25,11 @@ public class Room extends Location{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	/**
+	 * Returns a string of the tokens in the room.
+	 * @return
+	 */
 	public String getDisplay() {
 		if (this.tokens.isEmpty()) {
 			return null;

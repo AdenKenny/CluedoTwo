@@ -92,26 +92,6 @@ public class Player {
 	}
 
 	/**
-	 * Returns a set of cards which are the cards in this player's hand.
-	 *
-	 * @return - The set of the player's hand.
-	 */
-
-	public Set<Card> getHand() {
-		return this.hand;
-	}
-
-	/**
-	 * Returns the size of the set that represents the player's hand.
-	 *
-	 * @return - An int representing the size of the player's hand.
-	 */
-
-	public int getHandSize() {
-		return this.hand.size();
-	}
-
-	/**
 	 * Checks to see if the player's hand contains a card.
 	 *
 	 * @param other
@@ -138,12 +118,6 @@ public class Player {
 			handString += c.getName() + "\n";
 		}
 		return handString;
-	}
-
-	@Override
-	public String toString() {
-		return "Player [status=" + this.status + ", username=" + this.username + ", personToken=" + this.personToken
-				+ "]";
 	}
 
 }
