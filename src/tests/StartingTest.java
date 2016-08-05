@@ -2,6 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -50,6 +53,58 @@ public class StartingTest {
 		for (int i = 0; i < 1000; i++) {
 			int roll = Cluedo.rollDice();
 			assert roll >= 2 && roll <= 12;
+		}
+	}
+
+	/**
+	 * Make sure rollDice6() is random enough.
+	 */
+
+	@Test
+	public void testRandomness6() {
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for(int i = 0; i < 10000; i++) {
+			int roll = Cluedo.rollDice6();
+			if(map.containsKey(roll)) {
+				int numb = map.get(roll);
+				numb++;
+				map.put(roll, numb);
+			}
+
+			else {
+				map.put(roll, 1);
+			}
+		}
+
+		for(Entry<Integer, Integer> e : map.entrySet()) {
+			assert(e.getValue() >= 1300);
+		}
+	}
+
+	/**
+	 * Make sure rollDice() is random enough.
+	 */
+
+	@Test
+	public void testRandomness12() {
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for(int i = 0; i < 10000; i++) {
+			int roll = Cluedo.rollDice();
+			if(map.containsKey(roll)) {
+				int numb = map.get(roll);
+				numb++;
+				map.put(roll, numb);
+			}
+
+			else {
+				map.put(roll, 1);
+			}
+		}
+		for(Entry<Integer, Integer> e : map.entrySet()) {
+			System.out.println(e.getValue());
+			assert(e.getValue() >= 200);
 		}
 	}
 
