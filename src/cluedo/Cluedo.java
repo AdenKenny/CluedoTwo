@@ -128,9 +128,14 @@ public class Cluedo {
 						last = pl;
 					}
 				}
-				if (playersLeft == 1) {
+				if (players.size() > 1 && playersLeft == 1) {
 					System.out.println(last.getUsername() + " won as everyone else is out.");
+					System.out.println("The murder was actually done by " + murderInfo);
+					System.out.println("It seems that detective work requires more competence than you lot have.");
 					return;
+				}
+				if (playersLeft == 0) {
+					System.out.println("Game over!");
 				}
 				if (p.getStatus()) {
 					doTurn(p);
@@ -269,8 +274,8 @@ public class Cluedo {
 					System.out.println("You can move up to " + dist + " more.");
 					continue;
 				}
-					
-					
+
+
 				String[] split = instruction.split(" ");
 				if (split.length != 2) {
 					System.out.println("Unexpected entry. Please try again, or 'help' for options");

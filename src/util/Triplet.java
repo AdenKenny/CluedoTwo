@@ -54,8 +54,8 @@ public class Triplet {
 
 	@Override
 	public String toString() {
-		return "Triplet [person=" + this.person.getName() + ", weapon=" +
-		this.weapon.getName() + ", room=" + this.room.getName() + "]";
+		return this.person.getName() + " with a " +
+		this.weapon.getName() + " in the " + this.room.getName() + ".";
 	}
 
 	/**
