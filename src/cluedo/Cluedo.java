@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import gui.Canvas;
+import gui.Frame;
 import items.Card;
 import items.Token;
 import location.Location;
@@ -37,6 +39,8 @@ public class Cluedo {
 	private Set<Card> allCards; // All cards, used for dealing.
 	private Set<Token> allTokens; // The character and weapon tokens
 
+	private Canvas canvas;
+
 	private boolean gameOver;
 
 	public Cluedo() {
@@ -50,11 +54,11 @@ public class Cluedo {
 
 		this.board = new Board();
 
+		this.canvas = new Frame(board).getCanvas();
+
 		tokensSetup();
 
 		doMurder(); // Create triplet of murder info.
-
-		this.board.draw();
 
 		setupPlayers();
 
@@ -223,7 +227,6 @@ public class Cluedo {
 					}
 					toMove.addToken(token);
 					--dist;
-					this.board.draw(); // Redraw board.
 					System.out.println("You can move up to " + dist + " more.");
 					continue;
 				}
@@ -264,7 +267,6 @@ public class Cluedo {
 					}
 					if (this.board.moveToken(token, xDir, yDir, instrDist)) {
 						dist -= instrDist;
-						this.board.draw();
 						System.out.println("You can move up to " + dist + " more.");
 						continue;
 					}
@@ -379,8 +381,6 @@ public class Cluedo {
 			System.out.println("That isn't a weapon.");
 		}
 		String roomSuggest = room.getName();
-
-		this.board.draw();
 
 		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
 
@@ -723,8 +723,6 @@ public class Cluedo {
 			for (int i = 0; i < numbPlayers; i++) {
 				this.players.add(setupPlayer(i));
 			}
-
-			this.board.draw();
 		}
 
 		catch (RuntimeException e) {
