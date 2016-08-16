@@ -16,6 +16,9 @@ public class Canvas extends JPanel {
 
 	private Board board;
 
+	private int x = -2;
+	private int y = -2;
+
 	public Canvas(Board board) {
 		super();
 		this.boardImage = loadImage("board.png");
@@ -24,7 +27,16 @@ public class Canvas extends JPanel {
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(this.boardImage, 0, 0, null, null);
+		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
+		g.drawRect(x * 31 + 30, (int)(y * 29.5) + 6, 31, 30);
+	}
+
+	public void x(int x) {
+		this.x = x;
+	}
+
+	public void y(int y) {
+		this.y = y;
 	}
 
 	public static Image loadImage(String filename) {
