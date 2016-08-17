@@ -41,6 +41,8 @@ public class Cluedo {
 
 	private boolean gameOver;
 
+	private int turnNumber;
+
 	public Cluedo() {
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
@@ -56,18 +58,21 @@ public class Cluedo {
 
 		doMurder(); // Create triplet of murder info.
 
-		setupPlayers();
+		//setupPlayers();
 
-		Player highest = doStartRolls(this.players); // Get the player with
+		//Player highest = doStartRolls(this.players); // Get the player with
 		// the highest roll.
 
-		this.players.remove(highest);
-		this.players.add(0, highest);
+		//this.players.remove(highest);
+		//this.players.add(0, highest);
+		//turnNumber = 0;
 
-		putCards();
-		dealHands();
+		//putCards();
+		//dealHands();
 
 		Frame frame = new Frame(this);
+
+		runGame();
 	}
 
 	/**
@@ -284,12 +289,7 @@ public class Cluedo {
 	 */
 	@SuppressWarnings("unused")
 	private void doTurn(Player p) {
-		System.out.println(p.getUsername() + "'s turn.");
 
-		Token token = p.getToken();
-
-		Location location = token.getLocation(); // Get the location of the
-													// player.
 
 		Scanner in = null;
 
@@ -303,34 +303,11 @@ public class Cluedo {
 
 			System.out.println("What would you like to do? 'help' for options");
 			while (true) { // Player still has moves left.
-				location = token.getLocation();
-				Map<String, Location> adjacent = location.getAdjacent(); // Get
-																			// adjacent
-																			// locations.
 				String instruction = in.nextLine(); // take input from user
 
-				// help
-				if (instruction.equals("help")) {
-					System.out.println("enter the direction you want to move in followed by the distance you to move.");
-					System.out.println("'left', 'right', 'up' or 'down'");
-					System.out.println("Example: 'up 4'");
-					System.out.println("'adjacent' for instructions for moving into and out of rooms, if possible.");
-					System.out.println("'hand' to view hand");
-					System.out.println("'suggestion' to make a suggestion.");
-					System.out.println("'accusation' to make accusation.");
-					System.out.println("'end turn'");
-					continue;
-				}
-
-				// Print the names of the locations adjacent to this, accessible
-				// by typing in the name
-				if (instruction.equals("adjacent")) {
-					System.out.println("Enter one of the following:");
-					for (String key : adjacent.keySet()) {
-						System.out.println(key);
-					}
-					continue;
-				}
+				Map<String, Location> adjacent = null;
+				Location location = null;
+				Token token = null;
 
 				// make an accusation
 				if (instruction.equals("accusation")) {
@@ -385,18 +362,7 @@ public class Cluedo {
 					break;
 				}
 
-				// command is for moving to a room or out of one
-				Location toMove = adjacent.get(instruction);
-				if (toMove != null) {
-					if (dist == 0) {
-						System.out.println("You can't move any further this turn");
-						continue;
-					}
-					toMove.addToken(token);
-					--dist;
-					System.out.println("You can move up to " + dist + " more.");
-					continue;
-				}
+
 
 				// command is for moving certain distance in a direction
 				String[] split = instruction.split(" ");
@@ -455,6 +421,40 @@ public class Cluedo {
 
 	}
 
+	public void nextTurn() {
+		int playersLeft = 0; // calculate the number of players left
+		Player last = null; // if there is only player, this is the
+							// winner
+		for (Player pl : this.players) {
+			if (pl.getStatus()) {
+				playersLeft++;
+				last = pl;
+			}
+		}
+		// if only one player is left, they win
+		if (playersLeft == 1) {
+			assert (last != null);
+			System.out.println(last.getUsername() + " won as everyone else is out.");
+			System.out.println("The murder was actually done by " + this.murderInfo);
+			System.out.println("It seems that detective work requires more competence than you lot have.");
+			this.gameOver = true;
+			return;
+		}
+
+		do {
+			this.turnNumber++;
+		} while(!this.players.get(this.turnNumber).getStatus());
+
+		Player current = this.players.get(this.turnNumber);
+
+		System.out.println(current.getUsername() + "'s turn.");
+
+		Token token = current.getToken();
+
+		Location location = token.getLocation(); // Get the location of the
+													// player.
+	}
+
 	/**
 	 * After the murder details have been done this puts all the cards into one set ready to be dealt amongst the players.
 	 */
@@ -492,36 +492,11 @@ public class Cluedo {
 	}
 
 	/**
-	 * Does the game logic.
+	 * Runs the game.
 	 */
 	private void runGame() {
-		while (true) {
-			for (Player p : this.players) {
-				if (this.gameOver) {
-					return;
-				}
-				int playersLeft = 0; // calculate the number of players left
-				Player last = null; // if there is only player, this is the
-									// winner
-				for (Player pl : this.players) {
-					if (pl.getStatus()) {
-						playersLeft++;
-						last = pl;
-					}
-				}
-				// if only one player is left, they win
-				if (playersLeft == 1) {
-					assert (last != null);
-					System.out.println(last.getUsername() + " won as everyone else is out.");
-					System.out.println("The murder was actually done by " + this.murderInfo);
-					System.out.println("It seems that detective work requires more competence than you lot have.");
-					return;
-				}
-				if (p.getStatus()) {
-					doTurn(p);
-				}
-
-			}
+		while (!this.gameOver) {
+			//the game runs
 		}
 	}
 
