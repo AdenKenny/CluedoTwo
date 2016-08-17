@@ -39,8 +39,6 @@ public class Cluedo {
 	private Set<Card> allCards; // All cards, used for dealing.
 	private Set<Token> allTokens; // The character and weapon tokens
 
-	private Canvas canvas;
-
 	private boolean gameOver;
 
 	public Cluedo() {
@@ -53,8 +51,6 @@ public class Cluedo {
 		createCharacters();
 
 		this.board = new Board();
-
-		this.canvas = new Frame(board).getCanvas();
 
 		tokensSetup();
 
@@ -71,41 +67,213 @@ public class Cluedo {
 		putCards();
 		dealHands();
 
-		runGame();
+		Frame frame = new Frame(this);
+	}
+
+	/**
+	 * Creates an accusation based on the user's input. Makes sure inputs are valid
+	 * i.e. when prompted for the weapon, that the input actually corresponds a
+	 * weapon.
+	 *
+	 * @param in The scanner which input will be read from (Probably System.in).
+	 * @return a Triplet with the user input values.
+	 */
+	private Triplet accusation(Scanner in) {
+		System.out.println("Person:");
+
+		String personSuggest;
+		Person: while (true) {
+			personSuggest = in.nextLine();
+			for (Token t : this.allTokens) {
+				if (t.getName().equals(personSuggest)) {
+					break Person;
+				}
+			}
+			System.out.println("That isn't a person.");
+		}
+
+		System.out.println("Weapon:");
+
+		String weaponSuggest;
+		Weapon: while (true) {
+			weaponSuggest = in.nextLine();
+			for (Token t : this.allTokens) {
+				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
+					break Weapon;
+				}
+			}
+			System.out.println("That isn't a weapon.");
+		}
+
+		System.out.println("Room:");
+
+		String roomSuggest;
+		Room: while (true) {
+			roomSuggest = in.nextLine();
+			for (Room r : this.board.getRooms().values()) {
+				if (r.getName().equals(roomSuggest)) {
+					break Room;
+				}
+			}
+			System.out.println("That isn't a room.");
+		}
+
+		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+	}
+
+	public void boardClicked(int x, int y) {
+		System.out.println(x + "," + y);
+	}
+
+	/**
+	 * Creates cards based on the characters and adds them to a set.
+	 */
+	private void createCharacters() {
+		this.setOfCharacters = new HashSet<>();
+
+		this.setOfCharacters.add(new Card("Miss Scarlett"));
+		this.setOfCharacters.add(new Card("Colonel Mustard"));
+		this.setOfCharacters.add(new Card("Mrs White"));
+		this.setOfCharacters.add(new Card("Reverend Green"));
+		this.setOfCharacters.add(new Card("Mrs Peacock"));
+		this.setOfCharacters.add(new Card("Professor Plum"));
+	}
+
+	/**
+	 * Puts the list of playable characters in a set and returns them. For purposes of selecting characters.
+	 */
+	private void createCharStrings() {
+		this.charNames = new HashSet<>();
+		this.charNames.add("Miss Scarlett");
+		this.charNames.add("Professor Plum");
+		this.charNames.add("Mrs Peacock");
+		this.charNames.add("Reverend Green");
+		this.charNames.add("Colonel Mustard");
+		this.charNames.add("Mrs White");
+	}
+
+	/**
+	 * Creates cards based on the rooms and adds them to a set.
+	 */
+	private void createRooms() {
+		this.setOfRooms = new HashSet<>();
+
+		this.setOfRooms.add(new Card("Kitchen"));
+		this.setOfRooms.add(new Card("Ball Room"));
+		this.setOfRooms.add(new Card("Conservatory"));
+		this.setOfRooms.add(new Card("Billiard Room"));
+		this.setOfRooms.add(new Card("Library"));
+		this.setOfRooms.add(new Card("Study"));
+		this.setOfRooms.add(new Card("Hall"));
+		this.setOfRooms.add(new Card("Lounge"));
+		this.setOfRooms.add(new Card("Dining Room"));
+	}
+
+	/**
+	 * Creates cards based on the weapons and adds them to a set.
+	 */
+	private void createWeapons() {
+		this.setOfWeapons = new HashSet<>();
+
+		this.setOfWeapons.add(new Card("Candlestick"));
+		this.setOfWeapons.add(new Card("Dagger"));
+		this.setOfWeapons.add(new Card("Lead Pipe"));
+		this.setOfWeapons.add(new Card("Revolver"));
+		this.setOfWeapons.add(new Card("Rope"));
+		this.setOfWeapons.add(new Card("Spanner"));
+	}
+
+	/**
+	 * Deals the remaining cards to the hands of the players in the game. Each player will receive (18 / n) cards where n is the
+	 * number of players.
+	 */
+	private void dealHands() {
+
+		int numbPlayers = this.players.size();
+		int playerNumb = 0;
+
+		for (Card c : this.allCards) {
+			++playerNumb;
+
+			if (playerNumb == numbPlayers) {
+				playerNumb = 0; // Reset to first player.
+			}
+
+			Player p = this.players.get(playerNumb);
+			p.addCard(c);
+
+		}
 
 	}
 
 	/**
-	 * Setup the character and weapons tokens.
+	 * Picks a random weapon, person, and room into a triplet. These are the murder details that have to be guessed.
 	 */
-	private void tokensSetup() {
-		this.allTokens = new HashSet<>();
+	private void doMurder() {
 
-		// put characters in starting locations
-		this.allTokens.add(new Token("Miss Scarlett", this.board.getSquare(7, 24), true, "MS"));
-		this.allTokens.add(new Token("Professor Plum", this.board.getSquare(23, 19), true, "PP"));
-		this.allTokens.add(new Token("Mrs Peacock", this.board.getSquare(23, 6), true, "MP"));
-		this.allTokens.add(new Token("Reverend Green", this.board.getSquare(14, 0), true, "RG"));
-		this.allTokens.add(new Token("Colonel Mustard", this.board.getSquare(0, 17), true, "CM"));
-		this.allTokens.add(new Token("Mrs White", this.board.getSquare(9, 0), true, "MW"));
+		int randChar = (int) (Math.random() * this.setOfCharacters.size());
+		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
+		// array.
+		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
+		// array.
+		Card charCard = arrOfCards[randChar]; // Get card at random position.
+		this.setOfCharacters.remove(charCard);
 
-		List<Room> rooms = new ArrayList<>();
-		rooms.addAll(this.board.getRooms().values());
-		Room[] weaponRooms = new Room[6];
+		int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
+		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
+		this.setOfWeapons.toArray(arrOfWeapons);
+		Card weaponCard = arrOfWeapons[randWeapon];
+		this.setOfWeapons.remove(weaponCard);
 
-		// get 6 random rooms
-		for (int i = 0; i < 6; i++) {
-			int index = (int) (Math.random() * (9 - i));
-			weaponRooms[i] = rooms.remove(index);
+		int randRoom = (int) (Math.random() * this.setOfRooms.size());
+		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
+		this.setOfRooms.toArray(arrOfRooms);
+		Card roomCard = arrOfRooms[randRoom];
+		this.setOfRooms.remove(roomCard);
+
+		this.setOfCharacters.remove(roomCard); // Remove selected
+		this.setOfWeapons.remove(weaponCard);
+		this.setOfRooms.remove(roomCard);
+
+		this.murderInfo = new Triplet(charCard, weaponCard, roomCard);
+
+	}
+
+	/**
+	 * Returns the player with the highest roll to see who starts.
+	 *
+	 * @param temp List of players we're iterating through.
+	 * @return Player with the highest roll.
+	 */
+	private Player doStartRolls(List<Player> temp) {
+
+		int highest = 0;
+
+		Map<Player, Integer> rolls = new HashMap<>();
+
+		for (Player p : temp) {
+			int roll = rollDice6();
+			System.out.println(p.getUsername() + " rolled a " + roll);
+			if (roll < highest) {
+				continue;
+			}
+			highest = roll;
+			rolls.put(p, roll);
 		}
 
-		// put weapons in their random location
-		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "cs"));
-		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "dg"));
-		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "lp"));
-		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "rv"));
-		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "ro"));
-		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "sp"));
+		List<Player> highRollers = new ArrayList<>();
+
+		for (Player p : rolls.keySet()) {
+			if (rolls.get(p) == highest) {
+				highRollers.add(p);
+			}
+		}
+
+		if (highRollers.size() == 1) {
+			return highRollers.get(0);
+		}
+		System.out.println("Draw! Highest rollers rolling again.");
+		return doStartRolls(highRollers);
 	}
 
 	/**
@@ -114,7 +282,6 @@ public class Cluedo {
 	 *
 	 * @param p The player who's turn will be completed.
 	 */
-
 	@SuppressWarnings("unused")
 	private void doTurn(Player p) {
 		System.out.println(p.getUsername() + "'s turn.");
@@ -289,108 +456,8 @@ public class Cluedo {
 	}
 
 	/**
-	 * Creates an accusation based on the user's input. Makes sure inputs are valid
-	 * i.e. when prompted for the weapon, that the input actually corresponds a
-	 * weapon.
-	 *
-	 * @param in The scanner which input will be read from (Probably System.in).
-	 * @return a Triplet with the user input values.
-	 */
-
-	private Triplet accusation(Scanner in) {
-		System.out.println("Person:");
-
-		String personSuggest;
-		Person: while (true) {
-			personSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (t.getName().equals(personSuggest)) {
-					break Person;
-				}
-			}
-			System.out.println("That isn't a person.");
-		}
-
-		System.out.println("Weapon:");
-
-		String weaponSuggest;
-		Weapon: while (true) {
-			weaponSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
-					break Weapon;
-				}
-			}
-			System.out.println("That isn't a weapon.");
-		}
-
-		System.out.println("Room:");
-
-		String roomSuggest;
-		Room: while (true) {
-			roomSuggest = in.nextLine();
-			for (Room r : this.board.getRooms().values()) {
-				if (r.getName().equals(roomSuggest)) {
-					break Room;
-				}
-			}
-			System.out.println("That isn't a room.");
-		}
-
-		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
-	}
-
-	/**
-	 * Creates a triplet based on the player's guess. A player is required to be passed as the room in the triplet is based on the
-	 * player's current location.
-	 *
-	 * @param in The scanner passed along, should be System.in()
-	 * @param p The player who's guessing.
-	 * @return A triplet based on the info from the scanner.
-	 */
-
-	private Triplet suggestion(Scanner in, Player p) {
-
-		Room room = (Room) p.getToken().getLocation();
-
-		System.out.println("Person:");
-
-		String personSuggest;
-		Person: while (true) {
-			personSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (t.isCharacter() && t.getName().equals(personSuggest)) {
-					room.addToken(t);
-					break Person;
-				}
-			}
-			System.out.println("That isn't a person.");
-		}
-
-		System.out.println("Weapon:");
-
-		String weaponSuggest;
-		Weapon: while (true) {
-			weaponSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
-					room.addToken(t);
-					break Weapon;
-				}
-			}
-			System.out.println("That isn't a weapon.");
-		}
-		String roomSuggest = room.getName();
-
-		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
-
-		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
-	}
-
-	/**
 	 * After the murder details have been done this puts all the cards into one set ready to be dealt amongst the players.
 	 */
-
 	private void putCards() {
 
 		for (Card c : this.setOfCharacters) {
@@ -407,65 +474,55 @@ public class Cluedo {
 	}
 
 	/**
-	 * Deals the remaining cards to the hands of the players in the game. Each player will receive (18 / n) cards where n is the
-	 * number of players.
+	 * Gets a random number between 1 and 12 representing a dice roll for moving around the board.
+	 *
+	 * @return An int between 1 and 12.
 	 */
-
-	private void dealHands() {
-
-		int numbPlayers = this.players.size();
-		int playerNumb = 0;
-
-		for (Card c : this.allCards) {
-			++playerNumb;
-
-			if (playerNumb == numbPlayers) {
-				playerNumb = 0; // Reset to first player.
-			}
-
-			Player p = this.players.get(playerNumb);
-			p.addCard(c);
-
-		}
-
+	public static int rollDice() {
+		return rollDice6() + rollDice6();
 	}
 
 	/**
-	 * Returns the player with the highest roll to see who starts.
+	 * Gets a random number between 1 and 6 representing a dice roll for moving around the board.
 	 *
-	 * @param temp List of players we're iterating through.
-	 * @return Player with the highest roll.
+	 * @return An int between 1 and 6.
 	 */
+	public static int rollDice6() {
+		return (int) (Math.random() * 6 + 1);
+	}
 
-	private Player doStartRolls(List<Player> temp) {
+	/**
+	 * Does the game logic.
+	 */
+	private void runGame() {
+		while (true) {
+			for (Player p : this.players) {
+				if (this.gameOver) {
+					return;
+				}
+				int playersLeft = 0; // calculate the number of players left
+				Player last = null; // if there is only player, this is the
+									// winner
+				for (Player pl : this.players) {
+					if (pl.getStatus()) {
+						playersLeft++;
+						last = pl;
+					}
+				}
+				// if only one player is left, they win
+				if (playersLeft == 1) {
+					assert (last != null);
+					System.out.println(last.getUsername() + " won as everyone else is out.");
+					System.out.println("The murder was actually done by " + this.murderInfo);
+					System.out.println("It seems that detective work requires more competence than you lot have.");
+					return;
+				}
+				if (p.getStatus()) {
+					doTurn(p);
+				}
 
-		int highest = 0;
-
-		Map<Player, Integer> rolls = new HashMap<>();
-
-		for (Player p : temp) {
-			int roll = rollDice6();
-			System.out.println(p.getUsername() + " rolled a " + roll);
-			if (roll < highest) {
-				continue;
 			}
-			highest = roll;
-			rolls.put(p, roll);
 		}
-
-		List<Player> highRollers = new ArrayList<>();
-
-		for (Player p : rolls.keySet()) {
-			if (rolls.get(p) == highest) {
-				highRollers.add(p);
-			}
-		}
-
-		if (highRollers.size() == 1) {
-			return highRollers.get(0);
-		}
-		System.out.println("Draw! Highest rollers rolling again.");
-		return doStartRolls(highRollers);
 	}
 
 	/**
@@ -533,163 +590,9 @@ public class Cluedo {
 	}
 
 	/**
-	 * Gets a random number between 1 and 12 representing a dice roll for moving around the board.
-	 *
-	 * @return An int between 1 and 12.
-	 */
-
-	public static int rollDice() {
-		return rollDice6() + rollDice6();
-	}
-
-	/**
-	 * Gets a random number between 1 and 6 representing a dice roll for moving around the board.
-	 *
-	 * @return An int between 1 and 6.
-	 */
-
-	public static int rollDice6() {
-		return (int) (Math.random() * 6 + 1);
-	}
-
-	/**
-	 * Puts the list of playable characters in a set and returns them. For purposes of selecting characters.
-	 */
-
-	private void createCharStrings() {
-		this.charNames = new HashSet<>();
-		this.charNames.add("Miss Scarlett");
-		this.charNames.add("Professor Plum");
-		this.charNames.add("Mrs Peacock");
-		this.charNames.add("Reverend Green");
-		this.charNames.add("Colonel Mustard");
-		this.charNames.add("Mrs White");
-	}
-
-	/**
-	 * Creates cards based on the characters and adds them to a set.
-	 */
-
-	private void createCharacters() {
-		this.setOfCharacters = new HashSet<>();
-
-		this.setOfCharacters.add(new Card("Miss Scarlett"));
-		this.setOfCharacters.add(new Card("Colonel Mustard"));
-		this.setOfCharacters.add(new Card("Mrs White"));
-		this.setOfCharacters.add(new Card("Reverend Green"));
-		this.setOfCharacters.add(new Card("Mrs Peacock"));
-		this.setOfCharacters.add(new Card("Professor Plum"));
-	}
-
-	/**
-	 * Creates cards based on the weapons and adds them to a set.
-	 */
-
-	private void createWeapons() {
-		this.setOfWeapons = new HashSet<>();
-
-		this.setOfWeapons.add(new Card("Candlestick"));
-		this.setOfWeapons.add(new Card("Dagger"));
-		this.setOfWeapons.add(new Card("Lead Pipe"));
-		this.setOfWeapons.add(new Card("Revolver"));
-		this.setOfWeapons.add(new Card("Rope"));
-		this.setOfWeapons.add(new Card("Spanner"));
-	}
-
-	/**
-	 * Creates cards based on the rooms and adds them to a set.
-	 */
-
-	private void createRooms() {
-		this.setOfRooms = new HashSet<>();
-
-		this.setOfRooms.add(new Card("Kitchen"));
-		this.setOfRooms.add(new Card("Ball Room"));
-		this.setOfRooms.add(new Card("Conservatory"));
-		this.setOfRooms.add(new Card("Billiard Room"));
-		this.setOfRooms.add(new Card("Library"));
-		this.setOfRooms.add(new Card("Study"));
-		this.setOfRooms.add(new Card("Hall"));
-		this.setOfRooms.add(new Card("Lounge"));
-		this.setOfRooms.add(new Card("Dining Room"));
-	}
-
-	/**
-	 * Picks a random weapon, person, and room into a triplet. These are the murder details that have to be guessed.
-	 */
-
-	private void doMurder() {
-
-		int randChar = (int) (Math.random() * this.setOfCharacters.size());
-		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
-		// array.
-		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
-		// array.
-		Card charCard = arrOfCards[randChar]; // Get card at random position.
-		this.setOfCharacters.remove(charCard);
-
-		int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
-		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
-		this.setOfWeapons.toArray(arrOfWeapons);
-		Card weaponCard = arrOfWeapons[randWeapon];
-		this.setOfWeapons.remove(weaponCard);
-
-		int randRoom = (int) (Math.random() * this.setOfRooms.size());
-		Card[] arrOfRooms = new Card[this.setOfRooms.size()];
-		this.setOfRooms.toArray(arrOfRooms);
-		Card roomCard = arrOfRooms[randRoom];
-		this.setOfRooms.remove(roomCard);
-
-		this.setOfCharacters.remove(roomCard); // Remove selected
-		this.setOfWeapons.remove(weaponCard);
-		this.setOfRooms.remove(roomCard);
-
-		this.murderInfo = new Triplet(charCard, weaponCard, roomCard);
-
-	}
-
-	/**
-	 * Does the game logic.
-	 */
-
-	private void runGame() {
-		while (true) {
-			for (Player p : this.players) {
-				if (this.gameOver) {
-					return;
-				}
-				int playersLeft = 0; // calculate the number of players left
-				Player last = null; // if there is only player, this is the
-									// winner
-				for (Player pl : this.players) {
-					if (pl.getStatus()) {
-						playersLeft++;
-						last = pl;
-					}
-				}
-				// if only one player is left, they win
-				if (playersLeft == 1) {
-					assert (last != null);
-					System.out.println(last.getUsername() + " won as everyone else is out.");
-					System.out.println("The murder was actually done by " + this.murderInfo);
-					System.out.println("It seems that detective work requires more competence than you lot have.");
-					return;
-				}
-				if (p.getStatus()) {
-					doTurn(p);
-				}
-
-			}
-		}
-	}
-
-	@SuppressWarnings("unused")
-
-	/**
 	 * Gets the player details from the System.in. Then adds the player created from
 	 * these details into the game. Once all the players have been setup the board is drawn.
 	 */
-
 	private void setupPlayers() {
 		try {
 
@@ -728,6 +631,85 @@ public class Cluedo {
 		catch (RuntimeException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Creates a triplet based on the player's guess. A player is required to be passed as the room in the triplet is based on the
+	 * player's current location.
+	 *
+	 * @param in The scanner passed along, should be System.in()
+	 * @param p The player who's guessing.
+	 * @return A triplet based on the info from the scanner.
+	 */
+	private Triplet suggestion(Scanner in, Player p) {
+
+		Room room = (Room) p.getToken().getLocation();
+
+		System.out.println("Person:");
+
+		String personSuggest;
+		Person: while (true) {
+			personSuggest = in.nextLine();
+			for (Token t : this.allTokens) {
+				if (t.isCharacter() && t.getName().equals(personSuggest)) {
+					room.addToken(t);
+					break Person;
+				}
+			}
+			System.out.println("That isn't a person.");
+		}
+
+		System.out.println("Weapon:");
+
+		String weaponSuggest;
+		Weapon: while (true) {
+			weaponSuggest = in.nextLine();
+			for (Token t : this.allTokens) {
+				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
+					room.addToken(t);
+					break Weapon;
+				}
+			}
+			System.out.println("That isn't a weapon.");
+		}
+		String roomSuggest = room.getName();
+
+		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
+
+		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+	}
+
+	/**
+	 * Setup the character and weapons tokens.
+	 */
+	private void tokensSetup() {
+		this.allTokens = new HashSet<>();
+
+		// put characters in starting locations
+		this.allTokens.add(new Token("Miss Scarlett", this.board.getSquare(7, 24), true, "MS"));
+		this.allTokens.add(new Token("Professor Plum", this.board.getSquare(23, 19), true, "PP"));
+		this.allTokens.add(new Token("Mrs Peacock", this.board.getSquare(23, 6), true, "MP"));
+		this.allTokens.add(new Token("Reverend Green", this.board.getSquare(14, 0), true, "RG"));
+		this.allTokens.add(new Token("Colonel Mustard", this.board.getSquare(0, 17), true, "CM"));
+		this.allTokens.add(new Token("Mrs White", this.board.getSquare(9, 0), true, "MW"));
+
+		List<Room> rooms = new ArrayList<>();
+		rooms.addAll(this.board.getRooms().values());
+		Room[] weaponRooms = new Room[6];
+
+		// get 6 random rooms
+		for (int i = 0; i < 6; i++) {
+			int index = (int) (Math.random() * (9 - i));
+			weaponRooms[i] = rooms.remove(index);
+		}
+
+		// put weapons in their random location
+		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "cs"));
+		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "dg"));
+		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "lp"));
+		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "rv"));
+		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "ro"));
+		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "sp"));
 	}
 
 	@SuppressWarnings("unused")

@@ -13,30 +13,18 @@ import cluedo.Board;
 public class Canvas extends JPanel {
 
 	private Image boardImage;
+	private Image candlestick;
 
-	private Board board;
-
-	private int x = -2;
-	private int y = -2;
-
-	public Canvas(Board board) {
+	public Canvas() {
 		super();
 		this.boardImage = loadImage("board.png");
-		this.board = board;
+		this.candlestick = loadImage("candlestick.png");
 	}
 
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
-		g.drawRect(x * 31 + 30, (int)(y * 29.5) + 6, 31, 30);
-	}
-
-	public void x(int x) {
-		this.x = x;
-	}
-
-	public void y(int y) {
-		this.y = y;
+		g.drawImage(this.candlestick, 80, 60, null, null);
 	}
 
 	public static Image loadImage(String filename) {
