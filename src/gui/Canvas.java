@@ -16,7 +16,6 @@ public class Canvas extends JPanel {
 	
 	private Image boardImage;
 
-
 	public Canvas() {
 		super();
 		this.boardImage = loadImage("board.png");
