@@ -1,6 +1,7 @@
 package location;
 
 import java.awt.Image;
+import java.awt.Point;
 import java.util.Map;
 
 import items.Token;
@@ -15,10 +16,12 @@ import items.Token;
 public class Room extends Location {
 
 	private String name;
+	private Point displayCoords;
 
-	public Room(String name, Map<String, Location> adjacent) {
+	public Room(String name, Map<String, Location> adjacent, int x, int y) {
 		super(adjacent);
 		this.name = name;
+		this.displayCoords = new Point(x, y);
 	}
 
 	public String getName() {
@@ -27,6 +30,10 @@ public class Room extends Location {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Point getDisplayCoords() {
+		return this.displayCoords;
 	}
 
 	/**

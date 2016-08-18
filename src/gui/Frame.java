@@ -14,7 +14,7 @@ public class Frame extends JFrame {
 
 	public Frame(Cluedo cluedo) {
 		super("Cluedo");
-		this.canvas = new Canvas();
+		this.canvas = new Canvas(cluedo.getBoard());
 		setPreferredSize(new Dimension(1000, 790));
 		setLayout(new BorderLayout()); // use border layout
 		add(this.canvas, BorderLayout.CENTER); // add canvas
