@@ -390,6 +390,10 @@ public class Cluedo {
 
 	}
 
+	public Board getBoard() {
+		return this.board;
+	}
+	
 	public void nextTurn() {
 		int playersLeft = 0; // calculate the number of players left
 		Player last = null; // if there is only player, this is the winner
@@ -611,12 +615,12 @@ public class Cluedo {
 		this.allTokens = new HashSet<>();
 
 		// put characters in starting locations
-		this.allTokens.add(new Token("Miss Scarlett", this.board.getSquare(7, 24), true, "MS"));
-		this.allTokens.add(new Token("Professor Plum", this.board.getSquare(23, 19), true, "PP"));
-		this.allTokens.add(new Token("Mrs Peacock", this.board.getSquare(23, 6), true, "MP"));
-		this.allTokens.add(new Token("Reverend Green", this.board.getSquare(14, 0), true, "RG"));
-		this.allTokens.add(new Token("Colonel Mustard", this.board.getSquare(0, 17), true, "CM"));
-		this.allTokens.add(new Token("Mrs White", this.board.getSquare(9, 0), true, "MW"));
+		this.allTokens.add(new Token("Miss Scarlett", this.board.getSquare(7, 24), true, "missScarlett.png"));
+		this.allTokens.add(new Token("Professor Plum", this.board.getSquare(23, 19), true, "professorPlum.png"));
+		this.allTokens.add(new Token("Mrs Peacock", this.board.getSquare(23, 6), true, "mrsPeacock.png"));
+		this.allTokens.add(new Token("Reverend Green", this.board.getSquare(14, 0), true, "reverendGreen.png"));
+		this.allTokens.add(new Token("Colonel Mustard", this.board.getSquare(0, 17), true, "colonelMustard.png"));
+		this.allTokens.add(new Token("Mrs White", this.board.getSquare(9, 0), true, "mrsWhite.png"));
 
 		List<Room> rooms = new ArrayList<>();
 		rooms.addAll(this.board.getRooms().values());
@@ -629,12 +633,12 @@ public class Cluedo {
 		}
 
 		// put weapons in their random location
-		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "cs"));
-		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "dg"));
-		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "lp"));
-		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "rv"));
-		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "ro"));
-		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "sp"));
+		this.allTokens.add(new Token("Candlestick", weaponRooms[0], false, "candlestick.png"));
+		this.allTokens.add(new Token("Dagger", weaponRooms[1], false, "dagger.png"));
+		this.allTokens.add(new Token("Lead Pipe", weaponRooms[2], false, "pipe.png"));
+		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "revolver.png"));
+		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "rope.png"));
+		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "spanner.png"));
 	}
 
 	/**

@@ -24,8 +24,6 @@ public class Board {
 	private Square[][] boardSquares;
 	private Map<String, Room> rooms; //Set of the rooms on the board.
 
-	private String[] key;
-
 	/**
 	 * 0 = empty space
 	 * 1 = square

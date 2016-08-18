@@ -80,7 +80,7 @@ public class Token {
 	        return image;
 		}
 		catch(IOException e) {
-			System.out.println(e);
+			System.out.println(e + ": " + filename);
 		}
 		return null;
 	}
