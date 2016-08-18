@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import gui.Canvas;
 import gui.Frame;
 import items.Card;
@@ -29,8 +31,7 @@ public class Cluedo {
 	private Triplet murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
 	private List<Player> players; // List containing the players in the game.
-	private Set<String> charNames; // Set containing the names of the characters
-	// in the game.
+	private String[] charNames;
 
 	private Set<Card> setOfRooms; // Used for creating the triplet.
 	private Set<Card> setOfWeapons;
@@ -39,9 +40,10 @@ public class Cluedo {
 	private Set<Card> allCards; // All cards, used for dealing.
 	private Set<Token> allTokens; // The character and weapon tokens
 
-	private boolean gameOver;
+	private Frame frame;
 
 	private int turnNumber;
+	private boolean gameOver;
 
 	public Cluedo() {
 		this.players = new ArrayList<>();
@@ -58,21 +60,23 @@ public class Cluedo {
 
 		doMurder(); // Create triplet of murder info.
 
-		//setupPlayers();
+		this.frame = new Frame(this);
 
-		//Player highest = doStartRolls(this.players); // Get the player with
-		// the highest roll.
+		setupPlayers();
 
-		//this.players.remove(highest);
-		//this.players.add(0, highest);
-		//turnNumber = 0;
+		this.frame.showMessage("Rolling off for first turn.");
+		Player highest = doStartRolls(this.players); // Get the player with
+				// the highest roll.
+		this.frame.showMessage(highest.getUsername() + " goes first!");
 
-		//putCards();
-		//dealHands();
+		this.players.remove(highest);
+		this.players.add(0, highest);
+		this.turnNumber = -1;
 
-		Frame frame = new Frame(this);
+		putCards();
+		dealHands();
 
-		runGame();
+		nextTurn();
 	}
 
 	/**
@@ -130,6 +134,7 @@ public class Cluedo {
 		System.out.println(x + "," + y);
 	}
 
+
 	/**
 	 * Creates cards based on the characters and adds them to a set.
 	 */
@@ -148,13 +153,7 @@ public class Cluedo {
 	 * Puts the list of playable characters in a set and returns them. For purposes of selecting characters.
 	 */
 	private void createCharStrings() {
-		this.charNames = new HashSet<>();
-		this.charNames.add("Miss Scarlett");
-		this.charNames.add("Professor Plum");
-		this.charNames.add("Mrs Peacock");
-		this.charNames.add("Reverend Green");
-		this.charNames.add("Colonel Mustard");
-		this.charNames.add("Mrs White");
+
 	}
 
 	/**
@@ -257,8 +256,8 @@ public class Cluedo {
 		Map<Player, Integer> rolls = new HashMap<>();
 
 		for (Player p : temp) {
-			int roll = rollDice6();
-			System.out.println(p.getUsername() + " rolled a " + roll);
+			int roll = rollD6();
+			this.frame.showMessage(p.getUsername() + " rolled a " + roll);
 			if (roll < highest) {
 				continue;
 			}
@@ -277,7 +276,7 @@ public class Cluedo {
 		if (highRollers.size() == 1) {
 			return highRollers.get(0);
 		}
-		System.out.println("Draw! Highest rollers rolling again.");
+		this.frame.showMessage("Draw! Highest rollers rolling again.");
 		return doStartRolls(highRollers);
 	}
 
@@ -298,7 +297,7 @@ public class Cluedo {
 
 			boolean suggestionMade = false;
 
-			int dist = rollDice(); // The distance a player can move.
+			int dist = roll2D6(); // The distance a player can move.
 			System.out.println(p.getUsername() + " rolled a " + dist);
 
 			System.out.println("What would you like to do? 'help' for options");
@@ -423,8 +422,7 @@ public class Cluedo {
 
 	public void nextTurn() {
 		int playersLeft = 0; // calculate the number of players left
-		Player last = null; // if there is only player, this is the
-							// winner
+		Player last = null; // if there is only player, this is the winner
 		for (Player pl : this.players) {
 			if (pl.getStatus()) {
 				playersLeft++;
@@ -434,20 +432,23 @@ public class Cluedo {
 		// if only one player is left, they win
 		if (playersLeft == 1) {
 			assert (last != null);
-			System.out.println(last.getUsername() + " won as everyone else is out.");
-			System.out.println("The murder was actually done by " + this.murderInfo);
-			System.out.println("It seems that detective work requires more competence than you lot have.");
+			this.frame.showMessage(last.getUsername() + " won as everyone else is out.\n" +
+					"The murder was actually done by " + this.murderInfo + "\n" +
+					"It seems that detective work requires more competence than you lot have.");
 			this.gameOver = true;
 			return;
 		}
 
 		do {
 			this.turnNumber++;
+			if (this.turnNumber > this.players.size()) {
+				this.turnNumber = 0;
+			}
 		} while(!this.players.get(this.turnNumber).getStatus());
 
 		Player current = this.players.get(this.turnNumber);
 
-		System.out.println(current.getUsername() + "'s turn.");
+		this.frame.showMessage(current.getUsername() + " (" + current.getToken().getName() + ")" + "'s turn.");
 
 		Token token = current.getToken();
 
@@ -478,8 +479,8 @@ public class Cluedo {
 	 *
 	 * @return An int between 1 and 12.
 	 */
-	public static int rollDice() {
-		return rollDice6() + rollDice6();
+	public static int roll2D6() {
+		return rollD6() + rollD6();
 	}
 
 	/**
@@ -487,124 +488,78 @@ public class Cluedo {
 	 *
 	 * @return An int between 1 and 6.
 	 */
-	public static int rollDice6() {
+	public static int rollD6() {
 		return (int) (Math.random() * 6 + 1);
-	}
-
-	/**
-	 * Runs the game.
-	 */
-	private void runGame() {
-		while (!this.gameOver) {
-			//the game runs
-		}
 	}
 
 	/**
 	 * Sets up a human player and adds it to the set of players to be passed to the board when the game is setup.
 	 *
-	 * @param playerNumb The number of the player to be setup.
+	 * @param username The username of the player
+	 * @param charName The name of the character being played
 	 * @return newPlayer A setup player that will be added to the set of players in the game.
 	 */
-	private Player setupPlayer(int playerNumb) { // Does this need to take an
-		// arg?
+	public void setupPlayer(String username, String charName) {
+		Token token = null;
 
-		Scanner in = null;
-
-		try {
-			in = new Scanner(System.in);
-			System.out.println("Enter your username:");
-
-			String username = in.nextLine();
-
-			String charName = null;
-
-			while (!this.charNames.contains(charName)) {
-
-				for (Player p : this.players) { // Make sure the chosen username
-					// is
-					// unique.
-					if (p.getUsername().equals(username)) {
-						System.out.println("This username has already been taken");
-						setupPlayer(playerNumb); // Try again.
-					}
-				}
-
-				System.out.println("Select a character: ");
-
-				charName = in.nextLine();
-
-				if (!this.charNames.contains(charName)) { // Invalid character,
-					// either
-					// doesn't exist
-					// or already taken.
-					System.out.println("This is not a valid character");
-				}
+		for (Token t : this.allTokens) {
+			if (t.getName().equals(charName)) {
+				token = t;
 			}
-
-			this.charNames.remove(charName); // Remove this character as a
-			// pickable
-			// character.
-
-			Token token = null;
-
-			for (Token t : this.allTokens) {
-				if (t.getName().equals(charName)) {
-					token = t;
-				}
-			}
-
-			return (new Player(username, token)); // Return the new character.
 		}
 
-		catch (RuntimeException e) {
-			e.printStackTrace();
-			return null;
-		}
-
+		this.players.add(new Player(username, token)); // Return the new character.
 	}
 
 	/**
-	 * Gets the player details from the System.in. Then adds the player created from
-	 * these details into the game. Once all the players have been setup the board is drawn.
+	 * Setup the players.
 	 */
 	private void setupPlayers() {
-		try {
+		String[] charNames = {
+				"Miss Scarlett", "Professor Plum", "Mrs Peacock",
+				"Reverend Green", "Colonel Mustard", "Mrs White"
+			};
+		//get the number of players
+		Object[] possibleNumbers = { 3, 4, 5, 6 };
+		Object selectedNumber = this.frame.askOptions("How many players?", possibleNumbers);
 
-			Scanner in = new Scanner(System.in);
-
-			int numbPlayers = 0;
-
-			// Make sure we do eventually get a valid number of players.
-			while (numbPlayers < 3 || numbPlayers > 6) {
-
-				System.out.println("Enter the number of players: ");
-
-				String input = in.nextLine();
-
-				try {
-					numbPlayers = Integer.parseInt(input); // Try to parse to
-															// int.
-				}
-				catch (NumberFormatException e) {
-					// If input is not convertable to an int. Invalid input.
-					System.out.println("This is not a valid number.");
-				}
-
-				if (numbPlayers > 6 || numbPlayers < 3) {
-					System.out.println("This is not a valid number of players, needs to be between 3-6");
-					numbPlayers = 0; // Go back to top of while loop.
-				}
-			}
-			// Loop through number of players setting them up.
-			// Add the new player to the set of players.
-			for (int i = 0; i < numbPlayers; i++) {
-				this.players.add(setupPlayer(i));
-			}
+		int numPlayers = 0;
+		if (selectedNumber == null) {
+			System.exit(0);
+		}
+		else {
+			numPlayers = (int)selectedNumber;
 		}
 
-		catch (RuntimeException e) {
-			e.printStackTrace();
+		// get each players name and character
+		for (int i = 0; i < numPlayers; i++) {
+			String username = this.frame.askText("Enter a username:");
+			if (username == null) {
+				System.exit(0);
+			}
+			while(!usernameFree(username)) {
+				username = this.frame.askText("Username already in use. Try again:");
+				if (username == null) {
+					System.exit(0);
+				}
+			}
+
+			Object selectedCharacter = this.frame.askOptions("Select a character:", charNames);
+			if (selectedCharacter == null) {
+				System.exit(0);
+			}
+
+			//remove character from array
+			String[] temp = new String[charNames.length - 1];
+			int j = 0;
+			for (String c : charNames) {
+				if (!c.equals(selectedCharacter)) {
+					temp[j++] = c;
+				}
+			}
+			charNames = temp;
+
+			setupPlayer(username, (String)selectedCharacter);
 		}
 	}
 
@@ -620,7 +575,7 @@ public class Cluedo {
 
 		Room room = (Room) p.getToken().getLocation();
 
-		System.out.println("Person:");
+		//this.frame.askOptions()
 
 		String personSuggest;
 		Person: while (true) {
@@ -685,6 +640,20 @@ public class Cluedo {
 		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "rv"));
 		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "ro"));
 		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "sp"));
+	}
+
+	/**
+	 * Checks if a username is in use.
+	 * @param username
+	 * @return true if not in use
+	 */
+	public boolean usernameFree(String username) {
+		for (Player p : this.players) {
+			if (p.getUsername().equals(username)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@SuppressWarnings("unused")
