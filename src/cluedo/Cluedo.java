@@ -28,11 +28,14 @@ public class Cluedo {
 	private Triplet murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
 	private List<Player> players; // List containing the players in the game.
-	private String[] charNames;
 
 	private Set<Card> setOfRooms; // Used for creating the triplet.
 	private Set<Card> setOfWeapons;
 	private Set<Card> setOfCharacters;
+	
+	private String[] charNames;
+	private String[] weaponNames;
+	private String[] roomNames;
 
 	private Set<Card> allCards; // All cards, used for dealing.
 	private Set<Token> allTokens; // The character and weapon tokens
@@ -45,11 +48,12 @@ public class Cluedo {
 	public Cluedo() {
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
-		createCharStrings(); // Populate set with characters.
 
 		createRooms();
 		createWeapons();
 		createCharacters();
+		
+		setupNames();
 
 		this.board = new Board();
 
@@ -84,44 +88,20 @@ public class Cluedo {
 	 * @param in The scanner which input will be read from (Probably System.in).
 	 * @return a Triplet with the user input values.
 	 */
-	private Triplet accusation(Scanner in) {
-		System.out.println("Person:");
-
-		String personSuggest;
-		Person: while (true) {
-			personSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (t.getName().equals(personSuggest)) {
-					break Person;
-				}
-			}
-			System.out.println("That isn't a person.");
+	private Triplet accusation() {
+		String personSuggest = (String)this.frame.askOptions("Person:", this.charNames);
+		if (personSuggest == null) {
+			return null;
 		}
 
-		System.out.println("Weapon:");
-
-		String weaponSuggest;
-		Weapon: while (true) {
-			weaponSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
-					break Weapon;
-				}
-			}
-			System.out.println("That isn't a weapon.");
+		String weaponSuggest = (String)this.frame.askOptions("Weapon:", this.weaponNames);
+		if (weaponSuggest == null) {
+			return null;
 		}
 
-		System.out.println("Room:");
-
-		String roomSuggest;
-		Room: while (true) {
-			roomSuggest = in.nextLine();
-			for (Room r : this.board.getRooms().values()) {
-				if (r.getName().equals(roomSuggest)) {
-					break Room;
-				}
-			}
-			System.out.println("That isn't a room.");
+		String roomSuggest = (String)this.frame.askOptions("Room:", this.roomNames);
+		if (roomSuggest == null) {
+			return null;
 		}
 
 		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
@@ -144,13 +124,6 @@ public class Cluedo {
 		this.setOfCharacters.add(new Card("Reverend Green"));
 		this.setOfCharacters.add(new Card("Mrs Peacock"));
 		this.setOfCharacters.add(new Card("Professor Plum"));
-	}
-
-	/**
-	 * Puts the list of playable characters in a set and returns them. For purposes of selecting characters.
-	 */
-	private void createCharStrings() {
-
 	}
 
 	/**
@@ -307,7 +280,7 @@ public class Cluedo {
 
 				// make an accusation
 				if (instruction.equals("accusation")) {
-					Triplet guess = accusation(in);
+					Triplet guess = accusation();
 
 					if (guess.equalsTriplet(this.murderInfo)) { // Accusation
 																// was correct,
@@ -488,6 +461,35 @@ public class Cluedo {
 	public static int rollD6() {
 		return (int) (Math.random() * 6 + 1);
 	}
+	
+	private void setupNames() {
+		this.charNames = new String[6];
+		this.charNames[0] = "Colonel Mustard";
+		this.charNames[1] = "Miss Scarlett";
+		this.charNames[2] = "Mrs Peacock";
+		this.charNames[3] = "Mrs White";
+		this.charNames[4] = "Professor Plum";
+		this.charNames[5] = "Reverend Green";
+		
+		this.weaponNames = new String[6];
+		this.weaponNames[0] = "Candlestick";
+		this.weaponNames[1] = "Dagger";
+		this.weaponNames[2] = "Lead Pipe";
+		this.weaponNames[3] = "Revolver";
+		this.weaponNames[4] = "Rope";
+		this.weaponNames[5] = "Spanner";
+		
+		this.roomNames = new String[9];
+		this.roomNames[0] = "Ball Room";
+		this.roomNames[1] = "Billiard Room";
+		this.roomNames[2] = "Conservatory";
+		this.roomNames[3] = "Dining Room";
+		this.roomNames[4] = "Hall";
+		this.roomNames[5] = "Kitchen";
+		this.roomNames[6] = "Library";
+		this.roomNames[7] = "Lounge";
+		this.roomNames[8] = "Study";
+	}
 
 	/**
 	 * Sets up a human player and adds it to the set of players to be passed to the board when the game is setup.
@@ -512,10 +514,6 @@ public class Cluedo {
 	 * Setup the players.
 	 */
 	private void setupPlayers() {
-		String[] charNames = {
-				"Miss Scarlett", "Professor Plum", "Mrs Peacock",
-				"Reverend Green", "Colonel Mustard", "Mrs White"
-			};
 		//get the number of players
 		Integer[] possibleNumbers = { 3, 4, 5, 6 };
 		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
@@ -525,7 +523,7 @@ public class Cluedo {
 			System.exit(0);
 		}
 		else {
-			numPlayers = (int) selectedNumber;
+			numPlayers = selectedNumber;
 		}
 
 		// get each players name and character
@@ -541,20 +539,20 @@ public class Cluedo {
 				}
 			}
 
-			Object selectedCharacter = this.frame.askOptions("Select a character:", charNames);
+			Object selectedCharacter = this.frame.askOptions("Select a character:", this.charNames);
 			if (selectedCharacter == null) {
 				System.exit(0);
 			}
 
 			//remove character from array
-			String[] temp = new String[charNames.length - 1];
+			String[] temp = new String[this.charNames.length - 1];
 			int j = 0;
-			for (String c : charNames) {
+			for (String c : this.charNames) {
 				if (!c.equals(selectedCharacter)) {
 					temp[j++] = c;
 				}
 			}
-			charNames = temp;
+			this.charNames = temp;
 
 			setupPlayer(username, (String)selectedCharacter);
 		}
