@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
-import gui.Canvas;
 import gui.Frame;
 import items.Card;
 import items.Token;
@@ -520,15 +517,15 @@ public class Cluedo {
 				"Reverend Green", "Colonel Mustard", "Mrs White"
 			};
 		//get the number of players
-		Object[] possibleNumbers = { 3, 4, 5, 6 };
-		Object selectedNumber = this.frame.askOptions("How many players?", possibleNumbers);
+		Integer[] possibleNumbers = { 3, 4, 5, 6 };
+		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
 
 		int numPlayers = 0;
 		if (selectedNumber == null) {
 			System.exit(0);
 		}
 		else {
-			numPlayers = (int)selectedNumber;
+			numPlayers = (int) selectedNumber;
 		}
 
 		// get each players name and character

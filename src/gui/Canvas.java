@@ -35,6 +35,7 @@ public class Canvas extends JPanel {
 		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
 		g.drawImage(this.candlestick, 80, 60, null, null);
 		g.drawImage(this.revolver, 140, 60, null, null);
+		g.fillOval(130, 120, 30, 30);
 	}
 
 	public static Image loadImage(String filename) {
