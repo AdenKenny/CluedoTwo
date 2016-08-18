@@ -18,6 +18,10 @@ public class Canvas extends JPanel {
 	private Image pipe;
 	private Image spanner;
 	private Image rope;
+	
+	private Image reverendGreen;
+	private Image missScarlett;
+
 
 	public Canvas() {
 		super();
@@ -28,6 +32,9 @@ public class Canvas extends JPanel {
 		this.pipe = loadImage("pipe.png");
 		this.spanner = loadImage("spanner.png");
 		this.rope = loadImage("rope.png");
+		
+		this.reverendGreen = loadImage("reverendGreen.png");
+		this.missScarlett = loadImage("missScarlett.png");
 	}
 
 	public void paint(Graphics g) {
@@ -35,7 +42,9 @@ public class Canvas extends JPanel {
 		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
 		g.drawImage(this.candlestick, 80, 60, null, null);
 		g.drawImage(this.revolver, 140, 60, null, null);
-		g.fillOval(130, 120, 30, 30);
+		g.drawImage(this.reverendGreen, 500, 500, null, null);
+		g.drawImage(this.missScarlett, 500, 530, null, null);
+
 	}
 
 	public static Image loadImage(String filename) {
