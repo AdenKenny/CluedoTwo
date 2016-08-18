@@ -60,7 +60,7 @@ public class Cluedo {
 		tokensSetup();
 
 		doMurder(); // Create triplet of murder info.
-
+		
 		this.frame = new Frame(this);
 
 		setupPlayers();
