@@ -21,6 +21,7 @@ public class Canvas extends JPanel {
 	
 	private Image reverendGreen;
 	private Image missScarlett;
+	private Image colonelMustard;
 
 
 	public Canvas() {
@@ -35,6 +36,7 @@ public class Canvas extends JPanel {
 		
 		this.reverendGreen = loadImage("reverendGreen.png");
 		this.missScarlett = loadImage("missScarlett.png");
+		this.colonelMustard = loadImage("colonelMustard.png");
 	}
 
 	public void paint(Graphics g) {
@@ -44,6 +46,7 @@ public class Canvas extends JPanel {
 		g.drawImage(this.revolver, 140, 60, null, null);
 		g.drawImage(this.reverendGreen, 500, 500, null, null);
 		g.drawImage(this.missScarlett, 500, 530, null, null);
+		g.drawImage(this.colonelMustard, 500, 560, null, null);
 
 	}
 

@@ -1,5 +1,11 @@
 package items;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import location.Location;
 
 
@@ -12,7 +18,7 @@ import location.Location;
 public class Token {
 
 	private String name;
-	private String display;
+	private Image image;
 	private Location location;
 	private boolean isCharacter;
 
@@ -25,11 +31,11 @@ public class Token {
 	 *            The starting Location of the Token.
 	 */
 
-	public Token(String name, Location location, boolean isCharacter, String display) {
+	public Token(String name, Location location, boolean isCharacter, String imageName) {
 		this.name = name;
 		location.addToken(this);
 		this.isCharacter = isCharacter;
-		this.display = display;
+		this.image = loadImage(imageName);
 	}
 
 	// Getters and Setters.
@@ -59,11 +65,23 @@ public class Token {
 		this.location = location;
 	}
 
-	public String getDisplay() {
-		return this.display;
+	public Image getImage() {
+		return this.image;
 	}
 
 	public boolean isCharacter() {
 		return this.isCharacter;
+	}
+	
+	public static Image loadImage(String filename) {
+		try {
+	        File file = new File("images/" + filename);
+	        Image image = ImageIO.read(file);
+	        return image;
+		}
+		catch(IOException e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 }

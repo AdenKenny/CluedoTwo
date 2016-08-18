@@ -1,5 +1,6 @@
 package cluedo;
 
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,6 @@ public class Board {
 		populateBoard();
 		roomSetup();
 		addRoomAccess();
-		keySetup();
 	}
 
 	/**
@@ -190,49 +190,24 @@ public class Board {
 	}
 
 	/**
-	 * Set up the key displayed on the side of the board.
-	 */
-	private void keySetup() {
-		this.key = new String[BOARD_HEIGHT];
-		this.key[0] = "MS = Miss Scarlett";
-		this.key[1] = "PP = Professor Plum";
-		this.key[2] = "MP = Mrs Peacock";
-		this.key[3] = "RG = Reverend Green";
-		this.key[4] = "CM = Colonel Mustard";
-		this.key[5] = "MW = Mrs White";
-		this.key[6] = "";
-		this.key[7] = "cs = Candlestick";
-		this.key[8] = "dg = Dagger";
-		this.key[9] = "lp = Lead Pipe";
-		this.key[10] = "rv = Revolver";
-		this.key[11] = "ro = Rope";
-		this.key[12] = "sp = Spanner";
-		for (int i = 13; i < BOARD_HEIGHT; i++) {
-			this.key[i] = "";
-		}
-	}
-
-	/**
-	 * Gets the player at a given location.
+	 * Gets the image for a player at a given location.
 	 *
 	 * @param x An int representing the location on the x axis.
 	 * @param y An int representing the location on the y axis.
 	 * @return Returns a string representing a character at the location, if there is a player there.
 	 */
 
-	private String characterAt(int x, int y) {
+	private Image characterAt(int x, int y) {
 		Location location = this.boardSquares[x][y];
 		if (location == null) {return null;}
 		for (Token t : location.getTokens()) {
-			if (t.isCharacter()) {
-				return t.getDisplay();
-			}
+			return t.getImage();
 		}
 		return null;
 	}
 
 	/**
-	 * Returns the character at a certain coordinate, 0 if out of bounds.
+	 * Returns the character at a certain coordinate on the boardStrings, 0 if out of bounds.
 	 * @param x The xOrdinate
 	 * @param y The yOrdinate
 	 * @return char

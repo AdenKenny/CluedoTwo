@@ -1,5 +1,6 @@
 package location;
 
+import java.awt.Image;
 import java.util.Map;
 
 import items.Token;
@@ -33,13 +34,11 @@ public class Room extends Location {
 	 *
 	 * @return - A String representing the tokens in the room.
 	 */
-	public String getDisplay() {
-		if (this.tokens.isEmpty()) {
-			return null;
-		}
-		String display = "";
+	public Image[] getDisplay() {
+		Image[] display = new Image[this.tokens.size()];
+		int i = 0;
 		for (Token t : this.tokens) {
-			display += t.getDisplay();
+			display[i++] = t.getImage();
 		}
 		return display;
 	}
