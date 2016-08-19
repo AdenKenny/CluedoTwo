@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import gui.Canvas;
+import gui.Frame;
 import location.Location;
 
 
@@ -35,7 +37,7 @@ public class Token {
 		this.name = name;
 		location.addToken(this);
 		this.isCharacter = isCharacter;
-		this.image = loadImage(imageName);
+		this.image = Canvas.loadImage(imageName);
 	}
 
 	// Getters and Setters.
@@ -72,16 +74,5 @@ public class Token {
 	public boolean isCharacter() {
 		return this.isCharacter;
 	}
-	
-	public static Image loadImage(String filename) {
-		try {
-	        File file = new File("images/" + filename);
-	        Image image = ImageIO.read(file);
-	        return image;
-		}
-		catch(IOException e) {
-			System.out.println(e + ": " + filename);
-		}
-		return null;
-	}
+
 }

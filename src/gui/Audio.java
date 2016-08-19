@@ -23,7 +23,7 @@ public class Audio {
 	Clip clip;
 
 	public Audio() {
-		playAudio();
+
 	}
 
 	/**
@@ -31,7 +31,11 @@ public class Audio {
 	 */
 
 	public void muteAudio() {
-		this.clip.close();
+
+		if(this.clip != null) { //Check to make sure we have sound.
+			this.clip.close(); //Close the audio.
+			this.clip = null; //Set to no music.
+		}
 	}
 
 	/**
@@ -39,7 +43,14 @@ public class Audio {
 	 */
 
 	public void unmuteAudio() {
-		playAudio();
+
+
+		if(this.clip == null) { //Checks to make sure we don't already have sound.
+			playAudio();
+		}
+
+		//playAudio(); //Uncomment this for a great bug. Press the play audio button a few times.
+
 	}
 
 	/**
@@ -48,7 +59,7 @@ public class Audio {
 
 	private void playAudio() {
 
-		this.soundName = "images/music.wav";
+		this.soundName = "assets/audio/music.wav";
 		this.audioInputStream = null;
 
 		try {

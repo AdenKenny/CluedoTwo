@@ -22,7 +22,7 @@ public class Canvas extends JPanel {
 
 	public Canvas() {
 		super();
-		this.boardImage = loadImage("board.png");
+		this.boardImage = loadImage("board/board.png");
 	}
 
 	public void addBoard(Board board) {
@@ -66,7 +66,7 @@ public class Canvas extends JPanel {
 
 	public static Image loadImage(String filename) {
 		try {
-	        File file = new File("images/" + filename);
+	        File file = new File("assets/images/" + filename);
 	        Image image = ImageIO.read(file);
 	        return image;
 		}
