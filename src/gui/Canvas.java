@@ -27,6 +27,7 @@ public class Canvas extends JPanel {
 
 	public void addBoard(Board board) {
 		this.board = board;
+		this.repaint();
 	}
 
 	private static int xToPixels(int x) {
