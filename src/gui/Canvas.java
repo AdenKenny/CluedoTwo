@@ -13,6 +13,15 @@ import cluedo.Board;
 import location.Location;
 import location.Room;
 
+/**
+ * A class representing the canvas on the board on which tokens (players and weapons)
+ * are drawn.
+ *
+ * @author Aden Kenny and Simon Pope.
+ *
+ */
+
+
 public class Canvas extends JPanel {
 
 	private Board board = null;
@@ -22,7 +31,7 @@ public class Canvas extends JPanel {
 
 	public Canvas() {
 		super();
-		this.boardImage = loadImage("board/board.png");
+		this.boardImage = loadImage("board/board.png"); //Load board file.
 	}
 
 	public void addBoard(Board board) {
