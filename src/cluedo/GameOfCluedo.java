@@ -65,22 +65,6 @@ public class GameOfCluedo {
 		tokensSetup();
 
 		doMurder(); // Create triplet of murder info.
-
-		setupPlayers();
-
-		this.frame.showMessage("Rolling off for first turn.");
-		Player highest = doStartRolls(this.players); // Get the player with
-				// the highest roll.
-		this.frame.showMessage(highest.getUsername() + " goes first!");
-
-		this.players.remove(highest);
-		this.players.add(0, highest);
-		this.turnNumber = -1;
-
-		putCards();
-		dealHands();
-
-		nextTurn();
 	}
 
 	/**
@@ -476,7 +460,7 @@ public class GameOfCluedo {
 	/**
 	 * Setup the players.
 	 */
-	private void setupPlayers() {
+	public void setupPlayers() {
 		//get the number of players
 		Integer[] possibleNumbers = { 3, 4, 5, 6 };
 		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
@@ -488,6 +472,8 @@ public class GameOfCluedo {
 		else {
 			numPlayers = selectedNumber;
 		}
+
+		String[] tempCharNames = charNames;
 
 		// get each players name and character
 		for (int i = 0; i < numPlayers; i++) {
@@ -502,20 +488,20 @@ public class GameOfCluedo {
 				}
 			}
 
-			Object selectedCharacter = this.frame.askOptions("Select a character:", this.charNames);
+			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
 				System.exit(0);
 			}
 
 			//remove character from array
-			String[] temp = new String[this.charNames.length - 1];
+			String[] temp = new String[tempCharNames.length - 1];
 			int j = 0;
-			for (String c : this.charNames) {
+			for (String c : tempCharNames) {
 				if (!c.equals(selectedCharacter)) {
 					temp[j++] = c;
 				}
 			}
-			this.charNames = temp;
+			tempCharNames = temp;
 
 			setupPlayer(username, (String)selectedCharacter);
 		}
@@ -523,6 +509,22 @@ public class GameOfCluedo {
 
 	public void showHand() {
 		this.frame.showMessage(this.players.get(this.turnNumber).handString());
+	}
+
+	public void startGame() {
+		this.frame.showMessage("Rolling off for first turn.");
+		Player highest = doStartRolls(this.players); // Get the player with
+				// the highest roll.
+		this.frame.showMessage(highest.getUsername() + " goes first!");
+
+		this.players.remove(highest);
+		this.players.add(0, highest);
+		this.turnNumber = -1;
+
+		putCards();
+		dealHands();
+
+		nextTurn();
 	}
 
 	/**

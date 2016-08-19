@@ -125,7 +125,7 @@ public class MenuBar extends JFrame {
 			String action = e.getActionCommand();
 
 			if(action.equals("About")) {
-				MenuBar.this.frame.showPopup("A graphical Cluedo. Written by Aden Kenny and Simon Pope - 2016");
+				MenuBar.this.frame.showMessage("A graphical Cluedo. Written by Aden Kenny and Simon Pope - 2016");
 			}
 
 			else if(action.equals("New Game")) {

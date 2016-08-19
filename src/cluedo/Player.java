@@ -112,8 +112,9 @@ public class Player {
 	public String handString() {
 		String handString = "";
 		for (Card c : this.hand) {
-			handString += c.getName() + "\n";
+			handString += c.getName() + ", ";
 		}
+		handString = handString.substring(0, handString.length() - 2);
 		return handString;
 	}
 
