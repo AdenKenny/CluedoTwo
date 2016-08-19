@@ -59,6 +59,7 @@ public class Audio {
 		try {
 			this.audioInputStream = AudioSystem.getAudioInputStream(new File(this.soundName).getAbsoluteFile());
 		}
+		
 		catch (UnsupportedAudioFileException | IOException e1) {
 			e1.printStackTrace();
 		}

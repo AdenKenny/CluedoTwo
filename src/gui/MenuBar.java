@@ -44,7 +44,7 @@ public class MenuBar extends JFrame {
 		this.frame = frame;
 		this.menuBar = new JMenuBar(); // Initialise bar.
 
-		String path = "assets/images/icons/";
+		String path = "assets/images/icons/"; 
 
 		this.infoIcon = new ImageIcon(path + "infoIcon.png"); //Set icons to assets.
 		this.fileIcon = new ImageIcon(path + "fileIcon.png");
@@ -66,15 +66,17 @@ public class MenuBar extends JFrame {
 		JMenu audioMenu = new JMenu("Audio");
 		audioMenu.setMnemonic(KeyEvent.VK_F2);
 		audioMenu.setIcon(this.musicIcon);
-
+		
+		//JMenuItems.
+		
 		JMenuItem about = new JMenuItem("About - Alt+A", this.infoIcon); //The buttons on the menu.
-		about.setActionCommand("about"); //The string that is passed along.
+		about.setActionCommand("about"); //The string that is passed along to the action listener.
 		about.setMnemonic(KeyEvent.VK_A); //Sets the mnemonic for the keyboard shortcut.
 
 		JMenuItem newGame = new JMenuItem("New game - Alt+N", this.fileIcon);
 		newGame.setActionCommand("new game");
-		newGame.setMnemonic(KeyEvent.VK_N); //Sets the mnemonic for the keyboard shortcut.
-
+		newGame.setMnemonic(KeyEvent.VK_N);
+		
 		JMenuItem close = new JMenuItem("Close game - Alt+C", this.closeIcon);
 		close.setActionCommand("close");
 		close.setMnemonic(KeyEvent.VK_C);
@@ -110,7 +112,7 @@ public class MenuBar extends JFrame {
 	/**
 	 * Returns the JMenuBar to be added to the frame.
 	 *
-	 * @return The completed
+	 * @return The JMenuBar with everything added onto it.
 	 */
 
 	public JMenuBar getBar() {
