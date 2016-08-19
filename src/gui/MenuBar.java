@@ -1,7 +1,9 @@
 package gui;
 
+import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,7 +31,7 @@ public class MenuBar {
 		JMenu gameMenu = new JMenu("Game");
 
 		JMenuItem close = new JMenuItem("Close game"); // The buttons on the menu.
-		close.setActionCommand("Close");
+		close.setActionCommand("Close"); //The string that's passed along
 
 		JMenuItem newGame = new JMenuItem("New game");
 		newGame.setActionCommand("New Game");
@@ -84,11 +86,11 @@ public class MenuBar {
 			}
 
 			else if(action.equals("New Game")) {
-
+				MenuBar.this.frame.newGame();
 			}
 
 			else if(action.equals("Close")) {
-
+				System.exit(1);
 			}
 		}
 	}

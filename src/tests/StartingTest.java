@@ -120,7 +120,7 @@ public class StartingTest {
 	 * ourselves and most importantly we have failed you.
 	 */
 
-	@Test
+/*	@Test
 	public void testEntertainment() {
 
 		new GameOfCluedo();
@@ -139,5 +139,5 @@ public class StartingTest {
 
 		assertEquals(reply, "yes");
 	}
-
+*/
 }

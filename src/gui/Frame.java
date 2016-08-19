@@ -33,6 +33,8 @@ public class Frame extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		this.setJMenuBar(new MenuBar(this).getBar());
+
 		createButtonPanel();
 
 		pack(); // pack components tightly together
@@ -46,11 +48,12 @@ public class Frame extends JFrame {
 
 	}
 
-	public void addGame() {
-		GameOfCluedo cluedo = new GameOfCluedo();
+	public void newGame() {
+		GameOfCluedo cluedo = new GameOfCluedo(this);
 		this.canvas.addBoard(cluedo.getBoard());
 		this.mouse.addGame(cluedo);
 		this.gameStarted = true;
+		this.canvas.repaint();
 	}
 
 	/**
