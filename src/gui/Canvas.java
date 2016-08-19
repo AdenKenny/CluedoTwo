@@ -28,6 +28,17 @@ public class Canvas extends JPanel {
 
 	private Image boardImage;
 
+	private static final int BOARD_LEFT = 30;
+	private static final int BOARD_TOP = 6;
+
+	private static final int SQUARE_WIDTH = 31;
+	private static final double SQUARE_HEIGHT = 29.5;
+
+	private static final int SQUARES_WIDTH = 24;
+	private static final int SQUARES_HEIGHT = 25;
+
+	private static final int BOARD_WIDTH = 800;
+	private static final int BOARD_HEIGHT = 760;
 
 	public Canvas() {
 		super();
@@ -40,27 +51,30 @@ public class Canvas extends JPanel {
 	}
 
 	private static int xToPixels(int x) {
-		return x * 31 + 30;
+		return x * SQUARE_WIDTH + BOARD_LEFT;
 	}
 
 	private static int yToPixels(int y) {
-		return (int)(y * 29.5) + 6;
+		return (int) (y * SQUARE_HEIGHT) + BOARD_TOP;
 	}
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
+		g.drawImage(this.boardImage, 0, 0, BOARD_WIDTH, BOARD_HEIGHT, null, null);
+
 		if (this.board == null) {
 			return;
 		}
-		for (int x = 0; x < 24; x++) {
-			for (int y = 0; y < 25; y++) {
+
+		for (int x = 0; x < SQUARES_HEIGHT; x++) {
+			for (int y = 0; y < SQUARES_HEIGHT; y++) {
 				Image img = this.board.characterAt(x, y);
 				if (img != null) {
 					g.drawImage(img, xToPixels(x), yToPixels(y), null, null);
 				}
 			}
 		}
+
 		for (Room room : this.board.getRooms().values()) {
 			Point p = room.getDisplayCoords();
 			int x = xToPixels((int)p.getX());
