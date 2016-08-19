@@ -168,7 +168,10 @@ public class Frame extends JFrame {
 	 */
 
 	public void showHand() {
-		new HandBox(this, "This is your hand", this.cluedo.showHand());
+
+		String playerName = this.cluedo.getCurrentPlayer().getHandUserName();
+
+		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
 
 	public Object askOptions(String message, Object[] options) {

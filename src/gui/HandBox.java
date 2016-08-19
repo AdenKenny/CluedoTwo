@@ -33,10 +33,16 @@ public class HandBox extends JDialog {
 
 		super(parent, message, true);
 
-		//this.panel = new JPanel();
 		this.handCanvas = new HandCanvas(setOfCards);
 
-		setSize(new Dimension(500, 500));
+		if(setOfCards.size() < 4) {
+			setSize(new Dimension(335, 195));
+		}
+
+		else if(setOfCards.size() < 7){
+			setSize(new Dimension(335, 370));
+		}
+
 
 		Dimension parentSize = parent.getSize();
 	    Point p = parent.getLocation();
@@ -47,6 +53,7 @@ public class HandBox extends JDialog {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		setResizable(false);
 		setVisible(true);
 	}
 

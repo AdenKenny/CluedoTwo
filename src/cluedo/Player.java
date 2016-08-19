@@ -20,6 +20,7 @@ public class Player {
 
 	private boolean status; // Hasn't been eliminated.
 	private String username;
+	private String handUserName;
 	private Token personToken;
 	private Set<Card> hand; // Represents a player's hand.
 
@@ -35,6 +36,7 @@ public class Player {
 	public Player(String username, Token personToken) {
 		this.status = true;
 		this.username = username + " (" + personToken.getName() + ")";
+		this.handUserName = personToken.getName();
 		this.personToken = personToken;
 		this.hand = new HashSet<>();
 	}
@@ -58,6 +60,16 @@ public class Player {
 
 	public String getUsername() {
 		return this.username;
+	}
+
+	/**
+	 * Returns a string used when displaying a player's hand.
+	 *
+	 * @return The string of the players name.
+	 */
+
+	public String getHandUserName() {
+		return this.handUserName;
 	}
 
 	/**

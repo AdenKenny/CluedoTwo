@@ -335,8 +335,24 @@ public class GameOfCluedo {
 
 	}
 
+	/**
+	 * Returns the board.
+	 *
+	 * @return A board object.
+	 */
+
 	public Board getBoard() {
 		return this.board;
+	}
+
+	/**
+	 * Returns the player who has the current turn.
+	 *
+	 * @return The player who is on their turn.
+	 */
+
+	public Player getCurrentPlayer() {
+		return this.players.get(this.turnNumber);
 	}
 
 	public void nextTurn() {

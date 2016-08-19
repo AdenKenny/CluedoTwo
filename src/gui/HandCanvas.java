@@ -9,7 +9,11 @@ import javax.swing.JPanel;
 
 import items.Card;
 
+
 public class HandCanvas extends JPanel {
+
+	private static final int CARD_WIDTH = 110;
+	private static final int CARD_HEIGHT = 170;
 
 	private Set<Card> setOfCards;
 
@@ -24,12 +28,19 @@ public class HandCanvas extends JPanel {
 
 		int x = 0;
 		int y = 0;
-	    for(Card card : this.setOfCards) {
-	    	Image image = card.getImage();
-	    	g.drawImage(image, x, y, null);
+		int i = 0;
 
-	    	x += image.getWidth(null);
-	    }
+		for (Card card : this.setOfCards) {
+
+			y = (i / 3) * CARD_HEIGHT;
+			x = (i % 3) * CARD_WIDTH;
+
+			Image image = card.getImage();
+			g.drawImage(image, x, y, CARD_WIDTH, CARD_HEIGHT, null);
+
+			x += CARD_WIDTH;
+			i++;
+		}
 
 	}
 

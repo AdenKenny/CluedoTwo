@@ -99,7 +99,7 @@ public class Canvas extends JPanel {
 	        return image;
 		}
 		catch(IOException e) {
-			System.out.println(e);
+			System.out.println(e + filename);
 		}
 		return null;
 	}
