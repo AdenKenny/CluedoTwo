@@ -15,13 +15,22 @@ import javax.swing.JPanel;
 import cluedo.GameOfCluedo;
 
 
+/**
+ * A class that holds the main Swing elements of the game of Cluedo.
+ * This calls the 'GameOfCluedo' class which does the game logic.
+ * The graphical user interface is done in this class.
+ *
+ * @author Aden Kenny and Simon Pope.
+ *
+ */
+
 public class Frame extends JFrame {
 
-	private Canvas canvas;
-	private Mouse mouse;
-	private Audio audio;
+	private Canvas canvas; //The canvas on which the board is drawn.
+	private Mouse mouse; //Handles mouse inputs for movement.
+	private Audio audio; //Handles the audio for the game.
 
-	GameOfCluedo cluedo;
+	GameOfCluedo cluedo; //Cluedo class that handles game logic.
 
 	public Frame() {
 		super("Cluedo");
@@ -30,38 +39,48 @@ public class Frame extends JFrame {
 		this.audio = new Audio();
 
 		setPreferredSize(new Dimension(810, 835));
-		setLayout(new BorderLayout()); // use border layout
+		setLayout(new BorderLayout());
 
-		add(this.canvas, BorderLayout.CENTER); // add canvas
+		add(this.canvas, BorderLayout.CENTER);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.setJMenuBar(new MenuBar(this).getBar());
+		this.setJMenuBar(new MenuBar(this).getBar()); //Create menu bar.
 
-		createButtonPanel();
-
-		pack(); // pack components tightly together
-		setResizable(false); // prevent us from being resizeable
+		createButtonPanel(); //Sets up buttons down the bottom.
+		pack();
+		setResizable(false); // Prevents frame from being resizeable.
 
 		setVisible(true);
 
 		this.mouse = new Mouse(); // Mouse stuff.
-		addMouseListener(this.mouse);
+		addMouseListener(this.mouse); //Adds the mouse listener to the mouse class.
 
 	}
 
+	/**
+	 * Creates a new game of Cluedo. Used in the menu bar new game option.
+	 */
+
 	public void newGame() {
 
-		this.cluedo = new GameOfCluedo(this);
+		this.cluedo = new GameOfCluedo(this); //Creates all the requirements for a new game.
 		this.canvas.addBoard(this.cluedo.getBoard());
 		this.cluedo.setupPlayers();
-		if (this.cluedo == null) {
+
+		if(this.cluedo == null) { //If there is an error setting up game.
 			return;
 		}
+
 		this.mouse.addGame(this.cluedo);
 		this.cluedo.startGame();
 
 	}
+
+	/**
+	 * Ends the game of Cluedo. Called in canceling opening windows (name input etc...)
+	 * Or if a player wins.
+	 */
 
 	public void endGame() {
 		this.cluedo = null;
@@ -143,6 +162,10 @@ public class Frame extends JFrame {
 		this.add(box, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * Creates the box on which the cards in a player's hand are displayed.
+	 */
+
 	public void showHand() {
 
 		String handString = this.cluedo.showHand();
@@ -161,6 +184,12 @@ public class Frame extends JFrame {
 	public String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
+
+	/**
+	 * Returns the canvas that is displayed on this frame.
+	 *
+	 * @return The canvas on which the board is drawn on.
+	 */
 
 	public Canvas getCanvas() {
 		return this.canvas;
