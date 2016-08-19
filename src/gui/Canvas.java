@@ -81,7 +81,7 @@ public class Canvas extends JPanel {
 			return;
 		}
 
-		for (int x = 0; x < SQUARES_WIDTH; x++) {
+		for (int x = 0; x < SQUARES_WIDTH; x++) { 
 			for (int y = 0; y < SQUARES_HEIGHT; y++) {
 				Image img = this.board.characterAt(x, y);
 				if (img != null) {
