@@ -76,7 +76,7 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Ends the game of Cluedo. Called in canceling opening windows (name input etc...)
+	 * Ends the game of Cluedo. Called in cancelling opening windows (name input etc...)
 	 * Or if a player wins.
 	 */
 

@@ -1,8 +1,6 @@
 package cluedo;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import items.Card;
@@ -135,10 +133,13 @@ public class Player {
 	 * @return A String representing the cards in a player's hand.
 	 */
 	public String handString() {
-		String handString = "";
+		StringBuffer buff = new StringBuffer();
 		for (Card c : this.hand) {
-			handString += c.getName() + ", ";
+			buff.append(c.getName() + ", ");
 		}
+		
+		String handString = buff.toString();
+		
 		handString = handString.substring(0, handString.length() - 2);
 		return handString;
 	}

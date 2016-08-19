@@ -14,7 +14,6 @@ import items.Card;
 import items.Token;
 import location.Location;
 import location.Room;
-import location.Square;
 import util.Pair;
 import util.Triplet;
 
@@ -259,6 +258,7 @@ public class GameOfCluedo {
 		if (highRollers.size() == 1) {
 			return highRollers.get(0);
 		}
+		
 		this.frame.showMessage("Draw! Highest rollers rolling again.");
 		return doStartRolls(highRollers);
 	}
@@ -276,6 +276,7 @@ public class GameOfCluedo {
 		Scanner in = null;
 
 		try {
+			
 			in = new Scanner(System.in);
 			System.out.println("What would you like to do? 'help' for options");
 			while (true) { // Player still has moves left.
@@ -284,8 +285,6 @@ public class GameOfCluedo {
 				Map<String, Location> adjacent = null;
 				Location location = null;
 				Token token = null;
-
-
 
 				// command is for moving certain distance in a direction
 				String[] split = instruction.split(" ");
