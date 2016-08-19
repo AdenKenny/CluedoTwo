@@ -136,11 +136,6 @@ public class Frame extends JFrame {
 	}
 
 	public void showMessage(String message) {
-		/*
-		JOptionPane.showConfirmDialog(this, new JLabel(message),
-				null, JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE);
-				*/
 		JOptionPane pane = new JOptionPane(message);
 		JDialog dialog = pane.createDialog(this, "Message");
 		dialog.setVisible(true);
