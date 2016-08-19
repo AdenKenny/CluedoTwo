@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,10 +17,18 @@ import javax.swing.JMenuItem;
  * @author Aden Kenny and Simon Pope.
  */
 
-public class MenuBar {
+public class MenuBar extends JFrame {
 
-	Frame frame;
+	Frame frame; //The base frame on which the game is displayed on.
 	JMenuBar menuBar; // The menu bar on which everything will be displayed on.
+
+
+	/**
+	 * Constructor for our menu bar. Takes a frame input on which it will be
+	 * displayed.
+	 *
+	 * @param frame The frame on which this menu bar will be added to.
+	 */
 
 	public MenuBar(Frame frame) {
 
@@ -28,28 +37,34 @@ public class MenuBar {
 		this.menuBar = new JMenuBar(); // Initialise bar.
 
 		JMenu fileMenu = new JMenu("File"); // JMenus.
+		fileMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
+
 		JMenu gameMenu = new JMenu("Game");
+		gameMenu.setMnemonic(KeyEvent.VK_F2);
 
-		JMenuItem close = new JMenuItem("Close game"); // The buttons on the menu.
-		close.setActionCommand("Close"); //The string that's passed along
+		JMenuItem about = new JMenuItem("About - Alt+A"); //The buttons on the menu.
+		about.setActionCommand("About"); //The string that is passed along.
+		about.setMnemonic(KeyEvent.VK_A); //Sets the mnemonic for the keyboard shortcut.
 
-		JMenuItem newGame = new JMenuItem("New game");
+		JMenuItem close = new JMenuItem("Close game - Alt+C");
+		close.setActionCommand("Close");
+		close.setMnemonic(KeyEvent.VK_C);
+
+		JMenuItem newGame = new JMenuItem("New game - Alt+N");
 		newGame.setActionCommand("New Game");
-
-		JMenuItem about = new JMenuItem("About");
-		about.setActionCommand("About");
+		newGame.setMnemonic(KeyEvent.VK_N); //Sets the mnemonic for the keyboard shortcut.
 
 		MenuItemListener menuItemListener = new MenuItemListener();
 
-		about.addActionListener(menuItemListener);
+		about.addActionListener(menuItemListener); //Adds the custom listener to the buttons.
 		newGame.addActionListener(menuItemListener);
 		close.addActionListener(menuItemListener);
 
-		gameMenu.add(newGame);
+		gameMenu.add(newGame); //Adds the menu items to the menus.
 		gameMenu.add(close);
 		fileMenu.add(about);
 
-		this.menuBar.add(fileMenu);
+		this.menuBar.add(fileMenu); //Adds the menus to the menu bar.
 		this.menuBar.add(gameMenu);
 
 	}
