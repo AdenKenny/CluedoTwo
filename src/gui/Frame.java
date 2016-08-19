@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,17 +15,18 @@ import cluedo.GameOfCluedo;
 
 public class Frame extends JFrame {
 
-	Canvas canvas;
-	Mouse mouse;
-	JPanel buttonPanel;
-	JButton handButton;
+	private Canvas canvas;
+	private Mouse mouse;
+	private JPanel buttonPanel;
+
+	boolean gameStarted;
 
 	public Frame() {
 		super("Cluedo");
 
 		this.canvas = new Canvas();
 
-		setPreferredSize(new Dimension(1000, 790));
+		setPreferredSize(new Dimension(950, 790));
 		setLayout(new BorderLayout()); // use border layout
 
 		add(this.canvas, BorderLayout.CENTER); // add canvas
@@ -31,14 +34,6 @@ public class Frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		createButtonPanel();
-
-		this.handButton = new JButton("View hand");
-		this.handButton.setLocation(900, 600);
-		this.handButton.setSize(150, 150);
-
-		this.buttonPanel.add(this.handButton);
-
-		this.add(this.buttonPanel, BorderLayout.EAST);
 
 		pack(); // pack components tightly together
 		setResizable(false); // prevent us from being resizeable
@@ -51,9 +46,11 @@ public class Frame extends JFrame {
 
 	}
 
-	public void addGame(GameOfCluedo cluedo) {
+	public void addGame() {
+		GameOfCluedo cluedo = new GameOfCluedo();
 		this.canvas.addBoard(cluedo.getBoard());
 		this.mouse.addGame(cluedo);
+		this.gameStarted = true;
 	}
 
 	/**
@@ -61,11 +58,25 @@ public class Frame extends JFrame {
 	 */
 
 	private void createButtonPanel() {
-
 		this.buttonPanel = new JPanel();
 		this.buttonPanel.setSize(300, 500);
 		this.buttonPanel.setLocation(700, 600);
 
+		JButton handButton = new JButton("View hand");
+		handButton.setLocation(900, 600);
+		handButton.setSize(150, 150);
+		handButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!Frame.this.gameStarted) {
+					return;
+				}
+
+			}
+		});
+		this.buttonPanel.add(handButton);
+
+		this.add(this.buttonPanel, BorderLayout.EAST);
 	}
 
 	public Object askOptions(String message, Object[] options) {
