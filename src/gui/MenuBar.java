@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,6 +24,9 @@ public class MenuBar extends JFrame {
 	Frame frame; //The base frame on which the game is displayed on.
 	JMenuBar menuBar; // The menu bar on which everything will be displayed on.
 
+	Icon aboutIcon;
+	Icon fileIcon;
+	Icon closeIcon;
 
 	/**
 	 * Constructor for our menu bar. Takes a frame input on which it will be
@@ -33,8 +38,11 @@ public class MenuBar extends JFrame {
 	public MenuBar(Frame frame) {
 
 		this.frame = frame;
-
 		this.menuBar = new JMenuBar(); // Initialise bar.
+
+		this.aboutIcon = new ImageIcon("images/questionMark.png");
+		this.fileIcon = new ImageIcon("images/fileIcon.png");
+		this.closeIcon = new ImageIcon("images/closeIcon.png");
 
 		JMenu fileMenu = new JMenu("File"); // JMenus.
 		fileMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
@@ -42,17 +50,19 @@ public class MenuBar extends JFrame {
 		JMenu gameMenu = new JMenu("Game");
 		gameMenu.setMnemonic(KeyEvent.VK_F2);
 
-		JMenuItem about = new JMenuItem("About - Alt+A"); //The buttons on the menu.
+		JMenuItem about = new JMenuItem("About - Alt+A", this.aboutIcon); //The buttons on the menu.
 		about.setActionCommand("About"); //The string that is passed along.
 		about.setMnemonic(KeyEvent.VK_A); //Sets the mnemonic for the keyboard shortcut.
 
-		JMenuItem close = new JMenuItem("Close game - Alt+C");
+		JMenuItem newGame = new JMenuItem("New game - Alt+N", this.fileIcon);
+		newGame.setActionCommand("New Game");
+		newGame.setMnemonic(KeyEvent.VK_N); //Sets the mnemonic for the keyboard shortcut.
+
+		JMenuItem close = new JMenuItem("Close game - Alt+C", this.closeIcon);
 		close.setActionCommand("Close");
 		close.setMnemonic(KeyEvent.VK_C);
 
-		JMenuItem newGame = new JMenuItem("New game - Alt+N");
-		newGame.setActionCommand("New Game");
-		newGame.setMnemonic(KeyEvent.VK_N); //Sets the mnemonic for the keyboard shortcut.
+
 
 		MenuItemListener menuItemListener = new MenuItemListener();
 
