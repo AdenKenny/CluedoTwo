@@ -92,9 +92,10 @@ public class Canvas extends JPanel {
 
 		for (Room room : this.board.getRooms().values()) {
 			Point p = room.getDisplayCoords();
-			int x = xToPixels((int)p.getX());
-			int y = yToPixels((int)p.getY());
+			int x = xToPixels((int) p.getX());
+			int y = yToPixels((int) p.getY());
 			Image[] images = room.getDisplay();
+			
 			for (Image img : images) {
 				g.drawImage(img, x, y, null, null);
 				x += img.getWidth(null);
@@ -103,7 +104,7 @@ public class Canvas extends JPanel {
 	}
 
 	/**
-	 * Returns an image from a string represeting a filename. Adds on some path information.
+	 * Returns an image from a string representing a filename. Adds on some path information.
 	 * 
 	 * @param filename A string representing the name of a file that is to be loaded.
 	 * @return An image of the file.

@@ -95,6 +95,7 @@ public class Frame extends JFrame {
 
 		JButton handButton = new JButton("View hand");
 		handButton.setMaximumSize(new Dimension(200, 30));
+		handButton.setToolTipText("Show your hand");
 		handButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -111,6 +112,7 @@ public class Frame extends JFrame {
 
 		JButton suggestionButton = new JButton("Suggestion");
 		suggestionButton.setMaximumSize(new Dimension(200, 30));
+		suggestionButton.setToolTipText("Make a suggestion (You must be in a room)");
 		suggestionButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -127,6 +129,7 @@ public class Frame extends JFrame {
 
 		JButton accusationButton = new JButton("Accusation");
 		accusationButton.setMaximumSize(new Dimension(200, 30));
+		accusationButton.setToolTipText("Make an accusation (If you get this wrong you lose)");
 		accusationButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -143,6 +146,7 @@ public class Frame extends JFrame {
 
 		JButton endTurnButton = new JButton("End Turn");
 		endTurnButton.setMaximumSize(new Dimension(200, 30));
+		endTurnButton.setToolTipText("End your turn");
 		endTurnButton.addActionListener(new ActionListener() {
 
 			@Override

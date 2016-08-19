@@ -42,7 +42,7 @@ public class MenuBar extends JFrame {
 	public MenuBar(Frame frame) {
 
 		this.frame = frame;
-		this.menuBar = new JMenuBar(); // Initialise bar.
+		this.menuBar = new JMenuBar(); //Initialise bar.
 
 		String path = "assets/images/icons/"; 
 
@@ -55,17 +55,20 @@ public class MenuBar extends JFrame {
 		this.questionIcon = new ImageIcon(path + "questionIcon.png");
 		this.musicIcon = new ImageIcon(path + "musicIcon.png");
 
-		JMenu helpMenu = new JMenu("Help"); // JMenus.
-		helpMenu.setMnemonic(KeyEvent.VK_F3); //Sets the mnemonic for the keyboard shortcut.
-		helpMenu.setIcon(this.questionIcon);
-
-		JMenu gameMenu = new JMenu("Game");
-		gameMenu.setMnemonic(KeyEvent.VK_F1);
+		JMenu gameMenu = new JMenu("Game"); // JMenus.
+		gameMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
 		gameMenu.setIcon(this.gameIcon);
+		gameMenu.setToolTipText("Create new game or exit current game"); //Hover text.
 
 		JMenu audioMenu = new JMenu("Audio");
 		audioMenu.setMnemonic(KeyEvent.VK_F2);
 		audioMenu.setIcon(this.musicIcon);
+		audioMenu.setToolTipText("Play audio or unmute audio");
+		
+		JMenu helpMenu = new JMenu("Help"); 
+		helpMenu.setMnemonic(KeyEvent.VK_F3); 
+		helpMenu.setIcon(this.questionIcon);
+		helpMenu.setToolTipText("Get help with the game");
 		
 		//JMenuItems.
 		
