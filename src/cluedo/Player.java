@@ -32,7 +32,7 @@ public class Player {
 
 	public Player(String username, Token personToken) {
 		this.status = true;
-		this.username = username;
+		this.username = username + " (" + personToken.getName() + ")";
 		this.personToken = personToken;
 		this.hand = new HashSet<>();
 	}

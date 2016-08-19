@@ -107,39 +107,39 @@ public class Board {
 
 		Map<String, Location> adjacent = new HashMap<>();
 		adjacent.put("down", this.boardSquares[4][7]);
-		Room kitchen = new Room("Kitchen", adjacent);
+		Room kitchen = new Room("Kitchen", adjacent, 1, 2);
 		this.rooms.put("k", kitchen);
 
 		adjacent = new HashMap<>();
 		adjacent.put("left", this.boardSquares[7][5]);
 		adjacent.put("down left", this.boardSquares[9][8]);
 		adjacent.put("down right", this.boardSquares[14][8]);
-		this.rooms.put("b", new Room("Ball Room", adjacent));
+		this.rooms.put("b", new Room("Ball Room", adjacent, 9, 3));
 
 		adjacent = new HashMap<>();
 		adjacent.put("down", this.boardSquares[18][5]);
-		Room conservatory = new Room("Conservatory", adjacent);
+		Room conservatory = new Room("Conservatory", adjacent, 19, 1);
 		this.rooms.put("c", conservatory);
 
 		adjacent = new HashMap<>();
 		adjacent.put("right", this.boardSquares[8][12]);
 		adjacent.put("down", this.boardSquares[6][16]);
-		this.rooms.put("d", new Room("Dining Room", adjacent));
+		this.rooms.put("d", new Room("Dining Room", adjacent, 1, 11));
 
 		adjacent = new HashMap<>();
 		adjacent.put("left", this.boardSquares[17][9]);
 		adjacent.put("down", this.boardSquares[22][13]);
-		this.rooms.put("i", new Room("Billiard Room", adjacent));
+		this.rooms.put("i", new Room("Billiard Room", adjacent, 19, 9));
 
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[20][13]);
 		adjacent.put("left", this.boardSquares[16][16]);
-		this.rooms.put("l", new Room("Library", adjacent));
+		this.rooms.put("l", new Room("Library", adjacent, 19, 15));
 
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[6][18]);
 		adjacent.put("Conservatory", conservatory);
-		Room lounge = new Room("Lounge", adjacent);
+		Room lounge = new Room("Lounge", adjacent, 1, 23);
 		conservatory.addAdjacent("Lounge", lounge);
 		this.rooms.put("o", lounge);
 
@@ -147,12 +147,12 @@ public class Board {
 		adjacent.put("up left", this.boardSquares[11][17]);
 		adjacent.put("up right", this.boardSquares[12][17]);
 		adjacent.put("right", this.boardSquares[15][20]);
-		this.rooms.put("h", new Room("Hall", adjacent));
+		this.rooms.put("h", new Room("Hall", adjacent, 10, 19));
 
 		adjacent = new HashMap<>();
 		adjacent.put("up", this.boardSquares[17][20]);
 		adjacent.put("Kitchen", kitchen);
-		Room study = new Room("Study", adjacent);
+		Room study = new Room("Study", adjacent, 18, 22);
 		kitchen.addAdjacent("Study", study);
 		this.rooms.put("s", study);
 	}
@@ -195,7 +195,7 @@ public class Board {
 	 * @return Returns a string representing a character at the location, if there is a player there.
 	 */
 
-	private Image characterAt(int x, int y) {
+	public Image characterAt(int x, int y) {
 		Location location = this.boardSquares[x][y];
 		if (location == null) {return null;}
 		for (Token t : location.getTokens()) {

@@ -32,7 +32,7 @@ public class Cluedo {
 	private Set<Card> setOfRooms; // Used for creating the triplet.
 	private Set<Card> setOfWeapons;
 	private Set<Card> setOfCharacters;
-	
+
 	private String[] charNames;
 	private String[] weaponNames;
 	private String[] roomNames;
@@ -44,6 +44,8 @@ public class Cluedo {
 
 	private int turnNumber;
 	private boolean gameOver;
+	private boolean suggestionMade;
+	private int moveDistance;
 
 	public Cluedo() {
 		this.players = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Cluedo {
 		createRooms();
 		createWeapons();
 		createCharacters();
-		
+
 		setupNames();
 
 		this.board = new Board();
@@ -60,7 +62,7 @@ public class Cluedo {
 		tokensSetup();
 
 		doMurder(); // Create triplet of murder info.
-		
+
 		this.frame = new Frame(this);
 
 		setupPlayers();
@@ -81,30 +83,40 @@ public class Cluedo {
 	}
 
 	/**
-	 * Creates an accusation based on the user's input. Makes sure inputs are valid
-	 * i.e. when prompted for the weapon, that the input actually corresponds a
-	 * weapon.
-	 *
-	 * @param in The scanner which input will be read from (Probably System.in).
-	 * @return a Triplet with the user input values.
+	 * Make an accusation.
 	 */
-	private Triplet accusation() {
+	public void accusation() {
 		String personSuggest = (String)this.frame.askOptions("Person:", this.charNames);
 		if (personSuggest == null) {
-			return null;
+			return;
 		}
 
 		String weaponSuggest = (String)this.frame.askOptions("Weapon:", this.weaponNames);
 		if (weaponSuggest == null) {
-			return null;
+			return;
 		}
 
 		String roomSuggest = (String)this.frame.askOptions("Room:", this.roomNames);
 		if (roomSuggest == null) {
-			return null;
+			return;
 		}
 
-		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+		Triplet guess = new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+
+		Player p = this.players.get(this.turnNumber);
+
+		if (guess.equalsTriplet(this.murderInfo)) { // Accusation
+													// was correct,
+													// player wins
+													// game.
+			this.frame.showMessage("Correct");
+			this.frame.showMessage(p.getUsername() + " won the game as they guessed correctly!");
+			this.gameOver = true;
+			return;
+		}
+		this.frame.showMessage(p.getUsername() + " is out of the game as they guessed incorrectly!");
+		p.setStatus(false); // Set player to out of the game.
+		nextTurn();
 	}
 
 	public void boardClicked(int x, int y) {
@@ -264,12 +276,6 @@ public class Cluedo {
 
 		try {
 			in = new Scanner(System.in);
-
-			boolean suggestionMade = false;
-
-			int dist = roll2D6(); // The distance a player can move.
-			System.out.println(p.getUsername() + " rolled a " + dist);
-
 			System.out.println("What would you like to do? 'help' for options");
 			while (true) { // Player still has moves left.
 				String instruction = in.nextLine(); // take input from user
@@ -277,59 +283,6 @@ public class Cluedo {
 				Map<String, Location> adjacent = null;
 				Location location = null;
 				Token token = null;
-
-				// make an accusation
-				if (instruction.equals("accusation")) {
-					Triplet guess = accusation();
-
-					if (guess.equalsTriplet(this.murderInfo)) { // Accusation
-																// was correct,
-																// player wins
-																// game.
-						System.out.println("Correct");
-						System.out.println(p.getUsername() + " won the game as they guessed correctly!");
-						this.gameOver = true;
-						return;
-					}
-					System.out.println(p.getUsername() + " is out of the game as they guessed incorrectly!");
-					p.setStatus(false); // Set player to out of the game.
-					return;
-				}
-
-				// make a suggestion
-				if (instruction.equals("suggestion")) {
-					if (suggestionMade) {
-						System.out.println("You have already made a suggestion this turn.");
-						continue;
-					}
-					if (!(location instanceof Room)) {
-						System.out.println("You must be in a room to make a suggestion.");
-						continue;
-					}
-					Triplet suggestion = suggestion(in, p);
-					Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); // Check
-																							// refutations.
-
-					if (tempPair.getValue1()) { // If someone can refute.
-						System.out.println(tempPair.getValue2());
-					}
-					else {
-						System.out.println("No one could refute this.");
-					}
-					suggestionMade = true;
-					continue;
-				}
-
-				// display your hand
-				if (instruction.equals("hand")) {
-					System.out.println(p.handString());
-					continue;
-				}
-
-				// end your turn
-				if (instruction.equals("end turn")) { // Player doesn't want to move.
-					break;
-				}
 
 
 
@@ -363,13 +316,13 @@ public class Cluedo {
 						System.out.println("Unexpected entry. Please try again, or 'help' for options");
 						continue;
 					}
-					if (instrDist > dist) {
+					if (instrDist > this.moveDistance) {
 						System.out.println("You can't move that far.");
 						continue;
 					}
 					if (this.board.moveToken(token, xDir, yDir, instrDist)) {
-						dist -= instrDist;
-						System.out.println("You can move up to " + dist + " more.");
+						this.moveDistance -= instrDist;
+						System.out.println("You can move up to " + this.moveDistance + " more.");
 						continue;
 					}
 					System.out.println("Illegal Move");
@@ -393,7 +346,7 @@ public class Cluedo {
 	public Board getBoard() {
 		return this.board;
 	}
-	
+
 	public void nextTurn() {
 		int playersLeft = 0; // calculate the number of players left
 		Player last = null; // if there is only player, this is the winner
@@ -420,14 +373,19 @@ public class Cluedo {
 			}
 		} while(!this.players.get(this.turnNumber).getStatus());
 
+		this.suggestionMade = false;
+
 		Player current = this.players.get(this.turnNumber);
 
-		this.frame.showMessage(current.getUsername() + " (" + current.getToken().getName() + ")" + "'s turn.");
+		this.frame.showMessage(current.getUsername() + "'s turn.");
 
 		Token token = current.getToken();
 
 		Location location = token.getLocation(); // Get the location of the
 													// player.
+
+		this.moveDistance = roll2D6(); // The distance a player can move.
+		this.frame.showMessage(current.getUsername() + " rolled a " + this.moveDistance);
 	}
 
 	/**
@@ -465,7 +423,7 @@ public class Cluedo {
 	public static int rollD6() {
 		return (int) (Math.random() * 6 + 1);
 	}
-	
+
 	private void setupNames() {
 		this.charNames = new String[6];
 		this.charNames[0] = "Colonel Mustard";
@@ -474,7 +432,7 @@ public class Cluedo {
 		this.charNames[3] = "Mrs White";
 		this.charNames[4] = "Professor Plum";
 		this.charNames[5] = "Reverend Green";
-		
+
 		this.weaponNames = new String[6];
 		this.weaponNames[0] = "Candlestick";
 		this.weaponNames[1] = "Dagger";
@@ -482,7 +440,7 @@ public class Cluedo {
 		this.weaponNames[3] = "Revolver";
 		this.weaponNames[4] = "Rope";
 		this.weaponNames[5] = "Spanner";
-		
+
 		this.roomNames = new String[9];
 		this.roomNames[0] = "Ball Room";
 		this.roomNames[1] = "Billiard Room";
@@ -562,50 +520,51 @@ public class Cluedo {
 		}
 	}
 
+	public void showHand() {
+		this.frame.showMessage(this.players.get(this.turnNumber).handString());
+	}
+
 	/**
-	 * Creates a triplet based on the player's guess. A player is required to be passed as the room in the triplet is based on the
-	 * player's current location.
-	 *
-	 * @param in The scanner passed along, should be System.in()
-	 * @param p The player who's guessing.
-	 * @return A triplet based on the info from the scanner.
+	 * Make a suggestion.
 	 */
-	private Triplet suggestion(Scanner in, Player p) {
-
-		Room room = (Room) p.getToken().getLocation();
-
-		//this.frame.askOptions()
-
-		String personSuggest;
-		Person: while (true) {
-			personSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (t.isCharacter() && t.getName().equals(personSuggest)) {
-					room.addToken(t);
-					break Person;
-				}
-			}
-			System.out.println("That isn't a person.");
+	public void suggestion() {
+		if (this.suggestionMade) {
+			this.frame.showMessage("You have already made a suggestion this turn.");
+			return;
 		}
 
-		System.out.println("Weapon:");
-
-		String weaponSuggest;
-		Weapon: while (true) {
-			weaponSuggest = in.nextLine();
-			for (Token t : this.allTokens) {
-				if (!t.isCharacter() && t.getName().equals(weaponSuggest)) {
-					room.addToken(t);
-					break Weapon;
-				}
-			}
-			System.out.println("That isn't a weapon.");
+		Player p = this.players.get(this.turnNumber);
+		Location loc = p.getToken().getLocation();
+		if (!(loc instanceof Room)) {
+			this.frame.showMessage("You must be in a room to make a suggestion.");
+			return;
 		}
-		String roomSuggest = room.getName();
 
-		System.out.println(personSuggest + " with a " + weaponSuggest + " in the " + roomSuggest);
+		String personSuggest = (String)this.frame.askOptions("Person:", this.charNames);
+		if (personSuggest == null) {
+			return;
+		}
 
-		return new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+		String weaponSuggest = (String)this.frame.askOptions("Weapon:", this.weaponNames);
+		if (weaponSuggest == null) {
+			return;
+		}
+
+
+		String roomSuggest = ((Room) loc).getName();
+
+		Triplet suggestion = new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+
+		Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); // Check
+																				// refutations.
+
+		if (tempPair.getValue1()) { // If someone can refute.
+			this.frame.showMessage(tempPair.getValue2());
+		}
+		else {
+			this.frame.showMessage("No one could refute this.");
+		}
+		this.suggestionMade = true;
 	}
 
 	/**
