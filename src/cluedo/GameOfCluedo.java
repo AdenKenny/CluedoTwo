@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import gui.Canvas;
 import gui.Frame;
 import items.Card;
 import items.Token;
@@ -116,12 +117,15 @@ public class GameOfCluedo {
 	private void createCharacters() {
 		this.setOfCharacters = new HashSet<>();
 
-		this.setOfCharacters.add(new Card("Miss Scarlett"));
-		this.setOfCharacters.add(new Card("Colonel Mustard"));
-		this.setOfCharacters.add(new Card("Mrs White"));
-		this.setOfCharacters.add(new Card("Reverend Green"));
-		this.setOfCharacters.add(new Card("Mrs Peacock"));
-		this.setOfCharacters.add(new Card("Professor Plum"));
+		String path = "cards/";
+
+		this.setOfCharacters.add(new Card("Miss Scarlett", Canvas.loadImage(path + "missScarlett.png")));
+		this.setOfCharacters.add(new Card("Colonel Mustard", Canvas.loadImage(path + "colonelMustard.png")));
+		this.setOfCharacters.add(new Card("Mrs White", Canvas.loadImage(path + "mrsWhite.png")));
+		this.setOfCharacters.add(new Card("Reverend Green", Canvas.loadImage(path + "reverendGreen.png")));
+		this.setOfCharacters.add(new Card("Mrs Peacock", Canvas.loadImage(path + "mrsPeacock.png")));
+		this.setOfCharacters.add(new Card("Professor Plum", Canvas.loadImage(path + "professorPlum.png")));
+
 	}
 
 	/**
@@ -130,15 +134,17 @@ public class GameOfCluedo {
 	private void createRooms() {
 		this.setOfRooms = new HashSet<>();
 
-		this.setOfRooms.add(new Card("Kitchen"));
-		this.setOfRooms.add(new Card("Ball Room"));
-		this.setOfRooms.add(new Card("Conservatory"));
-		this.setOfRooms.add(new Card("Billiard Room"));
-		this.setOfRooms.add(new Card("Library"));
-		this.setOfRooms.add(new Card("Study"));
-		this.setOfRooms.add(new Card("Hall"));
-		this.setOfRooms.add(new Card("Lounge"));
-		this.setOfRooms.add(new Card("Dining Room"));
+		String path = "cards/";
+
+		this.setOfRooms.add(new Card("Kitchen", Canvas.loadImage(path + "kitchen.png")));
+		this.setOfRooms.add(new Card("Ball Room", Canvas.loadImage(path + "ballRoom.png")));
+		this.setOfRooms.add(new Card("Conservatory", Canvas.loadImage(path + "conservatory.png")));
+		this.setOfRooms.add(new Card("Billiard Room", Canvas.loadImage(path + "billiardRoom.png")));
+		this.setOfRooms.add(new Card("Library", Canvas.loadImage(path + "library.png")));
+		this.setOfRooms.add(new Card("Study", Canvas.loadImage(path + "study.png")));
+		this.setOfRooms.add(new Card("Hall", Canvas.loadImage(path + "hall.png")));
+		this.setOfRooms.add(new Card("Lounge", Canvas.loadImage(path + "lounge.png")));
+		this.setOfRooms.add(new Card("Dining Room", Canvas.loadImage(path + "diningRoom.png")));
 	}
 
 	/**
@@ -147,12 +153,14 @@ public class GameOfCluedo {
 	private void createWeapons() {
 		this.setOfWeapons = new HashSet<>();
 
-		this.setOfWeapons.add(new Card("Candlestick"));
-		this.setOfWeapons.add(new Card("Dagger"));
-		this.setOfWeapons.add(new Card("Lead Pipe"));
-		this.setOfWeapons.add(new Card("Revolver"));
-		this.setOfWeapons.add(new Card("Rope"));
-		this.setOfWeapons.add(new Card("Spanner"));
+		String path = "cards/";
+
+		this.setOfWeapons.add(new Card("Candlestick", Canvas.loadImage(path + "candlestick.png")));
+		this.setOfWeapons.add(new Card("Dagger", Canvas.loadImage(path + "dagger.png")));
+		this.setOfWeapons.add(new Card("Lead Pipe", Canvas.loadImage(path + "leadPipe.png")));
+		this.setOfWeapons.add(new Card("Revolver", Canvas.loadImage(path + "revolver.png")));
+		this.setOfWeapons.add(new Card("Rope", Canvas.loadImage(path + "rope.png")));
+		this.setOfWeapons.add(new Card("Spanner", Canvas.loadImage(path + "spanner.png")));
 	}
 
 	/**
@@ -507,8 +515,8 @@ public class GameOfCluedo {
 		}
 	}
 
-	public String showHand() {
-		return this.players.get(this.turnNumber).handString();
+	public Set<Card> showHand() {
+		return this.players.get(this.turnNumber).getHand();
 	}
 
 	public void startGame() {

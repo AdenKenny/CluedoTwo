@@ -1,6 +1,8 @@
 package cluedo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import items.Card;
@@ -102,6 +104,17 @@ public class Player {
 			}
 		}
 		return false; // Does not.
+	}
+
+	/**
+	 * Returns a set of the cards in the hand. Used for graphically displaying
+	 * a player's hand.
+	 *
+	 * @return A Set<Card> containing the cards in a player's hand.
+	 */
+
+	public Set<Card> getHand() {
+		return this.hand;
 	}
 
 	/**

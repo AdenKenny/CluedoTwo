@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cluedo.GameOfCluedo;
+import items.Card;
 
 
 /**
@@ -21,7 +23,6 @@ import cluedo.GameOfCluedo;
  * The graphical user interface is done in this class.
  *
  * @author Aden Kenny and Simon Pope.
- *
  */
 
 public class Frame extends JFrame {
@@ -167,11 +168,7 @@ public class Frame extends JFrame {
 	 */
 
 	public void showHand() {
-
-		String handString = this.cluedo.showHand();
-
-		new HandBox(this, "This is your hand");
-
+		new HandBox(this, "This is your hand", this.cluedo.showHand());
 	}
 
 	public Object askOptions(String message, Object[] options) {

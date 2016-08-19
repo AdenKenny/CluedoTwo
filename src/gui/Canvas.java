@@ -62,6 +62,7 @@ public class Canvas extends JPanel {
 		return (int) (y * SQUARE_HEIGHT) + BOARD_TOP;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(this.boardImage, 0, 0, BOARD_WIDTH, BOARD_HEIGHT, null, null);

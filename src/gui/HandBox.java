@@ -1,12 +1,20 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import items.Card;
+import location.Room;
 
 /**
  * A class that shows the player their hand.
@@ -16,17 +24,17 @@ import javax.swing.JPanel;
  * @author Aden Kenny and Simon Pope.
  */
 
-public class HandBox extends JDialog{
+public class HandBox extends JDialog {
 
 	private JPanel panel;
+	private HandCanvas handCanvas; //Smaller canvas on which the hand is displayed.
 
-	public HandBox(JFrame parent, String message) {
+	public HandBox(JFrame parent, String message, Set<Card> setOfCards) {
 
 		super(parent, message, true);
 
-		this.panel = new JPanel();
-
-
+		//this.panel = new JPanel();
+		this.handCanvas = new HandCanvas(setOfCards);
 
 		setSize(new Dimension(500, 500));
 
@@ -35,7 +43,7 @@ public class HandBox extends JDialog{
 	    Dimension thisSize = getSize();
 	    setLocation(p.x + parentSize.width / 2 - thisSize.width / 2, p.y + parentSize.height / 2 - thisSize.height / 2);
 
-		getContentPane().add(this.panel);
+		getContentPane().add(this.handCanvas);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
