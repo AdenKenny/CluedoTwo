@@ -43,7 +43,7 @@ public class Mouse implements MouseListener {
 		int mouseY = e.getY();
 
 		if (mouseX >= BOARD_LEFT && mouseX <= BOARD_RIGHT && mouseY >= BOARD_TOP && mouseY <= BOARD_BOTTOM) {
-			this.cluedo.boardClicked((mouseX - BOARD_LEFT) / SQUARE_WIDTH, (int)((mouseY - BOARD_TOP) / SQUARE_HEIGHT) - 1);
+			this.cluedo.boardClicked((mouseX - BOARD_LEFT) / SQUARE_WIDTH, (int)((mouseY - BOARD_TOP) / SQUARE_HEIGHT) - 2);
 		}
 	}
 
