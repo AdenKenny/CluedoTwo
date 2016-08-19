@@ -16,9 +16,13 @@ import javax.swing.JMenuItem;
 
 public class MenuBar {
 
+	Frame frame;
 	JMenuBar menuBar; // The menu bar on which everything will be displayed on.
 
-	public MenuBar() {
+	public MenuBar(Frame frame) {
+
+		this.frame = frame;
+
 		this.menuBar = new JMenuBar(); // Initialise bar.
 
 		JMenu fileMenu = new JMenu("File"); // JMenus.
@@ -34,6 +38,17 @@ public class MenuBar {
 		about.setActionCommand("About");
 
 		MenuItemListener menuItemListener = new MenuItemListener();
+
+		about.addActionListener(menuItemListener);
+		newGame.addActionListener(menuItemListener);
+		close.addActionListener(menuItemListener);
+
+		gameMenu.add(newGame);
+		gameMenu.add(close);
+		fileMenu.add(about);
+
+		this.menuBar.add(fileMenu);
+		this.menuBar.add(gameMenu);
 
 	}
 
@@ -56,10 +71,25 @@ public class MenuBar {
 
 	class MenuItemListener implements ActionListener {
 
+		/**
+		 * Takes the button and calls the function that equates to the menu buttons.
+		 */
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			String action = e.getActionCommand();
 
+			if(action.equals("About")) {
+				MenuBar.this.frame.showPopup("A graphical Cluedo. Written by Aden Kenny and Simon Pope - 2016");
+			}
+
+			else if(action.equals("New Game")) {
+
+			}
+
+			else if(action.equals("Close")) {
+
+			}
 		}
 	}
 }

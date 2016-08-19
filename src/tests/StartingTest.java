@@ -122,13 +122,9 @@ public class StartingTest {
 
 	@Test
 	public void testEntertainment() {
-<<<<<<< HEAD
+
 		new GameOfCluedo();
-=======
 
-		new Cluedo();
-
->>>>>>> menuBar
 		System.out.println("Was the game fun?");
 		String reply = "";
 

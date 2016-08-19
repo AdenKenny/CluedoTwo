@@ -39,6 +39,7 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.handButton);
 
 		this.add(this.buttonPanel, BorderLayout.EAST);
+		this.setJMenuBar(new MenuBar(this).getBar());
 
 		pack(); // pack components tightly together
 		setResizable(false); // prevent us from being resizeable
@@ -87,6 +88,12 @@ public class Frame extends JFrame {
 		JOptionPane.showConfirmDialog(this, new JLabel(message),
 				null, JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE);
+	}
+
+	public void showPopup(String message) {
+		JOptionPane.showConfirmDialog(this, new JLabel(message),
+				null, JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void main(String[] args) {
