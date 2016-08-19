@@ -43,7 +43,6 @@ public class GameOfCluedo {
 	private Frame frame;
 
 	private int turnNumber;
-	private boolean gameOver;
 	private boolean suggestionMade;
 	private int moveDistance;
 
@@ -96,7 +95,7 @@ public class GameOfCluedo {
 													// game.
 			this.frame.showMessage("Correct");
 			this.frame.showMessage(p.getUsername() + " won the game as they guessed correctly!");
-			this.gameOver = true;
+			this.frame.endGame();
 			return;
 		}
 		this.frame.showMessage(p.getUsername() + " is out of the game as they guessed incorrectly!");
@@ -347,7 +346,7 @@ public class GameOfCluedo {
 			this.frame.showMessage(last.getUsername() + " won as everyone else is out.\n" +
 					"The murder was actually done by " + this.murderInfo + "\n" +
 					"It seems that detective work requires more competence than you lot have.");
-			this.gameOver = true;
+			this.frame.endGame();
 			return;
 		}
 
@@ -466,6 +465,7 @@ public class GameOfCluedo {
 		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
 
 		if (selectedNumber == null) {
+			this.frame.endGame();
 			return;
 		}
 		int numPlayers = selectedNumber;
@@ -476,17 +476,20 @@ public class GameOfCluedo {
 		for (int i = 0; i < numPlayers; i++) {
 			String username = this.frame.askText("Enter a username:");
 			if (username == null) {
+				this.frame.endGame();
 				return;
 			}
 			while(!usernameFree(username)) {
 				username = this.frame.askText("Username already in use. Try again:");
 				if (username == null) {
+					this.frame.endGame();
 					return;
 				}
 			}
 
 			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
+				this.frame.endGame();
 				return;
 			}
 

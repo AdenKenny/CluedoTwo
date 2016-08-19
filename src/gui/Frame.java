@@ -55,9 +55,18 @@ public class Frame extends JFrame {
 		this.cluedo = new GameOfCluedo(this);
 		this.canvas.addBoard(this.cluedo.getBoard());
 		this.cluedo.setupPlayers();
+		if (this.cluedo == null) {
+			return;
+		}
 		this.mouse.addGame(this.cluedo);
 		this.cluedo.startGame();
 
+	}
+
+	public void endGame() {
+		this.cluedo = null;
+		this.canvas.removeBoard();
+		this.mouse.endGame();
 	}
 
 	/**

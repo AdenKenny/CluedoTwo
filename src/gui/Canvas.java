@@ -39,6 +39,10 @@ public class Canvas extends JPanel {
 		this.repaint();
 	}
 
+	public void removeBoard() {
+		this.board = null;
+	}
+
 	private static int xToPixels(int x) {
 		return x * 31 + 30;
 	}

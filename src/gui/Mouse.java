@@ -13,6 +13,10 @@ public class Mouse implements MouseListener {
 		this.cluedo = cluedo;
 	}
 
+	public void endGame() {
+		this.cluedo = null;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (this.cluedo == null) {
