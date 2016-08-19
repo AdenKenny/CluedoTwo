@@ -12,7 +12,7 @@ import org.junit.Test;
 import cluedo.GameOfCluedo;
 
 /**
- * A class containing many Junit tests that cover a wide variety of cases and
+ * A class containing many JUnit tests that cover a wide variety of cases and
  * can minimize the chances of bugs in this glorious game of Cluedo. These tests
  * 100% definitely cover all possible cases in the game. But overall the spirit of
  * these tests is not to check for bugs, it is to find the inner meaning of the game
@@ -122,16 +122,25 @@ public class StartingTest {
 
 	@Test
 	public void testEntertainment() {
+<<<<<<< HEAD
 		new GameOfCluedo();
+=======
+
+		new Cluedo();
+
+>>>>>>> menuBar
 		System.out.println("Was the game fun?");
 		String reply = "";
+
 		try {
 			Scanner in = new Scanner(System.in);
 			reply = in.nextLine();
 		}
+
 		catch (RuntimeException e) {
 			fail();
 		}
+
 		assertEquals(reply, "yes");
 	}
 
