@@ -3,18 +3,21 @@ package gui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import cluedo.Cluedo;
+import cluedo.GameOfCluedo;
 
 public class Mouse implements MouseListener {
 
-	Cluedo cluedo;
+	GameOfCluedo cluedo = null;
 
-	public Mouse(Cluedo cluedo) {
+	public void addGame(GameOfCluedo cluedo) {
 		this.cluedo = cluedo;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (this.cluedo == null) {
+			return;
+		}
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		if (mouseX >= 32 && mouseX <= 776 && mouseY >= 6 && mouseY <= 773) {

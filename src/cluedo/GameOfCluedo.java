@@ -23,7 +23,7 @@ import util.Triplet;
  * @author Aden Kenny and Simon Pope.
  */
 
-public class Cluedo {
+public class GameOfCluedo {
 
 	private Triplet murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
@@ -47,7 +47,7 @@ public class Cluedo {
 	private boolean suggestionMade;
 	private int moveDistance;
 
-	public Cluedo() {
+	public GameOfCluedo() {
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
 
@@ -62,8 +62,6 @@ public class Cluedo {
 		tokensSetup();
 
 		doMurder(); // Create triplet of murder info.
-
-		this.frame = new Frame(this);
 
 		setupPlayers();
 
@@ -612,11 +610,6 @@ public class Cluedo {
 			}
 		}
 		return true;
-	}
-
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {
-		new Cluedo();
 	}
 
 }

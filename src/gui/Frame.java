@@ -9,18 +9,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import cluedo.Cluedo;
+import cluedo.GameOfCluedo;
 
 public class Frame extends JFrame {
 
 	Canvas canvas;
+	Mouse mouse;
 	JPanel buttonPanel;
 	JButton handButton;
 
-	public Frame(Cluedo cluedo) {
+	public Frame() {
 		super("Cluedo");
 
-		this.canvas = new Canvas(cluedo.getBoard());
+		this.canvas = new Canvas();
 
 		setPreferredSize(new Dimension(1000, 790));
 		setLayout(new BorderLayout()); // use border layout
@@ -44,10 +45,15 @@ public class Frame extends JFrame {
 
 		setVisible(true);
 
-		Mouse mouse = new Mouse(cluedo); //Mouse stuff.
-		addMouseListener(mouse);
+		this.mouse = new Mouse(); //Mouse stuff.
+		addMouseListener(this.mouse);
 
 
+	}
+
+	public void addGame(GameOfCluedo cluedo) {
+		this.canvas.addBoard(cluedo.getBoard());
+		this.mouse.addGame(cluedo);
 	}
 
 	/**
@@ -81,6 +87,10 @@ public class Frame extends JFrame {
 		JOptionPane.showConfirmDialog(this, new JLabel(message),
 				null, JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE);
+	}
+
+	public static void main(String[] args) {
+		new Frame();
 	}
 
 }

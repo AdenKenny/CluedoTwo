@@ -15,14 +15,17 @@ import location.Room;
 
 public class Canvas extends JPanel {
 
-	private Board board;
+	private Board board = null;
 
 	private Image boardImage;
 
 
-	public Canvas(Board board) {
+	public Canvas() {
 		super();
 		this.boardImage = loadImage("board.png");
+	}
+
+	public void addBoard(Board board) {
 		this.board = board;
 	}
 
@@ -37,9 +40,12 @@ public class Canvas extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(this.boardImage, 0, 0, 800, 760, null, null);
+		if (this.board == null) {
+			return;
+		}
 		for (int x = 0; x < 24; x++) {
 			for (int y = 0; y < 25; y++) {
-				Image img = board.characterAt(x, y);
+				Image img = this.board.characterAt(x, y);
 				if (img != null) {
 					g.drawImage(img, xToPixels(x), yToPixels(y), null, null);
 				}

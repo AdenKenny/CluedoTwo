@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
-import cluedo.Cluedo;
+import cluedo.GameOfCluedo;
 
 /**
  * A class containing many Junit tests that cover a wide variety of cases and
@@ -37,7 +37,7 @@ public class StartingTest {
 	@Test
 	public void testDice6() {
 		for (int i = 0; i < 1000; i++) {
-			int roll = Cluedo.rollD6();
+			int roll = GameOfCluedo.rollD6();
 			assert roll >= 1 && roll <= 6;
 		}
 	}
@@ -51,7 +51,7 @@ public class StartingTest {
 	@Test
 	public void testDice12() {
 		for (int i = 0; i < 1000; i++) {
-			int roll = Cluedo.roll2D6();
+			int roll = GameOfCluedo.roll2D6();
 			assert roll >= 2 && roll <= 12;
 		}
 	}
@@ -65,7 +65,7 @@ public class StartingTest {
 		Map<Integer, Integer> map = new HashMap<>();
 
 		for(int i = 0; i < 10000; i++) {
-			int roll = Cluedo.rollD6();
+			int roll = GameOfCluedo.rollD6();
 			if(map.containsKey(roll)) {
 				int numb = map.get(roll);
 				numb++;
@@ -91,7 +91,7 @@ public class StartingTest {
 		Map<Integer, Integer> map = new HashMap<>();
 
 		for(int i = 0; i < 10000; i++) {
-			int roll = Cluedo.roll2D6();
+			int roll = GameOfCluedo.roll2D6();
 			if(map.containsKey(roll)) {
 				int numb = map.get(roll);
 				numb++;
@@ -122,7 +122,7 @@ public class StartingTest {
 
 	@Test
 	public void testEntertainment() {
-		new Cluedo();
+		new GameOfCluedo();
 		System.out.println("Was the game fun?");
 		String reply = "";
 		try {
