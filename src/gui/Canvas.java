@@ -16,7 +16,7 @@ import location.Room;
 public class Canvas extends JPanel {
 
 	private Board board;
-	
+
 	private Image boardImage;
 
 
@@ -25,11 +25,11 @@ public class Canvas extends JPanel {
 		this.boardImage = loadImage("board.png");
 		this.board = board;
 	}
-	
+
 	private static int xToPixels(int x) {
 		return x * 31 + 30;
 	}
-	
+
 	private static int yToPixels(int y) {
 		return (int)(y * 29.5) + 6;
 	}
