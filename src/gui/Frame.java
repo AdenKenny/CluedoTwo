@@ -5,8 +5,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.File;
+import java.io.IOException;
+
+
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,12 +27,17 @@ public class Frame extends JFrame {
 	private Canvas canvas;
 	private Mouse mouse;
 
+	private JPanel buttonPanel;
+	private Audio audio;
+
+
 	GameOfCluedo cluedo;
 
 	public Frame() {
 		super("Cluedo");
 
 		this.canvas = new Canvas();
+		this.audio = new Audio();
 
 		setPreferredSize(new Dimension(810, 835));
 		setLayout(new BorderLayout()); // use border layout
@@ -48,14 +59,17 @@ public class Frame extends JFrame {
 		addMouseListener(this.mouse);
 
 
+
 	}
 
 	public void newGame() {
+
 		this.cluedo = new GameOfCluedo(this);
 		this.canvas.addBoard(this.cluedo.getBoard());
 		this.cluedo.setupPlayers();
 		this.mouse.addGame(this.cluedo);
 		this.cluedo.startGame();
+
 	}
 
 	/**
@@ -139,6 +153,14 @@ public class Frame extends JFrame {
 		JOptionPane pane = new JOptionPane(message);
 		JDialog dialog = pane.createDialog(this, "Message");
 		dialog.setVisible(true);
+	}
+
+	public void muteAudio() {
+		this.audio.muteAudio();
+	}
+
+	public void unmuteAudio() {
+		this.audio.unmuteAudio();
 	}
 
 	public static void main(String[] args) {
