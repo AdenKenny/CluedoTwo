@@ -25,7 +25,8 @@ public class HandBox extends JDialog{
 		super(parent, message, true);
 
 		this.panel = new JPanel();
-		this.panel.add(new JButton("Test"));
+
+
 
 		setSize(new Dimension(500, 500));
 
