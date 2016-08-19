@@ -49,10 +49,11 @@ public class Frame extends JFrame {
 	}
 
 	public void newGame() {
-		GameOfCluedo cluedo = new GameOfCluedo();
+		GameOfCluedo cluedo = new GameOfCluedo(this);
 		this.canvas.addBoard(cluedo.getBoard());
 		this.mouse.addGame(cluedo);
 		this.gameStarted = true;
+		this.canvas.repaint();
 	}
 
 	/**

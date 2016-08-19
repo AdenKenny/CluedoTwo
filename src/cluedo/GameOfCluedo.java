@@ -47,7 +47,10 @@ public class GameOfCluedo {
 	private boolean suggestionMade;
 	private int moveDistance;
 
-	public GameOfCluedo() {
+	public GameOfCluedo(Frame frame) {
+
+		this.frame = frame;
+
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
 
