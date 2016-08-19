@@ -22,10 +22,6 @@ public class Audio {
 	AudioInputStream audioInputStream;
 	Clip clip;
 
-	public Audio() {
-
-	}
-
 	/**
 	 * Mutes the audio in the game.
 	 */
