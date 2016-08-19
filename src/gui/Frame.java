@@ -26,12 +26,14 @@ public class Frame extends JFrame {
 
 		this.canvas = new Canvas();
 
-		setPreferredSize(new Dimension(950, 790));
+		setPreferredSize(new Dimension(950, 810));
 		setLayout(new BorderLayout()); // use border layout
 
 		add(this.canvas, BorderLayout.CENTER); // add canvas
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		this.setJMenuBar(new MenuBar(this).getBar());
 
 		createButtonPanel();
 
@@ -46,7 +48,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public void addGame() {
+	public void newGame() {
 		GameOfCluedo cluedo = new GameOfCluedo();
 		this.canvas.addBoard(cluedo.getBoard());
 		this.mouse.addGame(cluedo);
