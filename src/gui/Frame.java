@@ -25,6 +25,7 @@ public class Frame extends JFrame {
 	private Canvas canvas;
 	private Mouse mouse;
 	private JPanel buttonPanel;
+	private Audio audio;
 
 	boolean gameStarted;
 
@@ -32,6 +33,7 @@ public class Frame extends JFrame {
 		super("Cluedo");
 
 		this.canvas = new Canvas();
+		this.audio = new Audio();
 
 		setPreferredSize(new Dimension(950, 790));
 		setLayout(new BorderLayout()); // use border layout
@@ -62,32 +64,6 @@ public class Frame extends JFrame {
 		this.mouse.addGame(cluedo);
 		this.gameStarted = true;
 		this.canvas.repaint();
-
-
-		String soundName = "images/test.wav";
-		AudioInputStream audioInputStream = null;
-		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-		}
-		catch (UnsupportedAudioFileException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Clip clip;
-		try {
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-		}
-		catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 
 	}
 
@@ -142,6 +118,14 @@ public class Frame extends JFrame {
 		JOptionPane.showConfirmDialog(this, new JLabel(message),
 				null, JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public void muteAudio() {
+		this.audio.muteAudio();
+	}
+
+	public void unmuteAudio() {
+		this.audio.unmuteAudio();
 	}
 
 	public static void main(String[] args) {
