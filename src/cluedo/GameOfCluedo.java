@@ -13,6 +13,7 @@ import items.Card;
 import items.Token;
 import location.Location;
 import location.Room;
+import location.Square;
 import util.Pair;
 import util.Triplet;
 
@@ -104,7 +105,15 @@ public class GameOfCluedo {
 	}
 
 	public void boardClicked(int x, int y) {
-		System.out.println(x + "," + y);
+		Token t = this.players.get(this.turnNumber).getToken();
+		Pair<Boolean, Object> move = this.board.moveToken(t, x, y, this.moveDistance);
+		if (move.first()) {
+			this.moveDistance -= (int)move.second();
+			this.frame.getCanvas().repaint();
+		}
+		else {
+			this.frame.showMessage((String)move.second());
+		}
 	}
 
 
@@ -304,11 +313,11 @@ public class GameOfCluedo {
 						System.out.println("You can't move that far.");
 						continue;
 					}
-					if (this.board.moveToken(token, xDir, yDir, instrDist)) {
+					/*if (this.board.moveToken(token, xDir, yDir, instrDist)) {
 						this.moveDistance -= instrDist;
 						System.out.println("You can move up to " + this.moveDistance + " more.");
 						continue;
-					}
+					}*/
 					System.out.println("Illegal Move");
 				}
 
@@ -352,7 +361,7 @@ public class GameOfCluedo {
 
 		do {
 			this.turnNumber++;
-			if (this.turnNumber > this.players.size()) {
+			if (this.turnNumber >= this.players.size()) {
 				this.turnNumber = 0;
 			}
 		} while(!this.players.get(this.turnNumber).getStatus());
@@ -362,11 +371,6 @@ public class GameOfCluedo {
 		Player current = this.players.get(this.turnNumber);
 
 		this.frame.showMessage(current.getUsername() + "'s turn.");
-
-		Token token = current.getToken();
-
-		Location location = token.getLocation(); // Get the location of the
-													// player.
 
 		this.moveDistance = roll2D6(); // The distance a player can move.
 		this.frame.showMessage(current.getUsername() + " rolled a " + this.moveDistance);
@@ -472,20 +476,26 @@ public class GameOfCluedo {
 
 		String[] tempCharNames = this.charNames;
 
+		String[] usernames = new String[numPlayers];
+
 		// get each players name and character
 		for (int i = 0; i < numPlayers; i++) {
 			String username = this.frame.askText("Enter a username:");
-			if (username == null) {
-				this.frame.endGame();
-				return;
-			}
-			while(!usernameFree(username)) {
-				username = this.frame.askText("Username already in use. Try again:");
+			outer: while(true) {
 				if (username == null) {
 					this.frame.endGame();
 					return;
 				}
+				for (String user : usernames) {
+					if (username.equals(user)) {
+						username = this.frame.askText("Username already in use. Try again:");
+						continue outer;
+					}
+				}
+				break;
 			}
+
+			usernames[i] = username;
 
 			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
@@ -561,8 +571,8 @@ public class GameOfCluedo {
 		Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); // Check
 																				// refutations.
 
-		if (tempPair.getValue1()) { // If someone can refute.
-			this.frame.showMessage(tempPair.getValue2());
+		if (tempPair.first()) { // If someone can refute.
+			this.frame.showMessage(tempPair.second());
 		}
 		else {
 			this.frame.showMessage("No one could refute this.");
@@ -601,20 +611,6 @@ public class GameOfCluedo {
 		this.allTokens.add(new Token("Revolver", weaponRooms[3], false, "weapons/revolver.png"));
 		this.allTokens.add(new Token("Rope", weaponRooms[4], false, "weapons/rope.png"));
 		this.allTokens.add(new Token("Spanner", weaponRooms[5], false, "weapons/spanner.png"));
-	}
-
-	/**
-	 * Checks if a username is in use.
-	 * @param username
-	 * @return true if not in use
-	 */
-	public boolean usernameFree(String username) {
-		for (Player p : this.players) {
-			if (p.getUsername().equals(username)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 }

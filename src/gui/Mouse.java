@@ -25,7 +25,7 @@ public class Mouse implements MouseListener {
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		if (mouseX >= 32 && mouseX <= 776 && mouseY >= 6 && mouseY <= 773) {
-			this.cluedo.boardClicked((mouseX - 30) / 31, (int)((mouseY - 6) / 29.5) - 1);
+			this.cluedo.boardClicked((mouseX - 30) / 31, (int)((mouseY - 6) / 29.5) - 2);
 		}
 	}
 

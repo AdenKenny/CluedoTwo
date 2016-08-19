@@ -12,11 +12,19 @@ import java.util.Map;
 
 public class Square extends Location {
 
-	public Square(Map<String, Location> adjacent) {
-		super(adjacent);
+	private int x;
+	private int y;
+
+	public Square(int x, int y) {
+		super(new HashMap<String, Location>());
+		this.x = x;
+		this.y = y;
 	}
 
-	public Square() {
-		super(new HashMap<String, Location>());
+	public int getX() {
+		return this.x;
+	}
+	public int getY() {
+		return this.y;
 	}
 }

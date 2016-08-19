@@ -8,6 +8,7 @@ import items.Token;
 import location.Location;
 import location.Room;
 import location.Square;
+import util.Pair;
 
 /**
  * A class representing the board on which the game of Cluedo is played on.
@@ -93,7 +94,7 @@ public class Board {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				char square = boardChar(x, y);
 				if (square == '1' || square == '2') {
-					this.boardSquares[x][y] = new Square();
+					this.boardSquares[x][y] = new Square(x, y);
 				}
 			}
 		}
@@ -247,45 +248,44 @@ public class Board {
 	 * @param dist How far to move.
 	 * @return True if move was valid, false if move illegal.
 	 */
-	public boolean moveToken(Token t, int xDir, int yDir, int dist) {
-		Location location = t.getLocation();
-		if (location instanceof Room) {
-			return false;
+	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
+		Location current = t.getLocation();
+		if (current instanceof Room) {
+			//TODO out of room pathfinding
+			return new Pair<>(false, "start in room");
 		}
-		for (int x = 0; x < BOARD_WIDTH; x++) {
-			for (int y = 0; y < BOARD_HEIGHT; y++) {
-				if (this.boardSquares[x][y] == location) {
-					if (checkDir(x, y, xDir, yDir, dist)) {
-						this.boardSquares[x + xDir * dist][y + yDir * dist].addToken(t);
-						return true;
-					}
-					return false;
+		Square destination = this.boardSquares[destX][destY];
+		if (destination == null) {
+			//TODO into room pathfinding
+			return new Pair<>(false, "end in room");
+		}
+		if (maxDist == 0) {
+			return new Pair<>(false, "You can't move any further this turn.");
+		}
+		Square currentSquare = (Square)current;
+		int currentX = currentSquare.getX();
+		int currentY = currentSquare.getY();
+		if (currentX != destX && currentY != destY) {
+			return new Pair<>(false, "You can only move in a straight line with each click.");
+		}
+		if (currentX == destX && currentY == destY) {
+			return new Pair<>(false, "You can't move on the spot.");
+		}
+		int diffX = currentX - destX;
+		int diffY = currentY - destY;
+		int step = (diffX + diffY) / Math.abs(diffX + diffY);
+		if (diffX * step > maxDist || diffY * step > maxDist) {
+			return new Pair<>(false, "You can't move that far.");
+		}
+		for (int x = currentX; x != destX; x += step) {
+			for (int y = currentY; y != destY; y += step) {
+				if (this.boardSquares[x][y] == null) {
+					return new Pair<>(false, "You can't move that way. Something is blocking you.");
 				}
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * Recursive function to check if a move in a direction is legal.
-	 * @param x The start xOrdinate.
-	 * @param y The start yOrdinate.
-	 * @param xDir The direction to move in x axis.
-	 * @param yDir The direction to move in y axis.
-	 * @param dist How far to move.
-	 * @return
-	 */
-	private boolean checkDir(int x, int y, int xDir, int yDir, int dist) {
-		if (this.boardSquares[x][y] == null) {
-			return false;
-		}
-		if (dist > 0) {
-			return checkDir(x + xDir, y + yDir, xDir, yDir, dist - 1);
-		}
-		if (this.boardSquares[x][y].getNumbTokens() == 0){
-			return true;
-		}
-		return false;
+		destination.addToken(t);
+		return new Pair<>(true, Math.abs(diffX + diffY));
 	}
 
 	/**

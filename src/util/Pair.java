@@ -19,20 +19,12 @@ public class Pair<E, T> {
 		this.value2 = value2;
 	}
 
-	public E getValue1() {
+	public E first() {
 		return this.value1;
 	}
 
-	public void setValue1(E value1) {
-		this.value1 = value1;
-	}
-
-	public T getValue2() {
+	public T second() {
 		return this.value2;
-	}
-
-	public void setValue2(T value2) {
-		this.value2 = value2;
 	}
 
 }
