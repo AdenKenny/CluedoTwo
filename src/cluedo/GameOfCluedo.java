@@ -465,32 +465,29 @@ public class GameOfCluedo {
 		Integer[] possibleNumbers = { 3, 4, 5, 6 };
 		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
 
-		int numPlayers = 0;
 		if (selectedNumber == null) {
-			System.exit(0);
+			return;
 		}
-		else {
-			numPlayers = selectedNumber;
-		}
+		int numPlayers = selectedNumber;
 
-		String[] tempCharNames = charNames;
+		String[] tempCharNames = this.charNames;
 
 		// get each players name and character
 		for (int i = 0; i < numPlayers; i++) {
 			String username = this.frame.askText("Enter a username:");
 			if (username == null) {
-				System.exit(0);
+				return;
 			}
 			while(!usernameFree(username)) {
 				username = this.frame.askText("Username already in use. Try again:");
 				if (username == null) {
-					System.exit(0);
+					return;
 				}
 			}
 
 			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
-				System.exit(0);
+				return;
 			}
 
 			//remove character from array

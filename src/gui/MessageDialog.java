@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  */
 public class MessageDialog extends JDialog implements ActionListener {
 	public MessageDialog(JFrame parent, String message) {
-	    super(parent, "Message", true);
+	    super(parent, "", true);
 
 	    JPanel messagePane = new JPanel();
 	    messagePane.add(new JLabel(message));
