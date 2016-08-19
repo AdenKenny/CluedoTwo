@@ -22,10 +22,6 @@ public class Audio {
 	AudioInputStream audioInputStream;
 	Clip clip;
 
-	public Audio() {
-
-	}
-
 	/**
 	 * Mutes the audio in the game.
 	 */
@@ -44,13 +40,11 @@ public class Audio {
 
 	public void unmuteAudio() {
 
-
 		if(this.clip == null) { //Checks to make sure we don't already have sound.
 			playAudio();
 		}
 
 		//playAudio(); //Uncomment this for a great bug. Press the play audio button a few times.
-
 	}
 
 	/**

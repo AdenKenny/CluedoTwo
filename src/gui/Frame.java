@@ -85,9 +85,11 @@ public class Frame extends JFrame {
 				if (Frame.this.cluedo == null) {
 					return;
 				}
-				Frame.this.cluedo.showHand();
+
+				Frame.this.showHand();
 			}
 		});
+
 		box.add(handButton);
 
 		JButton suggestionButton = new JButton("Suggestion");
@@ -99,9 +101,11 @@ public class Frame extends JFrame {
 				if (Frame.this.cluedo == null) {
 					return;
 				}
+
 				Frame.this.cluedo.suggestion();
 			}
 		});
+
 		box.add(suggestionButton);
 
 		JButton accusationButton = new JButton("Accusation");
@@ -113,9 +117,11 @@ public class Frame extends JFrame {
 				if (Frame.this.cluedo == null) {
 					return;
 				}
+
 				Frame.this.cluedo.accusation();
 			}
 		});
+
 		box.add(accusationButton);
 
 		JButton endTurnButton = new JButton("End Turn");
@@ -127,12 +133,22 @@ public class Frame extends JFrame {
 				if (Frame.this.cluedo == null) {
 					return;
 				}
+
 				Frame.this.cluedo.nextTurn();
 			}
 		});
+
 		box.add(endTurnButton);
 
 		this.add(box, BorderLayout.SOUTH);
+	}
+
+	public void showHand() {
+
+		String handString = this.cluedo.showHand();
+
+		new HandBox(this, "This is your hand");
+
 	}
 
 	public Object askOptions(String message, Object[] options) {

@@ -71,17 +71,18 @@ public class GameOfCluedo {
 	 * Make an accusation.
 	 */
 	public void accusation() {
-		String personSuggest = (String)this.frame.askOptions("Person:", this.charNames);
+		String personSuggest = (String) this.frame.askOptions("Person:", this.charNames);
 		if (personSuggest == null) {
 			return;
 		}
 
-		String weaponSuggest = (String)this.frame.askOptions("Weapon:", this.weaponNames);
+		String weaponSuggest = (String) this.frame.askOptions("Weapon:", this.weaponNames);
 		if (weaponSuggest == null) {
 			return;
 		}
 
-		String roomSuggest = (String)this.frame.askOptions("Room:", this.roomNames);
+		String roomSuggest = (String) this.frame.askOptions("Room:", this.roomNames);
+
 		if (roomSuggest == null) {
 			return;
 		}
@@ -99,6 +100,7 @@ public class GameOfCluedo {
 			this.frame.endGame();
 			return;
 		}
+
 		this.frame.showMessage(p.getUsername() + " is out of the game as they guessed incorrectly!");
 		p.setStatus(false); // Set player to out of the game.
 		nextTurn();
@@ -180,9 +182,7 @@ public class GameOfCluedo {
 
 			Player p = this.players.get(playerNumb);
 			p.addCard(c);
-
 		}
-
 	}
 
 	/**
@@ -517,8 +517,8 @@ public class GameOfCluedo {
 		}
 	}
 
-	public void showHand() {
-		this.frame.showMessage(this.players.get(this.turnNumber).handString());
+	public String showHand() {
+		return this.players.get(this.turnNumber).handString();
 	}
 
 	public void startGame() {
