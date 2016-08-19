@@ -135,10 +135,19 @@ public class Frame extends JFrame {
 	}
 
 	public Object askOptions(String message, Object[] options) {
+		/*
 		return JOptionPane.showInputDialog(null,
 				message, null,
 				JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
+				*/
+		JOptionPane pane = new JOptionPane(message,
+				JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.DEFAULT_OPTION,
+				null, options, options[0]);
+		JDialog dialog = pane.createDialog(this, "Choose One");
+		dialog.setVisible(true);
+		return pane.getValue();
 	}
 
 	public String askText(String message) {
@@ -150,9 +159,12 @@ public class Frame extends JFrame {
 	}
 
 	public void showMessage(String message) {
+		new MessageDialog(this, message);
+		/*
 		JOptionPane pane = new JOptionPane(message);
 		JDialog dialog = pane.createDialog(this, "Message");
 		dialog.setVisible(true);
+		*/
 	}
 
 	public void muteAudio() {
