@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -57,15 +56,15 @@ public class MenuBar extends JFrame {
 		this.musicIcon = new ImageIcon(path + "musicIcon.png");
 
 		JMenu helpMenu = new JMenu("Help"); // JMenus.
-		helpMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
+		helpMenu.setMnemonic(KeyEvent.VK_F3); //Sets the mnemonic for the keyboard shortcut.
 		helpMenu.setIcon(this.questionIcon);
 
 		JMenu gameMenu = new JMenu("Game");
-		gameMenu.setMnemonic(KeyEvent.VK_F2);
+		gameMenu.setMnemonic(KeyEvent.VK_F1);
 		gameMenu.setIcon(this.gameIcon);
 
 		JMenu audioMenu = new JMenu("Audio");
-		audioMenu.setMnemonic(KeyEvent.VK_F3);
+		audioMenu.setMnemonic(KeyEvent.VK_F2);
 		audioMenu.setIcon(this.musicIcon);
 
 		JMenuItem about = new JMenuItem("About - Alt+A", this.infoIcon); //The buttons on the menu.

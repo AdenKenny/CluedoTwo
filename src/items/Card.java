@@ -1,5 +1,7 @@
 package items;
 
+import java.awt.Image;
+
 /**
  * A class representing a card that is held in a player's hand or in a triplet.
  *
@@ -10,8 +12,22 @@ package items;
 public class Card {
 	private String name;
 
+	private Image cardImage;
+
 	public Card(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Overloaded constructor for graphically displaying cards.
+	 *
+	 * @param name Name of the card.
+	 * @param cardImage The image that represents this card.
+	 */
+
+	public Card(String name, Image cardImage) {
+		this.name = name;
+		this.cardImage = cardImage;
 	}
 
 	/**
@@ -26,14 +42,23 @@ public class Card {
 		return card.getName().equals(this.name);
 	}
 
-
-
 	/**
 	 * Returns the string representing the name of the card.
+	 *
 	 * @return - String, the name field.
 	 */
 	public String getName() {
 		return this.name;
+	}
+
+	/**
+	 * Returns the image that represents this card.
+	 *
+	 * @return An image that represents this card.
+	 */
+
+	public Image getImage() {
+		return this.cardImage;
 	}
 
 	@Override
