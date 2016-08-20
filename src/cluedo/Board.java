@@ -239,41 +239,49 @@ public class Board {
 	}
 
 	/**
-	 * Checks if a move is legal. If it is, does the move and returns true
-	 * Otherwise, it does nothing and returns false.
-	 *
-	 * @param t Token to move.
-	 * @param xDir Direction in x axis.
-	 * @param yDir Direction in y axis.
-	 * @param dist How far to move.
-	 * @return True if move was valid, false if move illegal.
+	 * Moves a token around the board on a user click.
+	 * 
+	 * @param t The token that is to be moved.
+	 * @param destX The destination on the x axis.
+	 * @param destY The destination on the y axis.
+	 * @param maxDist The maximum amount of distance that the token can move.
+	 * @return //TODO Fill this in.
 	 */
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
+		
 		Location current = t.getLocation();
+		
 		if (current instanceof Room) {
 			//TODO out of room pathfinding
 			return new Pair<>(false, "start in room");
 		}
+		
 		Square destination = this.boardSquares[destX][destY];
+		
 		if (destination == null) {
 			//TODO into room pathfinding
 			return new Pair<>(false, "end in room");
 		}
+		
 		if (maxDist == 0) {
 			return new Pair<>(false, "You can't move any further this turn.");
 		}
-		Square currentSquare = (Square)current;
+		
+		Square currentSquare = (Square) current;
 		int currentX = currentSquare.getX();
 		int currentY = currentSquare.getY();
 		if (currentX != destX && currentY != destY) {
 			return new Pair<>(false, "You can only move in a straight line with each click.");
 		}
+		
 		if (currentX == destX && currentY == destY) {
 			return new Pair<>(false, "You can't move on the spot.");
 		}
+		
 		int diffX = currentX - destX;
 		int diffY = currentY - destY;
 		int step = (diffX + diffY) / Math.abs(diffX + diffY);
+		
 		if (diffX * step > maxDist || diffY * step > maxDist) {
 			return new Pair<>(false, "You can't move that far.");
 		}
@@ -284,7 +292,9 @@ public class Board {
 				}
 			}
 		}
+		
 		destination.addToken(t);
+		
 		return new Pair<>(true, Math.abs(diffX + diffY));
 	}
 
