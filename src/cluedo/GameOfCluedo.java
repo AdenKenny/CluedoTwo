@@ -487,6 +487,7 @@ public class GameOfCluedo {
 	 * Setup the players.
 	 */
 	public void setupPlayers() {
+		
 		//get the number of players
 		Integer[] possibleNumbers = { 3, 4, 5, 6 };
 		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
@@ -500,7 +501,7 @@ public class GameOfCluedo {
 		String[] tempCharNames = this.charNames;
 
 		String[] usernames = new String[numPlayers];
-
+				
 		// get each players name and character
 		for (int i = 0; i < numPlayers; i++) {
 			String username = this.frame.askText("Enter a username:");
@@ -519,7 +520,7 @@ public class GameOfCluedo {
 			}
 
 			usernames[i] = username;
-
+			
 			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
 				this.frame.endGame();

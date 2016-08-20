@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 
 import items.Card;
 
+/**
+ * A class representing a canvas on which the player's hand will be drawn.
+ * 
+ * @Author Aden Kenny and Simon Pope.
+ */
 
 public class HandCanvas extends JPanel {
 
@@ -15,12 +20,6 @@ public class HandCanvas extends JPanel {
 	private static final int CARD_HEIGHT = 170;
 
 	private Set<Card> setOfCards; //Set in which the player's hand is stored.
-
-	/**
-	 * A class representing a canvas on which the player's hand will be drawn.
-	 * 
-	 * @param setOfCards The set of cards that represents a player's hand.
-	 */
 	
 	public HandCanvas(Set<Card> setOfCards) {
 		super();

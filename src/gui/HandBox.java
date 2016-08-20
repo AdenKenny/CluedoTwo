@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import items.Card;
 
@@ -20,7 +19,6 @@ import items.Card;
 
 public class HandBox extends JDialog {
 
-	private JPanel panel;
 	private HandCanvas handCanvas; //Smaller canvas on which the hand is displayed.
 
 	/**

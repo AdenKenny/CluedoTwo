@@ -58,17 +58,17 @@ public class MenuBar extends JFrame {
 		JMenu gameMenu = new JMenu("Game"); // JMenus.
 		gameMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
 		gameMenu.setIcon(this.gameIcon);
-		gameMenu.setToolTipText("Create new game or exit current game"); //Hover text.
-
+		gameMenu.setToolTipText("Create new game or exit current game - Alt + F1"); //Hover text.
+		
 		JMenu audioMenu = new JMenu("Audio");
 		audioMenu.setMnemonic(KeyEvent.VK_F2);
 		audioMenu.setIcon(this.musicIcon);
-		audioMenu.setToolTipText("Play audio or unmute audio");
+		audioMenu.setToolTipText("Play audio or unmute audio - Alt + F2");
 		
 		JMenu helpMenu = new JMenu("Help"); 
 		helpMenu.setMnemonic(KeyEvent.VK_F3); 
 		helpMenu.setIcon(this.questionIcon);
-		helpMenu.setToolTipText("Get help with the game");
+		helpMenu.setToolTipText("Get help with the game - Alt + F3");
 		
 		//JMenuItems.
 		
