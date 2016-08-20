@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import items.Card;
 
@@ -20,7 +19,6 @@ import items.Card;
 
 public class HandBox extends JDialog {
 
-	private JPanel panel;
 	private HandCanvas handCanvas; //Smaller canvas on which the hand is displayed.
 
 	/**
@@ -44,8 +42,7 @@ public class HandBox extends JDialog {
 		else if(setOfCards.size() < 7) { //4 to 6 cards requires two rows.
 			setSize(new Dimension(335, 370));
 		}
-
-
+		
 		Dimension parentSize = parent.getSize(); //Set this to the centre of the parent box.
 	    Point p = parent.getLocation();
 	    Dimension thisSize = getSize();

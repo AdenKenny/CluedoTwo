@@ -35,7 +35,7 @@ public class Frame extends JFrame {
 		this.canvas = new Canvas();
 		this.audio = new Audio();
 
-		setPreferredSize(new Dimension(810, 835));
+		setPreferredSize(new Dimension(1000, 835));
 		setLayout(new BorderLayout());
 
 		add(this.canvas, BorderLayout.CENTER);
@@ -45,6 +45,8 @@ public class Frame extends JFrame {
 		this.setJMenuBar(new MenuBar(this).getBar()); //Create menu bar.
 
 		createButtonPanel(); //Sets up buttons down the bottom.
+		//doSelection();
+		
 		pack();
 		setResizable(false); // Prevents frame from being resizeable.
 
@@ -174,6 +176,18 @@ public class Frame extends JFrame {
 
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
+	
+/*	public void doSelection() {
+		
+		SelectedPanel panel = new SelectedPanel();
+		
+		this.add(panel, BorderLayout.EAST);
+		this.repaint();
+	}
+	
+	public void charSelected() {
+		
+	}*/
 
 	public Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
@@ -185,6 +199,7 @@ public class Frame extends JFrame {
 	public String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
+	
 
 	/**
 	 * Returns the canvas that is displayed on this frame.
