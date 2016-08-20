@@ -23,14 +23,6 @@ public class MenuBar extends JFrame {
 	Frame frame; //The base frame on which the game is displayed on.
 	JMenuBar menuBar; // The menu bar on which everything will be displayed on.
 
-	Icon infoIcon;
-	Icon fileIcon;
-	Icon closeIcon;
-	Icon playIcon;
-	Icon muteIcon;
-	Icon gameIcon;
-	Icon questionIcon;
-	Icon musicIcon;
 
 	/**
 	 * Constructor for our menu bar. Takes a frame input on which it will be
@@ -40,55 +32,55 @@ public class MenuBar extends JFrame {
 	 */
 
 	public MenuBar(Frame frame) {
-
+		
 		this.frame = frame;
 		this.menuBar = new JMenuBar(); //Initialise bar.
 
 		String path = "assets/images/icons/"; 
 
-		this.infoIcon = new ImageIcon(path + "infoIcon.png"); //Set icons to assets.
-		this.fileIcon = new ImageIcon(path + "fileIcon.png");
-		this.closeIcon = new ImageIcon(path + "closeIcon.png");
-		this.playIcon = new ImageIcon(path + "playIcon.png");
-		this.muteIcon = new ImageIcon(path + "muteIcon.png");
-		this.gameIcon = new ImageIcon(path + "gameIcon.png");
-		this.questionIcon = new ImageIcon(path + "questionIcon.png");
-		this.musicIcon = new ImageIcon(path + "musicIcon.png");
+		Icon infoIcon = new ImageIcon(path + "infoIcon.png"); //Set icons to assets.
+		Icon fileIcon = new ImageIcon(path + "fileIcon.png");
+		Icon closeIcon = new ImageIcon(path + "closeIcon.png");
+		Icon playIcon = new ImageIcon(path + "playIcon.png");
+		Icon muteIcon = new ImageIcon(path + "muteIcon.png");
+		Icon gameIcon = new ImageIcon(path + "gameIcon.png");
+		Icon questionIcon = new ImageIcon(path + "questionIcon.png");
+		Icon musicIcon = new ImageIcon(path + "musicIcon.png");
 
 		JMenu gameMenu = new JMenu("Game"); // JMenus.
 		gameMenu.setMnemonic(KeyEvent.VK_F1); //Sets the mnemonic for the keyboard shortcut.
-		gameMenu.setIcon(this.gameIcon);
+		gameMenu.setIcon(gameIcon);
 		gameMenu.setToolTipText("Create new game or exit current game - Alt + F1"); //Hover text.
 		
 		JMenu audioMenu = new JMenu("Audio");
 		audioMenu.setMnemonic(KeyEvent.VK_F2);
-		audioMenu.setIcon(this.musicIcon);
+		audioMenu.setIcon(musicIcon);
 		audioMenu.setToolTipText("Play audio or unmute audio - Alt + F2");
 		
 		JMenu helpMenu = new JMenu("Help"); 
 		helpMenu.setMnemonic(KeyEvent.VK_F3); 
-		helpMenu.setIcon(this.questionIcon);
+		helpMenu.setIcon(questionIcon);
 		helpMenu.setToolTipText("Get help with the game - Alt + F3");
 		
 		//JMenuItems.
 		
-		JMenuItem about = new JMenuItem("About - Alt+A", this.infoIcon); //The buttons on the menu.
+		JMenuItem about = new JMenuItem("About - Alt+A", infoIcon); //The buttons on the menu.
 		about.setActionCommand("about"); //The string that is passed along to the action listener.
 		about.setMnemonic(KeyEvent.VK_A); //Sets the mnemonic for the keyboard shortcut.
 
-		JMenuItem newGame = new JMenuItem("New game - Alt+N", this.fileIcon);
+		JMenuItem newGame = new JMenuItem("New game - Alt+N", fileIcon);
 		newGame.setActionCommand("new game");
 		newGame.setMnemonic(KeyEvent.VK_N);
 		
-		JMenuItem close = new JMenuItem("Close game - Alt+C", this.closeIcon);
+		JMenuItem close = new JMenuItem("Close game - Alt+C", closeIcon);
 		close.setActionCommand("close");
 		close.setMnemonic(KeyEvent.VK_C);
 
-		JMenuItem unmute = new JMenuItem("Play Audio - Alt+U", this.playIcon);
+		JMenuItem unmute = new JMenuItem("Play Audio - Alt+U", playIcon);
 		unmute.setActionCommand("unmute");
 		unmute.setMnemonic(KeyEvent.VK_M);
 
-		JMenuItem mute = new JMenuItem("Mute Audio - Alt+M", this.muteIcon);
+		JMenuItem mute = new JMenuItem("Mute Audio - Alt+M", muteIcon);
 		mute.setActionCommand("mute");
 		mute.setMnemonic(KeyEvent.VK_U);
 

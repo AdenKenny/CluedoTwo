@@ -42,8 +42,7 @@ public class HandBox extends JDialog {
 		else if(setOfCards.size() < 7) { //4 to 6 cards requires two rows.
 			setSize(new Dimension(335, 370));
 		}
-
-
+		
 		Dimension parentSize = parent.getSize(); //Set this to the centre of the parent box.
 	    Point p = parent.getLocation();
 	    Dimension thisSize = getSize();

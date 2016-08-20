@@ -45,7 +45,7 @@ public class Frame extends JFrame {
 		this.setJMenuBar(new MenuBar(this).getBar()); //Create menu bar.
 
 		createButtonPanel(); //Sets up buttons down the bottom.
-		doSelection();
+		//doSelection();
 		
 		pack();
 		setResizable(false); // Prevents frame from being resizeable.
@@ -177,7 +177,7 @@ public class Frame extends JFrame {
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
 	
-	public void doSelection() {
+/*	public void doSelection() {
 		
 		SelectedPanel panel = new SelectedPanel();
 		
@@ -187,7 +187,7 @@ public class Frame extends JFrame {
 	
 	public void charSelected() {
 		
-	}
+	}*/
 
 	public Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
