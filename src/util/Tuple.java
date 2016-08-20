@@ -12,13 +12,13 @@ import items.Card;
  * @author Aden Kenny and Simon Pope.
  */
 
-public class Triplet {
+public class Tuple {
 
 	private final Card person;
 	private final Card weapon;
 	private final Card room;
 
-	public Triplet(Card person, Card weapon, Card room) {
+	public Tuple(Card person, Card weapon, Card room) {
 		this.person = person;
 		this.weapon = weapon;
 		this.room = room;
@@ -66,7 +66,7 @@ public class Triplet {
 	 * @return True or false based on the contents of the two triplets.
 	 */
 
-	public boolean equalsTriplet(Triplet other) {
+	public boolean equalsTriplet(Tuple other) {
 		return this.person.equals(other.getPerson()) && this.weapon.equals(other.getWeapon())
 				&& this.room.equals(other.getRoom());
 	}
@@ -145,7 +145,7 @@ public class Triplet {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Triplet other = (Triplet) obj;
+		Tuple other = (Tuple) obj;
 		if (this.person == null) {
 			if (other.person != null)
 				return false;

@@ -15,7 +15,7 @@ import items.Token;
 import location.Location;
 import location.Room;
 import util.Pair;
-import util.Triplet;
+import util.Tuple;
 
 
 /**
@@ -26,7 +26,7 @@ import util.Triplet;
 
 public class GameOfCluedo {
 
-	private Triplet murderInfo; // Triplet of the actual murder details.
+	private Tuple murderInfo; // Triplet of the actual murder details.
 	private Board board; // The game board.
 	private List<Player> players; // List containing the players in the game.
 
@@ -87,7 +87,7 @@ public class GameOfCluedo {
 			return;
 		}
 
-		Triplet guess = new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+		Tuple guess = new Tuple(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
 
 		Player p = this.players.get(this.turnNumber);
 
@@ -221,7 +221,7 @@ public class GameOfCluedo {
 		this.setOfWeapons.remove(weaponCard);
 		this.setOfRooms.remove(roomCard);
 
-		this.murderInfo = new Triplet(charCard, weaponCard, roomCard);
+		this.murderInfo = new Tuple(charCard, weaponCard, roomCard);
 
 	}
 
@@ -590,7 +590,7 @@ public class GameOfCluedo {
 
 		String roomSuggest = ((Room) loc).getName();
 
-		Triplet suggestion = new Triplet(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
+		Tuple suggestion = new Tuple(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
 
 		Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); // Check
 																				// refutations.
