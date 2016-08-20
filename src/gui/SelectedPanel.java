@@ -70,7 +70,7 @@ public class SelectedPanel extends JPanel {
 		this.setVisible(true);
 	}
 	
-	class ButtonListener implements ActionListener {
+	static class ButtonListener implements ActionListener {
 
 		SelectedPanel parent; //The panel from which the component which this listener is assigned to belongs to.
 		
