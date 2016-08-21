@@ -211,7 +211,6 @@ public class Frame extends JFrame {
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
 
-	@SuppressWarnings("static-method")
 	public static Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
@@ -219,7 +218,6 @@ public class Frame extends JFrame {
 				options, options[0]);
 	}
 
-	@SuppressWarnings("static-method")
 	public static String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}

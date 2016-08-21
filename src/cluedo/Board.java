@@ -74,13 +74,6 @@ public class Board {
 		addRoomAccess();
 	}
 
-	/**
-	 * Populates a two dimensional array representing the squares of the board.
-	 * '0' represents blank areas, '1' represents squares that a player can move on
-	 * and to, '2' represents a door into a room on a square (so the player can still
-	 * move to this square), and '3' represents a room.
-	 */
-
 	private void populateBoard() {
 		this.boardSquares = new Square[BOARD_WIDTH][BOARD_HEIGHT];
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
