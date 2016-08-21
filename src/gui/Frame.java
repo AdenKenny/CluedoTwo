@@ -223,14 +223,14 @@ public class Frame extends JFrame {
 		
 	}*/
 
-	public Object askOptions(String message, Object[] options) {
+	public static Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
 				JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
 	}
 
-	public String askText(String message) {
+	public static String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
 	
