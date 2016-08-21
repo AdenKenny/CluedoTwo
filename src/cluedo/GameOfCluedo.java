@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 import gui.Canvas;
@@ -304,6 +303,9 @@ public class GameOfCluedo {
 		setupPlayer("Player 1", "Miss Scarlett");
 		setupPlayer("Player 2", "Colonel Mustard");
 		setupPlayer("Player 3", "Mrs Peacock");
+		this.turnNumber = -1;
+		putCards();
+		dealHands();
 		nextTurn();
 	}
 	
@@ -381,6 +383,7 @@ public class GameOfCluedo {
 	void rollDice() {
 		if (this.moveDistance != -1) {
 			this.frame.showMessage("You've already rolled the dice this turn.");
+			return;
 		}
 		this.moveDistance = roll2D6(); // The distance a player can move.
 		Player current = this.players.get(this.turnNumber);
@@ -539,21 +542,30 @@ public class GameOfCluedo {
 		if (weaponSuggest == null) {
 			return;
 		}
-
-
+		
+		for (Token t : this.allTokens) {
+			String name = t.getName();
+			if (name.equals(personSuggest) || name.equals(weaponSuggest)) {
+				loc.addToken(t);
+			}
+		}
+		
+		this.frame.getCanvas().repaint();
+		
 		String roomSuggest = ((Room) loc).getName();
 
 		Tuple suggestion = new Tuple(new Card(personSuggest), new Card(weaponSuggest), new Card(roomSuggest));
 
-		Pair<Boolean, String> tempPair = suggestion.checkCards(this.players); // Check
+		Pair<Boolean, String> refutation = suggestion.checkCards(this.players); // Check
 																				// refutations.
 
-		if (tempPair.first()) { // If someone can refute.
-			this.frame.showMessage(tempPair.second());
+		if (refutation.first()) { // If someone can refute.
+			this.frame.showMessage(refutation.second());
 		}
 		else {
 			this.frame.showMessage("No one could refute this.");
 		}
+		
 		this.suggestionMade = true;
 	}
 

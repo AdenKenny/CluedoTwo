@@ -59,8 +59,8 @@ public abstract class Location {
 	 */
 
 	public void addToken(Token t) {
-		this.tokens.add(t);
 		t.setLocation(this);
+		this.tokens.add(t);
 	}
 
 	/**
@@ -81,7 +81,6 @@ public abstract class Location {
 	 *            The token to be checked for at this Location.
 	 * @return
 	 */
-
 	public boolean containsToken(Token t) {
 		return this.tokens.contains(t) ? true : false;
 	}

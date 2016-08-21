@@ -282,8 +282,8 @@ public class Board {
 		
 		int diffX = destX - currentX;
 		int diffY = destY - currentY;
-		int stepX = (diffX != 0) ? diffX / Math.abs(diffX) : 1;
-		int stepY = (diffY != 0) ? diffY / Math.abs(diffY) : 1;
+		int stepX = (diffX != 0) ? diffX / Math.abs(diffX) : 0;
+		int stepY = (diffY != 0) ? diffY / Math.abs(diffY) : 0;
 		
 		if (diffX * stepX > maxDist || diffY * stepY > maxDist) {
 			return new Pair<>(false, "You can't move that far.");

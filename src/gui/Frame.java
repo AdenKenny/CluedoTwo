@@ -45,7 +45,7 @@ public class Frame extends JFrame {
 		this.canvas = new Canvas();
 		this.audio = new Audio();
 
-		setPreferredSize(new Dimension(1000, 835));
+		setPreferredSize(new Dimension(806, 835));
 		setLayout(new BorderLayout());
 
 		add(this.canvas, BorderLayout.CENTER);
@@ -204,33 +204,24 @@ public class Frame extends JFrame {
 	 * Creates the box on which the cards in a player's hand are displayed.
 	 */
 
+	@SuppressWarnings("unused")
 	public void showHand() {
 
 		String playerName = this.cluedo.getCurrentPlayer().getHandUserName();
 
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
-	
-/*	public void doSelection() {
-		
-		SelectedPanel panel = new SelectedPanel();
-		
-		this.add(panel, BorderLayout.EAST);
-		this.repaint();
-	}
-	
-	public void charSelected() {
-		
-	}*/
 
-	public static Object askOptions(String message, Object[] options) {
+	@SuppressWarnings("static-method")
+	public Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
 				JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
 	}
 
-	public static String askText(String message) {
+	@SuppressWarnings("static-method")
+	public String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
 	
@@ -245,6 +236,7 @@ public class Frame extends JFrame {
 		return this.canvas;
 	}
 
+	@SuppressWarnings("unused")
 	public void showMessage(String message) {
 		new MessageDialog(this, message);
 	}
@@ -257,6 +249,7 @@ public class Frame extends JFrame {
 		this.audio.unmuteAudio();
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		new Frame();
 	}

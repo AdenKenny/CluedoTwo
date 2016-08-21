@@ -29,7 +29,8 @@ public class Tuple {
 	 *
 	 * @param players
 	 *            The set of players in the game.
-	 * @return A string representing the outcome of the refutation.
+	 * @return A pair with a boolean (true if someone has the card) and a string
+	 * explaining it.
 	 */
 
 	public Pair<Boolean, String> checkCards(List<Player> players) {
