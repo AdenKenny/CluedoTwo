@@ -274,9 +274,4 @@ public class Frame extends JFrame {
 		this.audio.unmuteAudio();
 	}
 
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {
-		new Frame();
-	}
-
 }

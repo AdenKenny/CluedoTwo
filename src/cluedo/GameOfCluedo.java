@@ -149,7 +149,7 @@ public class GameOfCluedo {
 	private void createCharacters() {
 		this.setOfCharacters = new HashSet<>();
 
-		String path = "cards/";
+		String path = "cards/"; //Base location of card images in assets folder.
 
 		this.setOfCharacters.add(new Card("Miss Scarlett", Canvas.loadImage(path + "missScarlett.png")));
 		this.setOfCharacters.add(new Card("Colonel Mustard", Canvas.loadImage(path + "colonelMustard.png")));
@@ -166,7 +166,7 @@ public class GameOfCluedo {
 	private void createRooms() {
 		this.setOfRooms = new HashSet<>();
 
-		String path = "cards/";
+		String path = "cards/"; //Base location of card images in assets folder.
 
 		this.setOfRooms.add(new Card("Kitchen", Canvas.loadImage(path + "kitchen.png")));
 		this.setOfRooms.add(new Card("Ball Room", Canvas.loadImage(path + "ballRoom.png")));
@@ -201,10 +201,10 @@ public class GameOfCluedo {
 	 */
 	private void dealHands() {
 
-		int numbPlayers = this.players.size();
+		int numbPlayers = this.players.size(); //Number of players in the game.
 		int playerNumb = 0;
 
-		for (Card c : this.allCards) {
+		for (Card c : this.allCards) { //Iterate through set of remaing cards.
 			++playerNumb;
 
 			if (playerNumb == numbPlayers) {
@@ -212,7 +212,7 @@ public class GameOfCluedo {
 			}
 
 			Player p = this.players.get(playerNumb);
-			p.addCard(c);
+			p.addCard(c); //Put card into player's hand.
 		}
 	}
 
@@ -221,13 +221,11 @@ public class GameOfCluedo {
 	 */
 	private void doMurder() {
 
-		int randChar = (int) (Math.random() * this.setOfCharacters.size());
-		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new
-		// array.
-		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new
-		// array.
+		int randChar = (int) (Math.random() * this.setOfCharacters.size()); //Random position in array.
+		Card[] arrOfCards = new Card[this.setOfCharacters.size()]; // Create new array.
+		this.setOfCharacters.toArray(arrOfCards); // Put contents of set in new array.
 		Card charCard = arrOfCards[randChar]; // Get card at random position.
-		this.setOfCharacters.remove(charCard);
+		this.setOfCharacters.remove(charCard); //Remove card so it can't be dealt.
 
 		int randWeapon = (int) (Math.random() * this.setOfWeapons.size());
 		Card[] arrOfWeapons = new Card[this.setOfWeapons.size()];
@@ -245,7 +243,7 @@ public class GameOfCluedo {
 		this.setOfWeapons.remove(weaponCard);
 		this.setOfRooms.remove(roomCard);
 
-		this.murderInfo = new Tuple(charCard, weaponCard, roomCard);
+		this.murderInfo = new Tuple(charCard, weaponCard, roomCard); //Put the cards a tuple and store.
 
 	}
 
@@ -257,17 +255,17 @@ public class GameOfCluedo {
 	 */
 	private Player doStartRolls(List<Player> temp) {
 
-		int highest = 0;
+		int highest = 0; //Highest roll so far.
 
 		Map<Player, Integer> rolls = new HashMap<>();
 
-		for (Player p : temp) {
+		for (Player p : temp) { //Iterate through players.
 			int roll = rollD6();
-			this.frame.showMessage(p.getUsername() + " rolled a " + roll);
-			if (roll < highest) {
+			this.frame.showMessage(p.getUsername() + " rolled a " + roll); //Show current roll.
+			if (roll < highest) { //Roll isn't new highest.
 				continue;
 			}
-			highest = roll;
+			highest = roll; //Else roll is new highest.
 			rolls.put(p, roll);
 		}
 
@@ -283,7 +281,7 @@ public class GameOfCluedo {
 			return highRollers.get(0);
 		}
 		
-		this.frame.showMessage("Draw! Highest rollers rolling again.");
+		this.frame.showMessage("Draw! Highest rollers rolling again."); //Redo rolling.
 		return doStartRolls(highRollers);
 	}
 
@@ -324,12 +322,14 @@ public class GameOfCluedo {
 	public void nextTurn() {
 		int playersLeft = 0; // calculate the number of players left
 		Player last = null; // if there is only player, this is the winner
+		
 		for (Player pl : this.players) {
 			if (pl.getStatus()) {
 				playersLeft++;
 				last = pl;
 			}
 		}
+		
 		// if only one player is left, they win
 		if (playersLeft == 1) {
 			assert (last != null);
@@ -402,6 +402,10 @@ public class GameOfCluedo {
 		this.frame.showMessage(current.getUsername() + " rolled a " + this.moveDistance);
 		this.frame.setTitle(current.getUsername() + "'s Turn - " + this.moveDistance + " Squares Left");
 	}
+	
+	/**
+	 * Gives everything on the board in the array a name.
+	 */
 	
 	private void setupNames() {
 		this.charNames = new String[6];
