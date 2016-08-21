@@ -14,6 +14,8 @@ import cluedo.GameOfCluedo;
 
 public class Mouse implements MouseListener {
 	
+	//Constants
+	
 	private static final int BOARD_TOP = 55;
 	private static final int BOARD_BOTTOM = (int) (Frame.NUM_SQUARES_VERTICAL * Frame.SQUARE_HEIGHT) + BOARD_TOP;
 
@@ -41,6 +43,7 @@ public class Mouse implements MouseListener {
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 
+		//Get the position on the visual board in squares.
 		if (mouseX >= Frame.BOARD_LEFT && mouseX <= Frame.BOARD_RIGHT && mouseY >= BOARD_TOP && mouseY <= BOARD_BOTTOM) {
 			this.cluedo.boardClicked((int)((mouseX - Frame.BOARD_LEFT) / Frame.SQUARE_WIDTH), (int)((mouseY - BOARD_TOP) / Frame.SQUARE_HEIGHT));
 		}

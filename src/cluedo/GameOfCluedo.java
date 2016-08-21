@@ -18,7 +18,8 @@ import util.Tuple;
 
 /**
  * A class containing the main game logic including setting up the game and then playing the game.
- *
+ * Is then passed to the Frame class for graphical representation.
+ * 
  * @author Aden Kenny and Simon Pope.
  */
 
@@ -37,13 +38,13 @@ public class GameOfCluedo {
 	private String[] roomNames;
 
 	private Set<Card> allCards; // All cards, used for dealing.
-	private Set<Token> allTokens; // The character and weapon tokens
+	private Set<Token> allTokens; // The character and weapon tokens.
 
-	private Frame frame;
+	private Frame frame; //Frame the gui is based on.
 
-	private int turnNumber;
+	private int turnNumber; 
 	private boolean suggestionMade;
-	private int moveDistance;
+	private int moveDistance; //Distance a player has left to move.
 
 	public GameOfCluedo(Frame frame) {
 
@@ -52,13 +53,13 @@ public class GameOfCluedo {
 		this.players = new ArrayList<>();
 		this.allCards = new HashSet<>();
 
-		createRooms();
+		createRooms(); //Basic setup.
 		createWeapons();
 		createCharacters();
 
 		setupNames();
 
-		this.board = new Board();
+		this.board = new Board(); //Board logic setup.
 
 		tokensSetup();
 
@@ -104,13 +105,21 @@ public class GameOfCluedo {
 		nextTurn();
 	}
 
+	/**
+	 * Called to handle the logic of moving.
+	 * 
+	 * @param x The place clicked on the x-axis.
+	 * @param y The place clicked on the y-axis.
+	 */
+	
 	public void boardClicked(int x, int y) {
-		if (this.moveDistance == -1) {
+		
+		if (this.moveDistance == -1) { //Player hasn't rolled.
 			this.frame.showMessage("You need to roll the dice to see how far you can move.");
 			return;
 		}
 		
-		if (this.moveDistance == 0) {
+		if (this.moveDistance == 0) { //Player doesn't have any moves left.
 			this.frame.showMessage("You can't move any further this turn.");
 			return;
 		}
@@ -119,14 +128,14 @@ public class GameOfCluedo {
 		Token t = current.getToken();
 		Pair<Boolean, Object> move = this.board.moveToken(t, x, y, this.moveDistance);
 		
-		if (move.first()) {
+		if (move.first()) { //Move was valid.
 			this.moveDistance -= (int) move.second();
 			this.frame.setTitle(current.getUsername() + "'s Turn - " + this.moveDistance + " Squares Left");
 			this.frame.getCanvas().repaint();
 		}
 		
-		else {
-			String reason = (String) move.second();
+		else { //Invalid move.
+			String reason = (String) move.second(); 
 			if (reason.length() != 0) {
 				this.frame.showMessage(reason);
 			}

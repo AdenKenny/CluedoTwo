@@ -13,7 +13,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * A class controlling the audio in the game.
  *
  * @author Aden Kenny and Simon Pope.
- *
  */
 
 public class Audio {

@@ -23,6 +23,8 @@ import cluedo.GameOfCluedo;
 
 public class Frame extends JFrame {
 	
+	//Constants
+	
 	public static final int BOARD_LEFT = 30;
 	
 	public static final int NUM_SQUARES_HORIZONTAL = 24;
@@ -65,6 +67,10 @@ public class Frame extends JFrame {
 		addMouseListener(this.mouse); //Adds the mouse listener to the mouse class.
 
 	}
+	
+	/**
+	 * Creates a mock game for testing purposes.
+	 */
 	
 	public void mockGame() {
 		this.cluedo = new GameOfCluedo(this); //Creates all the requirements for a new game.
@@ -109,9 +115,9 @@ public class Frame extends JFrame {
 	 */
 
 	private void createButtonPanel() {
-		Box box = Box.createHorizontalBox();
+		Box box = Box.createHorizontalBox(); //Box on which buttons will be displayed.
 		
-		JButton rollDice = new JButton("Roll Dice");
+		JButton rollDice = new JButton("Roll Dice"); //Roll dice button.
 		rollDice.setMaximumSize(new Dimension(160, 30));
 		rollDice.setToolTipText("Roll the dice to see how far you can move");
 		rollDice.addActionListener(new ActionListener() {
@@ -128,7 +134,7 @@ public class Frame extends JFrame {
 		
 		box.add(rollDice);
 		
-		JButton handButton = new JButton("View hand");
+		JButton handButton = new JButton("View hand"); //Allows player to view their hand.
 		handButton.setMaximumSize(new Dimension(160, 30));
 		handButton.setToolTipText("Show your hand");
 		handButton.addActionListener(new ActionListener() {
@@ -139,13 +145,13 @@ public class Frame extends JFrame {
 					return;
 				}
 
-				Frame.this.showHand();
+				Frame.this.showHand(); //Opens the HandBox on which the HandCanvas is displayed.
 			}
 		});
 
 		box.add(handButton);
 
-		JButton suggestionButton = new JButton("Suggestion");
+		JButton suggestionButton = new JButton("Suggestion"); //Allows the player to make a suggestion.
 		suggestionButton.setMaximumSize(new Dimension(160, 30));
 		suggestionButton.setToolTipText("Make a suggestion (You must be in a room)");
 		suggestionButton.addActionListener(new ActionListener() {
@@ -162,7 +168,7 @@ public class Frame extends JFrame {
 
 		box.add(suggestionButton);
 
-		JButton accusationButton = new JButton("Accusation");
+		JButton accusationButton = new JButton("Accusation"); //Allows a player to make an accusation.
 		accusationButton.setMaximumSize(new Dimension(160, 30));
 		accusationButton.setToolTipText("Make an accusation (If you get this wrong you lose)");
 		accusationButton.addActionListener(new ActionListener() {
@@ -179,7 +185,7 @@ public class Frame extends JFrame {
 
 		box.add(accusationButton);
 
-		JButton endTurnButton = new JButton("End Turn");
+		JButton endTurnButton = new JButton("End Turn"); //Ends the player's turn.
 		endTurnButton.setMaximumSize(new Dimension(160, 30));
 		endTurnButton.setToolTipText("End your turn");
 		endTurnButton.addActionListener(new ActionListener() {
@@ -190,7 +196,7 @@ public class Frame extends JFrame {
 					return;
 				}
 
-				Frame.this.cluedo.nextTurn();
+				Frame.this.cluedo.nextTurn(); //Goes to the next player's turn.
 			}
 		});
 
@@ -206,11 +212,19 @@ public class Frame extends JFrame {
 	@SuppressWarnings("unused")
 	public void showHand() {
 
-		String playerName = this.cluedo.getCurrentPlayer().getHandUserName();
+		String playerName = this.cluedo.getCurrentPlayer().getHandUserName(); //Gets the name of the player.
 
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
 
+	/**
+	 * Asks the player to make a choice.
+	 * 
+	 * @param message The question to be presented to the player.
+	 * @param options The options the player has to choose from.
+	 * @return A choice that the player made.
+	 */
+	
 	public static Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
@@ -233,15 +247,29 @@ public class Frame extends JFrame {
 		return this.canvas;
 	}
 
+	/**
+	 * Presents a message to the player.
+	 * 
+	 * @param message A String of the message that is presented to the player.
+	 */
+	
 	@SuppressWarnings("unused")
 	public void showMessage(String message) {
 		new MessageDialog(this, message);
 	}
 
+	/**
+	 * Mutes the audio in the Audio class.
+	 */
+	
 	public void muteAudio() {
 		this.audio.muteAudio();
 	}
 
+	/**
+	 * Unmutes the audio in the Audio class.
+	 */
+	
 	public void unmuteAudio() {
 		this.audio.unmuteAudio();
 	}

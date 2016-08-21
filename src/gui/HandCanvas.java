@@ -16,7 +16,7 @@ import items.Card;
 
 public class HandCanvas extends JPanel {
 
-	private static final int CARD_WIDTH = 110; //Constants of image size.
+	private static final int CARD_WIDTH = 110; //Constants of image size of a card.
 	private static final int CARD_HEIGHT = 170;
 
 	private Set<Card> setOfCards; //Set in which the player's hand is stored.
@@ -34,7 +34,7 @@ public class HandCanvas extends JPanel {
 		
 		for (Card card : this.setOfCards) { //Draws the cards on the canvas.
 			
-			int y = (i / 3) * CARD_HEIGHT;
+			int y = (i / 3) * CARD_HEIGHT; //Assigns position based on the count variable of cards already displayed.
 			int x = (i % 3) * CARD_WIDTH;
 
 			Image image = card.getImage();

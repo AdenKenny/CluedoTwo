@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
+ * A class that displays a message to the player.
+ * 
  * @author Aden Kenny and Simon Pope
- *
  */
 public class MessageDialog extends JDialog implements ActionListener {
 	public MessageDialog(JFrame parent, String message) {
@@ -28,7 +28,7 @@ public class MessageDialog extends JDialog implements ActionListener {
 	    JPanel buttonPane = new JPanel();
 	    JButton button = new JButton("OK");
 	    buttonPane.add(button);
-	    button.addActionListener(this);
+	    button.addActionListener(this); //Make sure the player acknowledges the message.
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);

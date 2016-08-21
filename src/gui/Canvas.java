@@ -21,6 +21,8 @@ import location.Room;
 
 public class Canvas extends JPanel {
 	
+	//Constants
+	
 	private static final int BOARD_TOP = 6;
 	
 	private static final int BOARD_WIDTH = 800;
@@ -75,7 +77,7 @@ public class Canvas extends JPanel {
 			return;
 		}
 
-		for (int x = 0; x < Frame.NUM_SQUARES_HORIZONTAL; x++) { 
+		for (int x = 0; x < Frame.NUM_SQUARES_HORIZONTAL; x++) {  //Prints everything at each square on the board.
 			for (int y = 0; y < Frame.NUM_SQUARES_VERTICAL; y++) {
 				Image img = this.board.characterAt(x, y);
 				if (img != null) {

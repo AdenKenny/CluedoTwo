@@ -245,20 +245,20 @@ public class Board {
 	 * @return Pair with either an int or a string with the required message.
 	 */
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
-		Location current = t.getLocation();
+		Location current = t.getLocation(); //Get the current location of the player.
 		
 		Square destination = this.boardSquares[destX][destY];
 		
-		if (destination == null) {
+		if (destination == null) { 
 			char boardChar = boardChar(destX, destY);
 			
-			if (boardChar == '0') {
-				return new Pair<>(false, "");
+			if (boardChar == '0') { //This a location a player cannot move to.
+				return new Pair<>(false, ""); //State that move is invalid.
 			}
 			
-			Room roomDest = getRoom(destX, destY);
+			Room roomDest = getRoom(destX, destY); //Gets the room the player wants to move to.
 			
-			if (!roomDest.getAdjacent().containsValue(current)) {
+			if (!roomDest.getAdjacent().containsValue(current)) { //Make sure player enters room correctly.
 				return new Pair<>(false, "You have to be standing at the door to enter a room.");
 			}
 			
@@ -266,34 +266,34 @@ public class Board {
 			return new Pair<>(true, 1);
 		}
 		
-		if (current instanceof Room) {
+		if (current instanceof Room) { //Make sure player leaves room correctly.
 			
 			if (!current.getAdjacent().containsValue(destination)) {
 				return new Pair<>(false, "Start by moving to a square outside a door.");
 			}
 			
-			destination.addToken(t);
+			destination.addToken(t); //Move the player to the new location.
 			return new Pair<>(true, 1);
 		}
 		
-		Square currentSquare = (Square) current;
-		int currentX = currentSquare.getX();
+		Square currentSquare = (Square) current; 
+		int currentX = currentSquare.getX(); //Get location of current square.
 		int currentY = currentSquare.getY();
 		
-		if (currentX != destX && currentY != destY) {
+		if (currentX != destX && currentY != destY) { //Move isn't in a straight line.
 			return new Pair<>(false, "You can only move in a straight line with each click.");
 		}
 		
-		if (currentX == destX && currentY == destY) {
+		if (currentX == destX && currentY == destY) { //Can't just move on the spot.
 			return new Pair<>(false, "You can't move on the spot.");
 		}
 		
-		int diffX = destX - currentX;
+		int diffX = destX - currentX; //Calculate the differences.
 		int diffY = destY - currentY;
 		int stepX = (diffX != 0) ? diffX / Math.abs(diffX) : 0;
 		int stepY = (diffY != 0) ? diffY / Math.abs(diffY) : 0;
 		
-		if (diffX * stepX > maxDist || diffY * stepY > maxDist) {
+		if (diffX * stepX > maxDist || diffY * stepY > maxDist) { //Move greater than remaining moves.
 			return new Pair<>(false, "You can't move that far.");
 		}
 		
@@ -303,7 +303,7 @@ public class Board {
 		while((x - destX) * stepX <= 0 && (y - destY) * stepY <= 0) {
 			Square square = this.boardSquares[x][y];
 			
-			if (square == null || !square.getTokens().isEmpty()) {
+			if (square == null || !square.getTokens().isEmpty()) { //Someone else is in the square you want to move to.
 				return new Pair<>(false, "You can't move that way. Something is blocking you.");
 			}
 			
@@ -311,10 +311,18 @@ public class Board {
 			y += stepY;
 		}
 		
-		destination.addToken(t);
+		destination.addToken(t); //Add player to new location.
 		
 		return new Pair<>(true, Math.abs(diffX + diffY));
 	}
+	
+	/**
+	 * Get the room at a certain set of coordinates.
+	 * 
+	 * @param x The xordinate we're checking for.
+	 * @param y The yordinate we're checking for.
+	 * @return The room (if any) at the coordinates.
+	 */
 	
 	private Room getRoom(int x, int y) {
 		return this.rooms.get(boardChar(x, y) + "");
