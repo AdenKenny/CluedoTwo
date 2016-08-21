@@ -67,6 +67,17 @@ public class MenuBar extends JFrame {
 		JMenuItem about = new JMenuItem("About - Alt+A", infoIcon); //The buttons on the menu.
 		about.setActionCommand("about"); //The string that is passed along to the action listener.
 		about.setMnemonic(KeyEvent.VK_A); //Sets the mnemonic for the keyboard shortcut.
+		
+		JMenuItem mockGame = new JMenuItem("Mock Game");
+		mockGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MenuBar.this.frame.mockGame();
+				
+			}
+			
+		});
 
 		JMenuItem newGame = new JMenuItem("New game - Alt+N", fileIcon);
 		newGame.setActionCommand("new game");
@@ -93,6 +104,7 @@ public class MenuBar extends JFrame {
 		mute.addActionListener(menuItemListener);
 
 		gameMenu.add(newGame); //Adds the menu items to the menus.
+		gameMenu.add(mockGame);
 		gameMenu.add(close);
 		helpMenu.add(about);
 		audioMenu.add(unmute);

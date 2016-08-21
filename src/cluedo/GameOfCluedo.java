@@ -114,7 +114,10 @@ public class GameOfCluedo {
 			this.frame.getCanvas().repaint();
 		}
 		else {
-			this.frame.showMessage((String)move.second());
+			String reason = (String)move.second();
+			if (reason.length() != 0) {
+				this.frame.showMessage(reason);
+			}
 		}
 	}
 
@@ -363,6 +366,17 @@ public class GameOfCluedo {
 		return this.players.get(this.turnNumber);
 	}
 
+	/**
+	 * Sets up a game with preset players and assumes
+	 * Player 1 won the roll off for first turn.
+	 */
+	public void mockGame() {
+		setupPlayer("Player 1", "Miss Scarlett");
+		setupPlayer("Player 2", "Colonel Mustard");
+		setupPlayer("Player 3", "Mrs Peacock");
+		nextTurn();
+	}
+	
 	public void nextTurn() {
 		int playersLeft = 0; // calculate the number of players left
 		Player last = null; // if there is only player, this is the winner

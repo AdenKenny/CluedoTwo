@@ -28,51 +28,44 @@ public class Board {
 	/**
 	 * 0 = empty space
 	 * 1 = square
-	 * 2 = square next to door
-	 * 3 = room
-	 * 4 = room next to door
-	 * K = kitchen name
-	 * B = ball room name
-	 * C = conser- name
-	 * V = vatory name
-	 * D = dining name
-	 * R = room name
-	 * I = billiard name
-	 * L = library name
-	 * O = lounge name
-	 * H = hall name
-	 * S = study name
+	 * k = kitchen name
+	 * b = ball room
+	 * c = conservatory
+	 * d = dining room
+	 * i = billiard name
+	 * l = library name
+	 * o = lounge name
+	 * h = hall name
+	 * s = study name
 	 *
-	 * Lower case letters are where characters are displayed in room.
-	 * They correspond to the uppercase letters used for names.
 	 **/
 
 	String[] boardStrings = {
 			"000000000100001000000000",
-			"@3333301113333111033333@",
-			"3333331133333333113C3333",
-			"3K33331133333333113V3333",
-			"3333331133B33333114c3333",
-			"3k3333124333333321233330",
-			"033343113b33333311111111",
-			"111121113433334311111110",
-			"0111111112111121113i3333",
-			"3333311111111111124I3333",
-			"3d333333113333311133R333",
-			"333333331133333111333333",
-			"33D333342133333111333343",
-			"333R33331133333111112120",
-			"333333331133333111334330",
-			"333333431133333113l33333",
-			"0111112111333331243L3333",
-			"111111111112211113333333",
-			"011111211334433111333330",
-			"3333334113h3333111111111",
-			"333333311333334212111110",
-			"33O33331133H333114333333",
-			"3333333113333331133S3333",
-			"3o3333311333333113s33333",
-			"@3333301003333001033333@",
+            "kkkkks0111bbbb1110cccccc",
+            "kkkkkk11bbbbbbbb11cccccc",
+            "kkkkkk11bbbbbbbb11cccccc",
+            "kkkkkk11bbbbbbbb11cccccc",
+            "kkkkkk11bbbbbbbb111ccco0",
+			"0kkkkk11bbbbbbbb11111111",
+			"11111111bbbbbbbb11111110",
+			"011111111111111111iiiiii",
+			"ddddd1111111111111iiiiii",
+			"dddddddd1100000111iiiiii",
+			"dddddddd1100000111iiiiii",
+			"dddddddd1100000111iiiiii",
+			"dddddddd1100000111111110",
+			"dddddddd1100000111lllll0",
+			"dddddddd110000011lllllll",
+			"01111111110000011lllllll",
+			"11111111111111111lllllll",
+			"011111111334433111lllll0",
+			"coooooo11hhhhhh111111111",
+			"ooooooo11hhhhhh111111110",
+			"ooooooo11hhhhhh11ssssssk",
+			"ooooooo11hhhhhh11sssssss",
+			"ooooooo11hhhhhh11sssssss",
+			"oooooo0100hhhh0010ssssss"
 	};
 
 	public Board() {
@@ -93,7 +86,7 @@ public class Board {
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				char square = boardChar(x, y);
-				if (square == '1' || square == '2') {
+				if (square == '1') {
 					this.boardSquares[x][y] = new Square(x, y);
 				}
 			}
@@ -248,7 +241,6 @@ public class Board {
 	 * @return //TODO Fill this in.
 	 */
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
-		
 		Location current = t.getLocation();
 		
 		if (current instanceof Room) {
@@ -259,7 +251,10 @@ public class Board {
 		Square destination = this.boardSquares[destX][destY];
 		
 		if (destination == null) {
-			//TODO into room pathfinding
+			char boardChar = boardChar(destX, destY);
+			if (boardChar == '0') {
+				return new Pair<>(false, "");
+			}
 			return new Pair<>(false, "end in room");
 		}
 		
@@ -278,19 +273,24 @@ public class Board {
 			return new Pair<>(false, "You can't move on the spot.");
 		}
 		
-		int diffX = currentX - destX;
-		int diffY = currentY - destY;
-		int step = (diffX + diffY) / Math.abs(diffX + diffY);
+		int diffX = destX - currentX;
+		int diffY = destY - currentY;
+		int stepX = (diffX != 0) ? diffX / Math.abs(diffX) : 1;
+		int stepY = (diffY != 0) ? diffY / Math.abs(diffY) : 1;
 		
-		if (diffX * step > maxDist || diffY * step > maxDist) {
+		if (diffX * stepX > maxDist || diffY * stepY > maxDist) {
 			return new Pair<>(false, "You can't move that far.");
 		}
-		for (int x = currentX; x != destX; x += step) {
-			for (int y = currentY; y != destY; y += step) {
-				if (this.boardSquares[x][y] == null) {
-					return new Pair<>(false, "You can't move that way. Something is blocking you.");
-				}
+		
+		int x = currentX + stepX;
+		int y = currentY + stepY;
+		while((x - destX) * stepX <= 0 && (y - destY) * stepY <= 0) {
+			Square square = this.boardSquares[x][y];
+			if (square == null || !square.getTokens().isEmpty()) {
+				return new Pair<>(false, "You can't move that way. Something is blocking you.");
 			}
+			x += stepX;
+			y += stepY;
 		}
 		
 		destination.addToken(t);

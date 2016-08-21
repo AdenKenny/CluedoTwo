@@ -56,6 +56,13 @@ public class Frame extends JFrame {
 		addMouseListener(this.mouse); //Adds the mouse listener to the mouse class.
 
 	}
+	
+	public void mockGame() {
+		this.cluedo = new GameOfCluedo(this); //Creates all the requirements for a new game.
+		this.canvas.addBoard(this.cluedo.getBoard());
+		this.mouse.addGame(this.cluedo);
+		this.cluedo.mockGame();
+	}
 
 	/**
 	 * Creates a new game of Cluedo. Used in the menu bar new game option.
