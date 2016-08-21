@@ -13,16 +13,11 @@ import cluedo.GameOfCluedo;
  */
 
 public class Mouse implements MouseListener {
+	
+	private static final int BOARD_TOP = 55;
+	private static final int BOARD_BOTTOM = (int)(Frame.NUM_SQUARES_VERTICAL * Frame.SQUARE_HEIGHT) + BOARD_TOP;
 
 	GameOfCluedo cluedo = null;
-
-	private static final int BOARD_LEFT = 30;
-	private static final int BOARD_TOP = 6;
-	private static final int BOARD_RIGHT = 774;
-	private static final int BOARD_BOTTOM = 743;
-
-	private static final int SQUARE_WIDTH = 31;
-	private static final double SQUARE_HEIGHT = 29.5;
 
 	public void addGame(GameOfCluedo cluedo) {
 		this.cluedo = cluedo;
@@ -34,7 +29,11 @@ public class Mouse implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		//not used
+	}
 
+	@Override
+	public void mousePressed(MouseEvent e) {
 		if (this.cluedo == null) {
 			return;
 		}
@@ -42,14 +41,9 @@ public class Mouse implements MouseListener {
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 
-		if (mouseX >= BOARD_LEFT && mouseX <= BOARD_RIGHT && mouseY >= BOARD_TOP && mouseY <= BOARD_BOTTOM) {
-			this.cluedo.boardClicked((mouseX - BOARD_LEFT) / SQUARE_WIDTH, (int)((mouseY - BOARD_TOP) / SQUARE_HEIGHT) - 2);
+		if (mouseX >= Frame.BOARD_LEFT && mouseX <= Frame.BOARD_RIGHT && mouseY >= BOARD_TOP && mouseY <= BOARD_BOTTOM) {
+			this.cluedo.boardClicked((int)((mouseX - Frame.BOARD_LEFT) / Frame.SQUARE_WIDTH), (int)((mouseY - BOARD_TOP) / Frame.SQUARE_HEIGHT));
 		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		//not used
 	}
 
 	@Override

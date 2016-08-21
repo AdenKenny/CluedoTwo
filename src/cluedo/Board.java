@@ -243,11 +243,6 @@ public class Board {
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
 		Location current = t.getLocation();
 		
-		if (current instanceof Room) {
-			//TODO out of room pathfinding
-			return new Pair<>(false, "start in room");
-		}
-		
 		Square destination = this.boardSquares[destX][destY];
 		
 		if (destination == null) {
@@ -255,11 +250,17 @@ public class Board {
 			if (boardChar == '0') {
 				return new Pair<>(false, "");
 			}
-			return new Pair<>(false, "end in room");
+			Room roomDest = getRoom(destX, destY);
+			if (!roomDest.getAdjacent().containsValue(current)) {
+				return new Pair<>(false, "You have to be standing at the door to enter a room.");
+			}
+			roomDest.addToken(t);
+			return new Pair<>(true, 1);
 		}
 		
-		if (maxDist == 0) {
-			return new Pair<>(false, "You can't move any further this turn.");
+		if (current instanceof Room) {
+			//TODO out of room pathfinding
+			return new Pair<>(false, "start in room");
 		}
 		
 		Square currentSquare = (Square) current;
@@ -296,6 +297,10 @@ public class Board {
 		destination.addToken(t);
 		
 		return new Pair<>(true, Math.abs(diffX + diffY));
+	}
+	
+	private Room getRoom(int x, int y) {
+		return this.rooms.get(boardChar(x, y) + "");
 	}
 
 	/**

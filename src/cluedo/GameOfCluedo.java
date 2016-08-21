@@ -107,6 +107,10 @@ public class GameOfCluedo {
 	}
 
 	public void boardClicked(int x, int y) {
+		if (this.moveDistance == 0) {
+			this.frame.showMessage("You can't move any further this turn.");
+			return;
+		}
 		Token t = this.players.get(this.turnNumber).getToken();
 		Pair<Boolean, Object> move = this.board.moveToken(t, x, y, this.moveDistance);
 		if (move.first()) {
@@ -115,9 +119,9 @@ public class GameOfCluedo {
 		}
 		else {
 			String reason = (String)move.second();
-			if (reason.length() != 0) {
+			//if (reason.length() != 0) {
 				this.frame.showMessage(reason);
-			}
+			//}
 		}
 	}
 

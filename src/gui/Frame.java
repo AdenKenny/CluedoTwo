@@ -22,6 +22,16 @@ import cluedo.GameOfCluedo;
  */
 
 public class Frame extends JFrame {
+	
+	public static final int BOARD_LEFT = 30;
+	
+	public static final int NUM_SQUARES_HORIZONTAL = 24;
+	public static final int NUM_SQUARES_VERTICAL = 25;
+
+	public static final double SQUARE_WIDTH = 31.2;
+	public static final double SQUARE_HEIGHT = 29.6;
+	
+	public static final int BOARD_RIGHT = (int)(NUM_SQUARES_HORIZONTAL * SQUARE_WIDTH) + BOARD_LEFT;
 
 	private Canvas canvas; //The canvas on which the board is drawn.
 	private Mouse mouse; //Handles mouse inputs for movement.

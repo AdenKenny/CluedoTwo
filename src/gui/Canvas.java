@@ -21,14 +21,9 @@ import location.Room;
  */
 
 public class Canvas extends JPanel {
-
-	//Constants
-	private static final int BOARD_LEFT = 30;
+	
 	private static final int BOARD_TOP = 6;
-	private static final int SQUARE_WIDTH = 31;
-	private static final double SQUARE_HEIGHT = 29.5;
-	private static final int SQUARES_WIDTH = 24;
-	private static final int SQUARES_HEIGHT = 25;
+	
 	private static final int BOARD_WIDTH = 800;
 	private static final int BOARD_HEIGHT = 760;
 	
@@ -58,7 +53,7 @@ public class Canvas extends JPanel {
 	 */
 	
 	private static int xToPixels(int x) {
-		return x * SQUARE_WIDTH + BOARD_LEFT;
+		return (int)(x * Frame.SQUARE_WIDTH) + Frame.BOARD_LEFT;
 	}
 
 	/**
@@ -69,7 +64,7 @@ public class Canvas extends JPanel {
 	 */
 	
 	private static int yToPixels(int y) {
-		return (int) (y * SQUARE_HEIGHT) + BOARD_TOP;
+		return (int) (y * Frame.SQUARE_HEIGHT) + BOARD_TOP;
 	}
 
 	@Override
@@ -81,8 +76,8 @@ public class Canvas extends JPanel {
 			return;
 		}
 
-		for (int x = 0; x < SQUARES_WIDTH; x++) { 
-			for (int y = 0; y < SQUARES_HEIGHT; y++) {
+		for (int x = 0; x < Frame.NUM_SQUARES_HORIZONTAL; x++) { 
+			for (int y = 0; y < Frame.NUM_SQUARES_VERTICAL; y++) {
 				Image img = this.board.characterAt(x, y);
 				if (img != null) {
 					g.drawImage(img, xToPixels(x), yToPixels(y), null, null);
