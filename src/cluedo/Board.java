@@ -259,8 +259,11 @@ public class Board {
 		}
 		
 		if (current instanceof Room) {
-			//TODO out of room pathfinding
-			return new Pair<>(false, "start in room");
+			if (!current.getAdjacent().containsValue(destination)) {
+				return new Pair<>(false, "Start by moving to a square outside a door.");
+			}
+			destination.addToken(t);
+			return new Pair<>(true, 1);
 		}
 		
 		Square currentSquare = (Square) current;
