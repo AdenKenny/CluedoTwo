@@ -212,7 +212,7 @@ public class Frame extends JFrame {
 	}
 
 	@SuppressWarnings("static-method")
-	public Object askOptions(String message, Object[] options) {
+	public static Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
 				JOptionPane.INFORMATION_MESSAGE, null,
@@ -220,7 +220,7 @@ public class Frame extends JFrame {
 	}
 
 	@SuppressWarnings("static-method")
-	public String askText(String message) {
+	public static String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
 	
