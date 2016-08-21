@@ -241,7 +241,7 @@ public class Board {
 	 * @param destX The destination on the x axis.
 	 * @param destY The destination on the y axis.
 	 * @param maxDist The maximum amount of distance that the token can move.
-	 * @return Pair with .
+	 * @return Pair with either an int or a string with the required message.
 	 */
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
 		Location current = t.getLocation();
@@ -250,21 +250,27 @@ public class Board {
 		
 		if (destination == null) {
 			char boardChar = boardChar(destX, destY);
+			
 			if (boardChar == '0') {
 				return new Pair<>(false, "");
 			}
+			
 			Room roomDest = getRoom(destX, destY);
+			
 			if (!roomDest.getAdjacent().containsValue(current)) {
 				return new Pair<>(false, "You have to be standing at the door to enter a room.");
 			}
+			
 			roomDest.addToken(t);
 			return new Pair<>(true, 1);
 		}
 		
 		if (current instanceof Room) {
+			
 			if (!current.getAdjacent().containsValue(destination)) {
 				return new Pair<>(false, "Start by moving to a square outside a door.");
 			}
+			
 			destination.addToken(t);
 			return new Pair<>(true, 1);
 		}
@@ -272,6 +278,7 @@ public class Board {
 		Square currentSquare = (Square) current;
 		int currentX = currentSquare.getX();
 		int currentY = currentSquare.getY();
+		
 		if (currentX != destX && currentY != destY) {
 			return new Pair<>(false, "You can only move in a straight line with each click.");
 		}
@@ -291,11 +298,14 @@ public class Board {
 		
 		int x = currentX + stepX;
 		int y = currentY + stepY;
+		
 		while((x - destX) * stepX <= 0 && (y - destY) * stepY <= 0) {
 			Square square = this.boardSquares[x][y];
+			
 			if (square == null || !square.getTokens().isEmpty()) {
 				return new Pair<>(false, "You can't move that way. Something is blocking you.");
 			}
+			
 			x += stepX;
 			y += stepY;
 		}

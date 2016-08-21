@@ -1,6 +1,7 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import cluedo.GameOfCluedo;
+import gui.Frame;
 
 /**
  * A class containing many JUnit tests that cover a wide variety of cases and
@@ -26,7 +28,7 @@ import cluedo.GameOfCluedo;
  *
  */
 
-public class StartingTest {
+public class Tests {
 
 	/**
 	 * Tests to make sure d6 roll meets required specifications.
@@ -103,7 +105,6 @@ public class StartingTest {
 			}
 		}
 		for(Entry<Integer, Integer> e : map.entrySet()) {
-			System.out.println(e.getValue());
 			assert(e.getValue() >= 200);
 		}
 	}
@@ -120,10 +121,10 @@ public class StartingTest {
 	 * ourselves and most importantly we have failed you.
 	 */
 
-/*	@Test
+	@Test
 	public void testEntertainment() {
 
-		new GameOfCluedo();
+		new GameOfCluedo(new Frame());
 
 		System.out.println("Was the game fun?");
 		String reply = "";
@@ -139,5 +140,5 @@ public class StartingTest {
 
 		assertEquals(reply, "yes");
 	}
-*/
+
 }
