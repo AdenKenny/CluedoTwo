@@ -29,6 +29,7 @@ public class Token {
 
 	public Token(String name, Location location, boolean isCharacter, String imageName) {
 		this.name = name;
+		this.location = location;
 		location.addToken(this);
 		this.isCharacter = isCharacter;
 		this.image = Canvas.loadImage(imageName);
