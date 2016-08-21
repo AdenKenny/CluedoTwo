@@ -16,7 +16,6 @@ import location.Room;
 import util.Pair;
 import util.Tuple;
 
-
 /**
  * A class containing the main game logic including setting up the game and then playing the game.
  *

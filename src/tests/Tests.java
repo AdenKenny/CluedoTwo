@@ -15,7 +15,7 @@ import gui.Frame;
 
 /**
  * A class containing many JUnit tests that cover a wide variety of cases and
- * can minimize the chances of bugs in this glorious game of Cluedo. These tests
+ * can minimise the chances of bugs in this glorious game of Cluedo. These tests
  * 100% definitely cover all possible cases in the game. But overall the spirit of
  * these tests is not to check for bugs, it is to find the inner meaning of the game
  * of Cluedo. Cluedo and all it stands for cannot be simply represented by specifications

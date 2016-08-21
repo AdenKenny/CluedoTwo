@@ -17,7 +17,6 @@ import location.Room;
  * are drawn.
  *
  * @author Aden Kenny and Simon Pope.
- *
  */
 
 public class Canvas extends JPanel {
