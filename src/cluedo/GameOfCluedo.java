@@ -70,17 +70,17 @@ public class GameOfCluedo {
 	 * Make an accusation.
 	 */
 	public void accusation() {
-		String personSuggest = (String) this.frame.askOptions("Person:", this.charNames);
+		String personSuggest = (String) Frame.askOptions("Person:", this.charNames);
 		if (personSuggest == null) {
 			return;
 		}
 
-		String weaponSuggest = (String) this.frame.askOptions("Weapon:", this.weaponNames);
+		String weaponSuggest = (String) Frame.askOptions("Weapon:", this.weaponNames);
 		if (weaponSuggest == null) {
 			return;
 		}
 
-		String roomSuggest = (String) this.frame.askOptions("Room:", this.roomNames);
+		String roomSuggest = (String) Frame.askOptions("Room:", this.roomNames);
 
 		if (roomSuggest == null) {
 			return;
@@ -110,20 +110,24 @@ public class GameOfCluedo {
 			this.frame.showMessage("You need to roll the dice to see how far you can move.");
 			return;
 		}
+		
 		if (this.moveDistance == 0) {
 			this.frame.showMessage("You can't move any further this turn.");
 			return;
 		}
+		
 		Player current = this.players.get(this.turnNumber);
 		Token t = current.getToken();
 		Pair<Boolean, Object> move = this.board.moveToken(t, x, y, this.moveDistance);
+		
 		if (move.first()) {
-			this.moveDistance -= (int)move.second();
+			this.moveDistance -= (int) move.second();
 			this.frame.setTitle(current.getUsername() + "'s Turn - " + this.moveDistance + " Squares Left");
 			this.frame.getCanvas().repaint();
 		}
+		
 		else {
-			String reason = (String)move.second();
+			String reason = (String) move.second();
 			if (reason.length() != 0) {
 				this.frame.showMessage(reason);
 			}
@@ -446,7 +450,7 @@ public class GameOfCluedo {
 		
 		//get the number of players
 		Integer[] possibleNumbers = { 3, 4, 5, 6 };
-		Integer selectedNumber = (Integer) this.frame.askOptions("How many players?", possibleNumbers);
+		Integer selectedNumber = (Integer) Frame.askOptions("How many players?", possibleNumbers);
 
 		if (selectedNumber == null) {
 			this.frame.endGame();
@@ -460,7 +464,7 @@ public class GameOfCluedo {
 				
 		// get each players name and character
 		for (int i = 0; i < numPlayers; i++) {
-			String username = this.frame.askText("Enter a username:");
+			String username = Frame.askText("Enter a username:");
 			outer: while(true) {
 				if (username == null) {
 					this.frame.endGame();
@@ -468,7 +472,7 @@ public class GameOfCluedo {
 				}
 				for (String user : usernames) {
 					if (username.equals(user)) {
-						username = this.frame.askText("Username already in use. Try again:");
+						username = Frame.askText("Username already in use. Try again:");
 						continue outer;
 					}
 				}
@@ -477,7 +481,7 @@ public class GameOfCluedo {
 
 			usernames[i] = username;
 			
-			Object selectedCharacter = this.frame.askOptions("Select a character:", tempCharNames);
+			Object selectedCharacter = Frame.askOptions("Select a character:", tempCharNames);
 			if (selectedCharacter == null) {
 				this.frame.endGame();
 				return;
@@ -533,12 +537,12 @@ public class GameOfCluedo {
 			return;
 		}
 
-		String personSuggest = (String)this.frame.askOptions("Person:", this.charNames);
+		String personSuggest = (String)Frame.askOptions("Person:", this.charNames);
 		if (personSuggest == null) {
 			return;
 		}
 
-		String weaponSuggest = (String)this.frame.askOptions("Weapon:", this.weaponNames);
+		String weaponSuggest = (String)Frame.askOptions("Weapon:", this.weaponNames);
 		if (weaponSuggest == null) {
 			return;
 		}

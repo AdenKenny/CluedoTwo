@@ -31,7 +31,7 @@ public class Frame extends JFrame {
 	public static final double SQUARE_WIDTH = 31.2;
 	public static final double SQUARE_HEIGHT = 29.6;
 	
-	public static final int BOARD_RIGHT = (int)(NUM_SQUARES_HORIZONTAL * SQUARE_WIDTH) + BOARD_LEFT;
+	public static final int BOARD_RIGHT = (int) (NUM_SQUARES_HORIZONTAL * SQUARE_WIDTH) + BOARD_LEFT;
 
 	private Canvas canvas; //The canvas on which the board is drawn.
 	private Mouse mouse; //Handles mouse inputs for movement.
@@ -55,7 +55,6 @@ public class Frame extends JFrame {
 		this.setJMenuBar(new MenuBar(this).getBar()); //Create menu bar.
 
 		createButtonPanel(); //Sets up buttons down the bottom.
-		//doSelection();
 		
 		pack();
 		setResizable(false); // Prevents frame from being resizeable.
@@ -212,16 +211,14 @@ public class Frame extends JFrame {
 		new HandBox(this, playerName + "'s hand", this.cluedo.showHand());
 	}
 
-	@SuppressWarnings("static-method")
-	public Object askOptions(String message, Object[] options) {
+	public static Object askOptions(String message, Object[] options) {
 		return JOptionPane.showInputDialog(null,
 				message, null,
 				JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
 	}
 
-	@SuppressWarnings("static-method")
-	public String askText(String message) {
+	public static String askText(String message) {
 		return JOptionPane.showInputDialog(message);
 	}
 	

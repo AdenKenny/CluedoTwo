@@ -15,7 +15,7 @@ import cluedo.GameOfCluedo;
 public class Mouse implements MouseListener {
 	
 	private static final int BOARD_TOP = 55;
-	private static final int BOARD_BOTTOM = (int)(Frame.NUM_SQUARES_VERTICAL * Frame.SQUARE_HEIGHT) + BOARD_TOP;
+	private static final int BOARD_BOTTOM = (int) (Frame.NUM_SQUARES_VERTICAL * Frame.SQUARE_HEIGHT) + BOARD_TOP;
 
 	GameOfCluedo cluedo = null;
 
