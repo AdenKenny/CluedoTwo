@@ -232,13 +232,16 @@ public class Board {
 	}
 
 	/**
-	 * Moves a token around the board on a user click.
+	 * Moves a token around the board on a user click. If move is possible,
+	 * it performs the move and returns true and how far the move was.
+	 * If the move isn't possible, no move is made, and it returns false 
+	 * and a message as to why the move failed.
 	 * 
 	 * @param t The token that is to be moved.
 	 * @param destX The destination on the x axis.
 	 * @param destY The destination on the y axis.
 	 * @param maxDist The maximum amount of distance that the token can move.
-	 * @return //TODO Fill this in.
+	 * @return Pair with .
 	 */
 	public Pair<Boolean, Object> moveToken(Token t, int destX, int destY, int maxDist) {
 		Location current = t.getLocation();

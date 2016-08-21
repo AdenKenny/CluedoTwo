@@ -111,9 +111,26 @@ public class Frame extends JFrame {
 
 	private void createButtonPanel() {
 		Box box = Box.createHorizontalBox();
+		
+		JButton rollDice = new JButton("Roll Dice");
+		rollDice.setMaximumSize(new Dimension(160, 30));
+		rollDice.setToolTipText("Roll the dice to see how far you can move");
+		rollDice.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (Frame.this.cluedo == null) {
+					return;
+				}
+
+				Frame.this.cluedo.rollDice();
+			}
+		});
+		
+		box.add(rollDice);
+		
 		JButton handButton = new JButton("View hand");
-		handButton.setMaximumSize(new Dimension(200, 30));
+		handButton.setMaximumSize(new Dimension(160, 30));
 		handButton.setToolTipText("Show your hand");
 		handButton.addActionListener(new ActionListener() {
 
@@ -130,7 +147,7 @@ public class Frame extends JFrame {
 		box.add(handButton);
 
 		JButton suggestionButton = new JButton("Suggestion");
-		suggestionButton.setMaximumSize(new Dimension(200, 30));
+		suggestionButton.setMaximumSize(new Dimension(160, 30));
 		suggestionButton.setToolTipText("Make a suggestion (You must be in a room)");
 		suggestionButton.addActionListener(new ActionListener() {
 
@@ -147,7 +164,7 @@ public class Frame extends JFrame {
 		box.add(suggestionButton);
 
 		JButton accusationButton = new JButton("Accusation");
-		accusationButton.setMaximumSize(new Dimension(200, 30));
+		accusationButton.setMaximumSize(new Dimension(160, 30));
 		accusationButton.setToolTipText("Make an accusation (If you get this wrong you lose)");
 		accusationButton.addActionListener(new ActionListener() {
 
@@ -164,7 +181,7 @@ public class Frame extends JFrame {
 		box.add(accusationButton);
 
 		JButton endTurnButton = new JButton("End Turn");
-		endTurnButton.setMaximumSize(new Dimension(200, 30));
+		endTurnButton.setMaximumSize(new Dimension(160, 30));
 		endTurnButton.setToolTipText("End your turn");
 		endTurnButton.addActionListener(new ActionListener() {
 

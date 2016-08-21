@@ -107,21 +107,27 @@ public class GameOfCluedo {
 	}
 
 	public void boardClicked(int x, int y) {
+		if (this.moveDistance == -1) {
+			this.frame.showMessage("You need to roll the dice to see how far you can move.");
+			return;
+		}
 		if (this.moveDistance == 0) {
 			this.frame.showMessage("You can't move any further this turn.");
 			return;
 		}
-		Token t = this.players.get(this.turnNumber).getToken();
+		Player current = this.players.get(this.turnNumber);
+		Token t = current.getToken();
 		Pair<Boolean, Object> move = this.board.moveToken(t, x, y, this.moveDistance);
 		if (move.first()) {
 			this.moveDistance -= (int)move.second();
+			this.frame.setTitle(current.getUsername() + "'s Turn - " + this.moveDistance + " Squares Left");
 			this.frame.getCanvas().repaint();
 		}
 		else {
 			String reason = (String)move.second();
-			//if (reason.length() != 0) {
+			if (reason.length() != 0) {
 				this.frame.showMessage(reason);
-			//}
+			}
 		}
 	}
 
@@ -271,86 +277,6 @@ public class GameOfCluedo {
 	}
 
 	/**
-	 * A method doing a player's turn. Is passed a player then does their dice roll, moving and if applicable, it does their
-	 * suggestions.
-	 *
-	 * @param p The player who's turn will be completed.
-	 */
-	@SuppressWarnings("unused")
-	private void doTurn(Player p) {
-
-
-		Scanner in = null;
-
-		try {
-			
-			in = new Scanner(System.in);
-			System.out.println("What would you like to do? 'help' for options");
-			while (true) { // Player still has moves left.
-				String instruction = in.nextLine(); // take input from user
-
-				Map<String, Location> adjacent = null;
-				Location location = null;
-				Token token = null;
-
-				// command is for moving certain distance in a direction
-				String[] split = instruction.split(" ");
-				if (split.length != 2) {
-					System.out.println("Unexpected entry. Please try again, or 'help' for options");
-					continue;
-				}
-				try {
-					int instrDist = Integer.parseInt(split[1]);
-					if (instrDist < 1) {
-						System.out.println("Distance must be greater than 0");
-						continue;
-					}
-					int xDir = 0;
-					int yDir = 0;
-					if (split[0].equals("left")) {
-						xDir = -1;
-					}
-					else if (split[0].equals("right")) {
-						xDir = 1;
-					}
-					else if (split[0].equals("up")) {
-						yDir = -1;
-					}
-					else if (split[0].equals("down")) {
-						yDir = 1;
-					}
-					else {
-						System.out.println("Unexpected entry. Please try again, or 'help' for options");
-						continue;
-					}
-					if (instrDist > this.moveDistance) {
-						System.out.println("You can't move that far.");
-						continue;
-					}
-					/*if (this.board.moveToken(token, xDir, yDir, instrDist)) {
-						this.moveDistance -= instrDist;
-						System.out.println("You can move up to " + this.moveDistance + " more.");
-						continue;
-					}*/
-					System.out.println("Illegal Move");
-				}
-
-				catch (NumberFormatException e) {
-					System.out.println("This isn't a valid move thing.");
-					continue; // Generic error.
-				}
-
-			}
-
-		}
-
-		catch (RuntimeException e) {
-			System.out.println(e);
-		}
-
-	}
-
-	/**
 	 * Returns the board.
 	 *
 	 * @return A board object.
@@ -393,9 +319,9 @@ public class GameOfCluedo {
 		// if only one player is left, they win
 		if (playersLeft == 1) {
 			assert (last != null);
-			this.frame.showMessage(last.getUsername() + " won as everyone else is out.\n" +
-					"The murder was actually done by " + this.murderInfo + "\n" +
-					"It seems that detective work requires more competence than you lot have.");
+			this.frame.showMessage(last.getUsername() + " won as everyone else is out.");
+			this.frame.showMessage("The murder was actually done by " + this.murderInfo);
+			this.frame.showMessage("It seems that detective work requires more competence than you lot have.");
 			this.frame.endGame();
 			return;
 		}
@@ -408,13 +334,10 @@ public class GameOfCluedo {
 		} while(!this.players.get(this.turnNumber).getStatus());
 
 		this.suggestionMade = false;
+		this.moveDistance = -1;
 
 		Player current = this.players.get(this.turnNumber);
-
-		this.frame.showMessage(current.getUsername() + "'s turn.");
-
-		this.moveDistance = roll2D6(); // The distance a player can move.
-		this.frame.showMessage(current.getUsername() + " rolled a " + this.moveDistance);
+		this.frame.setTitle(current.getUsername() + "'s Turn");
 	}
 
 	/**
@@ -453,6 +376,18 @@ public class GameOfCluedo {
 		return (int) (Math.random() * 6 + 1);
 	}
 
+	public 
+	
+	void rollDice() {
+		if (this.moveDistance != -1) {
+			this.frame.showMessage("You've already rolled the dice this turn.");
+		}
+		this.moveDistance = roll2D6(); // The distance a player can move.
+		Player current = this.players.get(this.turnNumber);
+		this.frame.showMessage(current.getUsername() + " rolled a " + this.moveDistance);
+		this.frame.setTitle(current.getUsername() + "'s Turn - " + this.moveDistance + " Squares Left");
+	}
+	
 	private void setupNames() {
 		this.charNames = new String[6];
 		this.charNames[0] = "Colonel Mustard";
