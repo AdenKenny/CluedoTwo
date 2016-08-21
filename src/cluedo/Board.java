@@ -76,9 +76,9 @@ public class Board {
 
 	/**
 	 * Populates a two dimensional array representing the squares of the board.
-	 * '0' represents blank areas, '1' represents squares that a player can move on
-	 * and to, '2' represents a door into a room on a square (so the player can still
-	 * move to this square), and '3' represents a room.
+	 * This is done in based on an array of Strings (in effect a 2D array of
+	 * characters). When there is a 1 in the array, that means there is a
+	 * square at that coordinate.
 	 */
 
 	private void populateBoard() {
@@ -94,7 +94,8 @@ public class Board {
 	}
 
 	/**
-	 * Sets up all the rooms, including the secret passageways.
+	 * Sets up all the rooms, including the secret passageways. Also, connects
+	 * rooms to the adjacent square outside the doors.
 	 */
 	private void roomSetup() {
 		this.rooms = new HashMap<>();
